@@ -28,6 +28,12 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
+        [HttpGet("category/{categoryUrl}")]
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProductsByCategory(string categoryUrl)
+        {
+            var result = await _productService.GetProductByCategory(categoryUrl);
+            return Ok(result);
+        }
 
     }
 }
