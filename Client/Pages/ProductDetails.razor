@@ -2,7 +2,7 @@
 @inject IProductService ProductService
 
 @if(product == null){
-    <span>@message</span>
+    <span>@ProductService.Message</span>
 }
 else
 {
@@ -15,6 +15,16 @@ else
                 @product.Title
             </h2>
             <p>@product.Description</p>
+            @if(product.Variants !=null && product.Variants.Count>1)
+            {
+                <div>
+                    <select class="form-select" @bind="currentTypeId">
+                        @foreach(var item in product.Variants){
+                            <option value="@item.ProductTypeId">@item.ProductType.Name</option>
+                        }
+                    </select>
+                </div>
+            }
             @if(GetSelectedVariant() != null)
             {
                 @if (GetSelectedVariant().OriginalPrice > GetSelectedVariant().Price)

@@ -2,8 +2,8 @@ global using BlazorApp.Shared;
 global using System.Net.Http.Json;
 global using BlazorApp.Client.Services.ProductService;
 global using BlazorApp.Client.Services.CategoryService;
+global using Microsoft.AspNetCore.Components.Web;
 using BlazorApp.Client;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 
