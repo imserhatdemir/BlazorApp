@@ -3,8 +3,9 @@ global using Microsoft.EntityFrameworkCore;
 global using BlazorApp.Server.Data;
 global using BlazorApp.Server.Services.ProductService;
 global using BlazorApp.Server.Services.CategoryService;
+global using BlazorApp.Server.Services.CategoryService;
+global using BlazorApp.Server.Services.CartService;
 using Microsoft.AspNetCore.ResponseCompression;
-using BlazorApp.Server.Services.CategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var app = builder.Build();
 
