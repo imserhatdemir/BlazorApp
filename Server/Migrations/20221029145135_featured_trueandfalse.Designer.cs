@@ -3,6 +3,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221029145135_featured_trueandfalse")]
+    partial class featured_trueandfalse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,7 +156,7 @@ namespace BlazorApp.Server.Migrations
                             ID = 7,
                             CategoryId = 3,
                             Description = "Half-Life 2 is a 2004 first-person shooter game developed and published by Valve. Like the original Half-Life, it combines shooting, puzzles, and storytelling, and adds features such as vehicles and physics-based gameplay.",
-                            Featured = false,
+                            Featured = true,
                             ImageURL = "https://upload.wikimedia.org/wikipedia/en/2/25/Half-Life_2_cover.jpg",
                             Title = "Half-Life 2"
                         },
@@ -163,7 +165,7 @@ namespace BlazorApp.Server.Migrations
                             ID = 8,
                             CategoryId = 3,
                             Description = "Diablo II is an action role-playing hack-and-slash computer video game developed by Blizzard North and published by Blizzard Entertainment in 2000 for Microsoft Windows, Classic Mac OS, and macOS.",
-                            Featured = false,
+                            Featured = true,
                             ImageURL = "https://upload.wikimedia.org/wikipedia/en/d/d5/Diablo_II_Coverart.png",
                             Title = "Diablo II"
                         },
@@ -181,7 +183,7 @@ namespace BlazorApp.Server.Migrations
                             ID = 10,
                             CategoryId = 3,
                             Description = "The Xbox is a home video game console and the first installment in the Xbox series of video game consoles manufactured by Microsoft.",
-                            Featured = false,
+                            Featured = true,
                             ImageURL = "https://upload.wikimedia.org/wikipedia/commons/4/43/Xbox-console.jpg",
                             Title = "Xbox"
                         },
