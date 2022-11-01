@@ -5,6 +5,7 @@ global using BlazorApp.Client.Services.CategoryService;
 global using Microsoft.AspNetCore.Components.Web;
 global using BlazorApp.Client.Services.CartService;
 global using BlazorApp.Client.Services.AuthService;
+global using Microsoft.AspNetCore.Components.Authorization;
 using BlazorApp.Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
@@ -19,5 +20,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddOptions();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 
 await builder.Build().RunAsync();

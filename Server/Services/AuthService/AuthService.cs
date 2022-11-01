@@ -23,21 +23,19 @@ namespace BlazorApp.Server.Services.AuthService
             if (user == null)
             {
                 response.Success = false;
-                response.Message = "User not found";
+                response.Message = "User not found.";
             }
-            else if(!VerifyPasswordHash(password,user.PasswordHash,user.PasswordSalt))
+            else if(!VerifyPasswordHash(password, user.PasswordHash,user.PasswordSalt))
             {
                 response.Success = false;
                 response.Message = "Wrong password";
             }
             else
             {
+                response.Success = true;
                 response.Data = CreateToken(user);
             }
-
-            
             return response;
-
         }
 
         public async Task<ServiceResponse<int>> Register(User user, string password)
@@ -60,7 +58,9 @@ namespace BlazorApp.Server.Services.AuthService
 
             return new ServiceResponse<int>
             {
-                Data = user.Id, Message="Registiration successful..."
+                Success=true,
+                Data = user.Id, 
+                Message="Registiration successful..."
             };
         }
 
@@ -88,7 +88,8 @@ namespace BlazorApp.Server.Services.AuthService
         {
             using(var hmac= new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                var computedHash = 
+                    hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);    
             }
         }
@@ -109,11 +110,31 @@ namespace BlazorApp.Server.Services.AuthService
                 expires:DateTime.Now.AddDays(1),
                 signingCredentials:creds
                 );
-
-
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
             return jwt;
+
+        }
+
+        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
+        {
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "User not found"
+                };
+            }
+
+            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<bool> { Data = true, Message = "Password has been changed" };
 
         }
     }
