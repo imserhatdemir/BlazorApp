@@ -1,12 +1,13 @@
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 global using BlazorApp.Server.Data;
-global using BlazorApp.Server.Services.ProductService;
-global using BlazorApp.Server.Services.CategoryService;
-global using BlazorApp.Server.Services.CategoryService;
 global using BlazorApp.Server.Services.CartService;
-using Microsoft.AspNetCore.ResponseCompression;
-using BlazorApp.Server.Services.AuthService;
+global using BlazorApp.Server.Services.CategoryService;
+global using BlazorApp.Server.Services.ProductService;
+global using BlazorApp.Server.Services.OrderService;
+global using BlazorApp.Server.Services.AuthService;
+global using BlazorApp.Shared;
+global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
