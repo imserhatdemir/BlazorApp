@@ -1,5 +1,3 @@
-global using BlazorApp.Shared;
-global using Microsoft.EntityFrameworkCore;
 global using BlazorApp.Server.Data;
 global using BlazorApp.Server.Services.CartService;
 global using BlazorApp.Server.Services.CategoryService;
@@ -10,6 +8,7 @@ global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,18 +29,20 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = 
+        IssuerSigningKey =
         new SymmetricSecurityKey(System.Text.Encoding.UTF8
         .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
 });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
