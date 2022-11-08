@@ -1,6 +1,7 @@
 ﻿@page "/cart"
 @inject ICartService CartService
 @inject IOrderService OrderService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Shopping Cart</PageTitle>
 
@@ -8,9 +9,6 @@
 
 @if(cartProducts==null || cartProducts.Count==0){
     <span>@message</span>
-}
-else if(orderPlace){
-    <span>Thank you for order! You can check your orders <a href="orders">here</a></span>
 }
 else
 {
@@ -44,7 +42,7 @@ else
     </div>
 
     <button @onclick="PlaceOrder" class="btn btn-success float-end mt-1">
-        Place Order
+        Chechkout
     </button>
 }
 
@@ -55,12 +53,8 @@ else
     List<CartProductResponse> cartProducts = null;
     string message = "loading cart...";
 
-    bool orderPlace = false;
-
-
     protected override async Task OnInitializedAsync()
     {
-        orderPlace = false;
         await LoadCart();
     }
 
@@ -94,8 +88,8 @@ else
 
     private async Task PlaceOrder()
     {
-        await OrderService.PlaceOrder();
-        await CartService.GetCartItemsCount();
-        orderPlace = true;
+        var url = await OrderService.PlaceOrder();
+        NavigationManager.NavigateTo(url);
+
     }
 }
