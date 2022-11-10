@@ -7,13 +7,15 @@ namespace BlazorApp.Client.Services.OrderService
         private readonly HttpClient _http;
         private readonly AuthenticationStateProvider _authStateProvider;
         private readonly NavigationManager _navigationManager;
+        private readonly IAuthService _authService;
 
-        public OrderService( HttpClient http, AuthenticationStateProvider authStateProvider, NavigationManager navigationManager)
+        public OrderService( HttpClient http, AuthenticationStateProvider authStateProvider, NavigationManager navigationManager,IAuthService authService)
         {
             
             _http = http;
             _authStateProvider = authStateProvider;
             _navigationManager = navigationManager;
+            _authService = authService;
         }
 
         public async Task<OrderDetailsResponse> GetOrderDetails(int orderId)

@@ -144,5 +144,9 @@ namespace BlazorApp.Server.Services.AuthService
 
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+        }
     }
 }
