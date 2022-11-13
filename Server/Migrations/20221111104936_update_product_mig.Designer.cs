@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221111104936_update_product_mig")]
+    partial class update_product_mig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,9 +98,6 @@ namespace BlazorApp.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,9 +105,6 @@ namespace BlazorApp.Server.Migrations
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -118,26 +114,20 @@ namespace BlazorApp.Server.Migrations
                         new
                         {
                             Id = 1,
-                            Deleted = false,
                             Name = "Books",
-                            Url = "Books",
-                            Visible = true
+                            Url = "Books"
                         },
                         new
                         {
                             Id = 2,
-                            Deleted = false,
                             Name = "Team",
-                            Url = "Teams",
-                            Visible = true
+                            Url = "Teams"
                         },
                         new
                         {
                             Id = 3,
-                            Deleted = false,
                             Name = "Movie",
-                            Url = "Movies",
-                            Visible = true
+                            Url = "Movies"
                         });
                 });
 
@@ -253,19 +243,19 @@ namespace BlazorApp.Server.Migrations
                         {
                             ID = 4,
                             CategoryId = 2,
-                            Description = "VIPER22A DIP8, entegre ürünü ve diğer tüm ADC(Analog-Dijital Dönüştürücü), DAC(Dijital-Analog Dönüştürücü), OpAmp(Operasyonel Amplifikatörler), Analog Anahtarlama, RTC(Gerçek Zamanlı Saat), Ağ Denetleyici (Ethernet Kontrol vb.), USB Kontrol(USB-Uart Arayüz), Sürücüler, Voltaj Regülatörleri(1.8V, 3.3V, 5V, 12V ve Ayarlanabilir), Step-Servo Motor Sürücüler, Ses Amplifikatörü, PWM Denetleyici vb. Entegre çeşitlerinin Dip ve SMD modellerini uygun fiyat avantajı ile üye girişi yaparak satın alabilirsiniz.",
+                            Description = "The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, and produced by Joel Silver. Starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano, and as the first installment in the Matrix franchise, it depicts a dystopian future in which humanity is unknowingly trapped inside a simulated reality, the Matrix, which intelligent machines have created to distract humans while using their bodies as an energy source. When computer programmer Thomas Anderson, under the hacker alias \"Neo\", uncovers the truth, he \"is drawn into a rebellion against the machines\" along with other people who have been freed from the Matrix.",
                             Featured = true,
-                            ImageURL = "https://st2.myideasoft.com/idea/aq/83/myassets/products/297/22_min.JPG?revision=1649656295",
-                            Title = "VIPER22A DIP8"
+                            ImageURL = "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+                            Title = "The Matrix"
                         },
                         new
                         {
                             ID = 5,
                             CategoryId = 2,
-                            Description = "Bir elektrik akımının şiddettini, gerilimini veya şeklini değiştirmeye yarayan cihazdır. Transformatör, iki veya daha fazla elektrik devresini elektromanyetik indüksiyonla birbirine bağlayan bir elektrik aletidir. Bir elektrik devresinden diğer elektrik devresine, enerjiyi elektromanyetik alan yardımı ile iletir.",
+                            Description = "Back to the Future is a 1985 American science fiction film directed by Robert Zemeckis. Written by Zemeckis and Bob Gale, it stars Michael J. Fox, Christopher Lloyd, Lea Thompson, Crispin Glover, and Thomas F. Wilson. Set in 1985, the story follows Marty McFly (Fox), a teenager accidentally sent back to 1955 in a time-traveling DeLorean automobile built by his eccentric scientist friend Doctor Emmett \"Doc\" Brown (Lloyd). Trapped in the past, Marty inadvertently prevents his future parents' meeting—threatening his very existence—and is forced to reconcile the pair and somehow get back to the future.",
                             Featured = true,
-                            ImageURL = "https://st1.myideasoft.com/idea/aq/83/myassets/products/281/10-32-1.jpg?revision=1478523901",
-                            Title = "10-32V GİRİŞ / 12-35V ÇIKIŞ 6A Konvertör"
+                            ImageURL = "https://upload.wikimedia.org/wikipedia/en/d/d2/Back_to_the_Future.jpg",
+                            Title = "Back to the Future"
                         },
                         new
                         {
@@ -556,10 +546,6 @@ namespace BlazorApp.Server.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

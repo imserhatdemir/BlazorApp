@@ -62,9 +62,9 @@
                          new Product
                          {
                              ID = 2,
-                             Title = "Fenerbahçe",
-                             Description = "Fenerbahçe erkek futbol takımı, Fenerbahçe Spor Kulübü'nün Süper Lig'de mücadele eden profesyonel futbol takımıdır.[2] Kulübün futbol dışında faaliyet gösterdiği diğer spor dalları basketbol, voleybol, atletizm, boks, kürek, yelken, yüzme ve masa tenisi'dir. Takım, iç saha maçlarını İstanbul Kadıköy'de bulunan 50.530 kişilik Fenerbahçe Şükrü Saracoğlu Stadyumu'nda yapmaktadır.[2] 1907 yılında bir spor kulübü olarak kurulan Fenerbahçe, Türkiye futbol tarihinin en başarılı ve en çok taraftarı olan spor kulüplerinden birisidir.",
-                             ImageURL = "https://upload.wikimedia.org/wikipedia/tr/thumb/8/86/Fenerbahçe_SK.png/150px-Fenerbahçe_SK.png",
+                             Title = "PIC18F26K22-I/SO SMD",
+                             Description = "PIC18F26K22-I/SO SMD ürünü ve diğer tüm Microchip marka, 8 Bit, 16 Bit, 32 Bit Mikroişlemci çeşitleri ve Eeprom’ların Dip ve SMD modellerini uygun fiyatlarla üye girişi yaparak veya üye olmadan alabilirsiniz.",
+                             ImageURL = "https://st3.myideasoft.com/idea/aq/83/myassets/products/292/2622_min.JPG?revision=1649657943",
 
                              CategoryId = 2,
                              Featured = true
@@ -83,20 +83,20 @@
                          {
                              ID = 4,
                              CategoryId = 2,
-                             Title = "The Matrix",
-                             Description = "The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, and produced by Joel Silver. Starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano, and as the first installment in the Matrix franchise, it depicts a dystopian future in which humanity is unknowingly trapped inside a simulated reality, the Matrix, which intelligent machines have created to distract humans while using their bodies as an energy source. When computer programmer Thomas Anderson, under the hacker alias \"Neo\", uncovers the truth, he \"is drawn into a rebellion against the machines\" along with other people who have been freed from the Matrix.",
+                             Title = "VIPER22A DIP8",
+                             Description = "VIPER22A DIP8, entegre ürünü ve diğer tüm ADC(Analog-Dijital Dönüştürücü), DAC(Dijital-Analog Dönüştürücü), OpAmp(Operasyonel Amplifikatörler), Analog Anahtarlama, RTC(Gerçek Zamanlı Saat), Ağ Denetleyici (Ethernet Kontrol vb.), USB Kontrol(USB-Uart Arayüz), Sürücüler, Voltaj Regülatörleri(1.8V, 3.3V, 5V, 12V ve Ayarlanabilir), Step-Servo Motor Sürücüler, Ses Amplifikatörü, PWM Denetleyici vb. Entegre çeşitlerinin Dip ve SMD modellerini uygun fiyat avantajı ile üye girişi yaparak satın alabilirsiniz.",
 
-                             ImageURL = "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+                             ImageURL = "https://st2.myideasoft.com/idea/aq/83/myassets/products/297/22_min.JPG?revision=1649656295",
                              Featured = true
                          },
                     new Product
                     {
                         ID = 5,
                         CategoryId = 2,
-                        Title = "Back to the Future",
-                        Description = "Back to the Future is a 1985 American science fiction film directed by Robert Zemeckis. Written by Zemeckis and Bob Gale, it stars Michael J. Fox, Christopher Lloyd, Lea Thompson, Crispin Glover, and Thomas F. Wilson. Set in 1985, the story follows Marty McFly (Fox), a teenager accidentally sent back to 1955 in a time-traveling DeLorean automobile built by his eccentric scientist friend Doctor Emmett \"Doc\" Brown (Lloyd). Trapped in the past, Marty inadvertently prevents his future parents' meeting—threatening his very existence—and is forced to reconcile the pair and somehow get back to the future.",
+                        Title = "10-32V GİRİŞ / 12-35V ÇIKIŞ 6A Konvertör",
+                        Description = "Bir elektrik akımının şiddettini, gerilimini veya şeklini değiştirmeye yarayan cihazdır. Transformatör, iki veya daha fazla elektrik devresini elektromanyetik indüksiyonla birbirine bağlayan bir elektrik aletidir. Bir elektrik devresinden diğer elektrik devresine, enerjiyi elektromanyetik alan yardımı ile iletir.",
 
-                        ImageURL = "https://upload.wikimedia.org/wikipedia/en/d/d2/Back_to_the_Future.jpg",
+                        ImageURL = "https://st1.myideasoft.com/idea/aq/83/myassets/products/281/10-32-1.jpg?revision=1478523901",
                         Featured = true
                     },
                     new Product
