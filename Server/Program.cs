@@ -6,6 +6,7 @@ global using BlazorApp.Server.Services.OrderService;
 global using BlazorApp.Server.Services.AuthService;
 global using BlazorApp.Server.Services.PaymentService;
 global using BlazorApp.Server.Services.AddressService;
+global using BlazorApp.Server.Services.ProductTypeService;
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
