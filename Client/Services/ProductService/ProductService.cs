@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using BlazorApp.Shared;
+using System.Net.Http.Json;
 
 namespace BlazorApp.Client.Services.ProductService
 {
@@ -12,12 +13,23 @@ namespace BlazorApp.Client.Services.ProductService
         }
 
         public List<Product> Products { get; set; } = new List<Product>();
+        public List<Product> AdminProducts { get; set; } = new List<Product>();
         public string Message { get; set; } = "Loading Products...";
         public int CurrentPage { get; set; } = 1;
         public int PageCount { get; set; } = 0;
         public string LastSearchText { get; set; } = string.Empty;
 
         public event Action ProductsChanged;
+
+        public async Task GetAdminProducts()
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/Product/admin/");
+            AdminProducts = result.Data;
+            CurrentPage = 1;
+            PageCount = 0;
+            if (AdminProducts.Count == 0)
+                Message = "No Products found";
+        }
 
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
