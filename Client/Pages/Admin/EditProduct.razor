@@ -4,6 +4,7 @@
 @inject IProductTypeService ProductTypeService
 @inject ICategoryService CategoryService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSruntime
 
 
 
@@ -101,11 +102,14 @@ else
         <br/>
         <ValidationSummary></ValidationSummary>
     </EditForm>
+
+    @if(!product.IsNew)
+    {
+        <button type="button" class="btn btn-danger float-start" @onclick="DeleteProduct">
+            Delete Product
+        </button>
+    }
 }
-
-
-
-
 
 
 @code {
@@ -187,5 +191,15 @@ else
         }
     }
 
+    async void DeleteProduct()
+    {
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{product.Title}' adlı ürünü silmek istediğinize emin misiniz?");
+        if(confirmed)
+        {
+            await ProductService.DeleteProduct(product);
+            NavigationManager.NavigateTo("admin/product");
+        }
+        
+    }
 
 }

@@ -16,17 +16,10 @@ img{
 img:hover{
     transform:scale(1.1) rotate(5deg);
 }
-.featured-product{
-    margin:10px;
-    text-align:center;
-    padding:10px;
-    border:1px solid lightgray;
-    border-radius:10px;
-    max-width:200px;
-}
 
 @media(max-width:1023.98px){
     .container{
         justify-content:flex-start;
     }
 }
+

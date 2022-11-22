@@ -1,9 +1,116 @@
 ﻿@inject NavigationManager  NavigationManager
 
-<button @onclick="GoToHome" class="btn btn-outline-primary home-button">
+@*<button @onclick="GoToHome" class="btn btn-outline-primary home-button">
     My Shop
 </button>
+*@
 
+<header class="bg-header">
+    <div class="d-flex justify-content-between px-3">
+        <div class="top-header-left py-3">
+            <img class="h-logo" src="assets/images/logo.png" alt="">
+        </div>
+        <div class="top-header-right">
+            <div class="profile-box">Ahmet Yıldız</div>
+            <div class="profile-icons mb-2">
+                <div class="dropdown dropstart">
+                    <i class="fa-regular fa-user c-1 t-shadow-sm" type="button" data-bs-toggle="dropdown"
+                       aria-expanded="false"></i>
+                    <ul class="dropdown-menu me-1">
+                        <li><a class="dropdown-item" href="#">Giriş Yap</a></li>
+                        <li><a class="dropdown-item" href="#">Kayıt Ol</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown dropstart">
+                    <i class="fa-regular fa-star c-1 t-shadow-sm" type="button" data-bs-toggle="dropdown"
+                       aria-expanded="false"></i>
+                    <ul class="dropdown-menu me-1">
+                        <li><a class="dropdown-item" href="#">Favori Listesi</a></li>
+                    </ul>
+                </div>
+                <div class="dropdown dropstart">
+                    <i class="fa-solid fa-cart-shopping c-2 t-shadow-sm itemAmount" type="button"
+                       data-bs-toggle="dropdown" aria-expanded="false"></i>
+                    <ul class="dropdown-menu me-1">
+                        <li><a class="dropdown-item" href="#">Sepetiniz</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-nav navbar-dark nav-custom">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown custom-menudropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Kurumsal
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom">
+                            <div class="custom-dmenu">
+                            <li><a class="dropdown-item" href="#!">Hakkımızda</a></li>
+                            <li><a class="dropdown-item" href="#!">Misyonumuz</a></li>
+                            <li><a class="dropdown-item" href="#!">Vizyonumuz</a></li>
+                            <li><a class="dropdown-item" href="#!">Sosyal Sorumluluk</a></li>
+            </div>
+            <div class="custom-dmenu-img">
+                <img src="assets/images/menu-kurumsal.png" alt="">
+            </div>
+            </ul>
+            </li>
+            <li class="nav-item dropdown custom-menudropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    Ürünler
+                </a>
+                <ul class="dropdown-menu dropdown-custom">
+                    <div class="custom-dmenu">
+                    <li><a class="dropdown-item" href="#!">Tüm Kategoriler</a></li>
+                    <li><a class="dropdown-item" href="#!">Fırsat Ürünler</a></li>
+                    <li><a class="dropdown-item" href="#!">Yeni Ürünler</a></li>
+        </div>
+        <div class="custom-dmenu-img">
+            <img src="assets/images/menu-urunler.png" alt="">
+        </div>
+        </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Markalar</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">İnsan Kaynakları</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">İletişim</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Yardım</a>
+        </li>
+        </ul>
+        <div class="d-flex align-items-center">
+            @*<div class="input-group search-box me-5">
+                <input type="text" class="form-control border-end-0 shadow-none" placeholder="Ara">
+                <span class="input-group-text bg-white border-start-0">
+                    <i class="fa-solid fa-magnifying-glass c-1"></i>
+                </span>
+            </div>*@
+            <Search/>
+            <div class="d-flex align-items-center">
+                <button class="bg-transparent border-0 text-white lang">TR</button>
+                <div class="vr-lang mx-1"></div>
+                <button class="bg-transparent border-0 text-white lang">EN</button>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav>
+</header>
 @code {
     private void GoToHome()
     {
