@@ -1,6 +1,6 @@
 ﻿@inject IProductService ProductService
 @implements IDisposable
-<center><h2>Top Products of Today</h2></center>
+<center><h2>Fırsat Ürünler</h2></center>
 
 @if(ProductService.Products==null || ProductService.Products.Count==0)
 {
@@ -19,7 +19,7 @@ else
                         <img src="@item.ImageURL"/>    
                         </a>
                     </div>
-                    <h4><a href="product/@item.ID">@item.Title</a></h4>
+                        <a class="product-name c-2" href="product/@item.ID">@item.Title</a>
                     @if(item.Variants !=null && item.Variants.Count>0)
                     {
                         <h5 class="price">
@@ -29,7 +29,7 @@ else
                 </div>
             }
         }
-    </div>
+    </div><br />
 }
 
 

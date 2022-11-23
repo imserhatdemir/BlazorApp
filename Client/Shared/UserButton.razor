@@ -5,11 +5,10 @@
 
 <div class="dropdown">
 
-    <button @onclick="ToggleUserMenu"
+    <div @onclick="ToggleUserMenu"
             @onfocusout="HideUserMenu"
-            class="btn btn-secondary dropdown-toggle user-button">
-        <i class="oi oi-person"></i>
-        </button>
+            class="fa-regular fa-user c-1 t-shadow-sm">
+        </div>
 
         <div class="dropdown-menu dropdown-menu-right @UserMenuCssClass">
             <AuthorizeView>

@@ -4,9 +4,14 @@
 @inject IProductService ProductService
 
 <PageTitle>Hoşgeldiniz</PageTitle>
-@if(SearchText==null&&CategoryUrl==null)
+
+@if(SearchText==null && CategoryUrl==null)
 {
+    
     <FeaturedProducts/>
+    <Advert />
+    <br />
+    <Brand />
 }
 else
 {
