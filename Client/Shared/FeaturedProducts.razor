@@ -1,6 +1,5 @@
 ﻿@inject IProductService ProductService
 @implements IDisposable
-<center><h2>Fırsat Ürünler</h2></center>
 
 @if(ProductService.Products==null || ProductService.Products.Count==0)
 {
@@ -8,28 +7,42 @@
 }
 else
 {
-    <div class="container">
-        @foreach(var item in ProductService.Products)
-        {
-            @if(item.Featured)
-            {
-                <div class="featured-product">
-                    <div>
-                        <a href="product/@item.ID">
-                        <img src="@item.ImageURL"/>    
-                        </a>
-                    </div>
-                        <a class="product-name c-2" href="product/@item.ID">@item.Title</a>
-                    @if(item.Variants !=null && item.Variants.Count>0)
+    <section>
+        <h1 class="opp c-2 d-flex justify-content-center my-5">Fırsat Ürünler</h1>
+        <div class="products-wrapper">
+
+            <div class="products-inner">
+                @foreach(var prod in ProductService.Products)
+                {
+                    @if (prod.Featured)
                     {
-                        <h5 class="price">
-                            $@item.Variants[0].Price
-                        </h5>
-                    }
+                        <div class="product-box">
+                            <div class="d-flex justify-content-between">
+                        <span class="opp-text c-2">Fırsat</span>
+                        <img class="product-img" src="@prod.ImageURL" alt="">
+                        <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                    </div>
+                    <span class="product-name c-2">
+                        @prod.Title
+                    </span>
+                    <div class="d-flex justify-content-between mx-3 mt-3 mb-2">
+                                @if (prod.Variants != null && prod.Variants.Count > 0)
+                                {
+                                    <span class="product-price c-2">
+                                        <font class="c-1">Fiyat:</font> $@prod.Variants[0].Price TL
+                                    </span>
+                                  
+                                }
+                        
+                    </div>
                 </div>
-            }
-        }
-    </div><br />
+                }
+                }
+            </div>
+
+        </div>
+    </section>
+    <br />
 }
 
 
@@ -43,4 +56,5 @@ else
     {
         ProductService.ProductsChanged -= StateHasChanged;
     }
+
 }

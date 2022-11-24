@@ -3,22 +3,35 @@
 <div class="page">
     
     <main>
-       @* <header class="bg-header">
-    <HomeButton />
-    <ShopNavMenu />
-</header>*@
-        <div class="top-row px-2">
+        <header class="bg-header">
+            <div class="d-flex justify-content-between px-3">
+                <div class="top-header-left py-3">
+                    <img class="h-logo" src="assets/images/logo.png" alt="">
+                </div>
+                <div class="top-header-right">
+                    <div class="profile-box"></div>
+                    <div class="profile-icons mb-2">
+                        <div class="dropdown dropstart">
+                            <UserButton/>
+                        </div>
+                        <div class="dropdown dropstart">
+                            <CartCounter/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+    </header>
+
+@*<div class="top-row px-2">
             <UserButton/>
             <CartCounter/>
-        </div>
+        </div>*@
         <div class="nav-menu">
             <ShopNavMenu />
         </div>
 
-        <article class="content px-4">
             @Body
-        </article>
-
         <Footer />
     </main>
 </div>

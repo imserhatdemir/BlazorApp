@@ -3,11 +3,14 @@
 @page "/{categoryUrl}"
 @inject IProductService ProductService
 
-<PageTitle>Hoşgeldiniz</PageTitle>
+<PageTitle>Çemen Arda Gül</PageTitle>
 
 @if(SearchText==null && CategoryUrl==null)
 {
-    
+    <Slide/>
+    <br/>
+    <CategoryShow/>
+    <br />
     <FeaturedProducts/>
     <Advert />
     <br />
