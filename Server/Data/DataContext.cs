@@ -285,6 +285,12 @@
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<CustomerNum> CustomerNums { get; set; }
+        public DbSet<CentreNumber> CentreNumbers { get; set; }
+        public DbSet<ContactAbout> ContactAbouts { get; set; }
+        public DbSet<ContactAddress> ContactAddresses { get; set; }
+        public DbSet<ContactForm> ContactForms { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
 
     }
 }

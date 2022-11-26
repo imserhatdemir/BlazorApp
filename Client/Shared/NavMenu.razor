@@ -1,7 +1,7 @@
 ﻿@inject ICategoryService CategoryService
 
 
-<div class="top-row ps-3 navbar navbar-dark">
+@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">BlazorApp</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -26,7 +26,70 @@
             </div>
         }
     </nav>
-</div>
+</div>*@
+<nav class="navbar navbar-expand-lg bg-nav navbar-dark nav-custom">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Ana Sayfa</a>
+                </li>
+                <li class="nav-item dropdown custom-menudropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Kurumsal
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom">
+                        <div class="custom-dmenu">
+                        <li><a class="dropdown-item" href="cart">Hakkımızda</a></li>
+                        <li><a class="dropdown-item" href="#!">Misyon & Vizyon</a></li>
+                        <li><a class="dropdown-item" href="#!">Sosyal Sorumluluk</a></li>
+        </div>
+        </ul>
+        </li>
+        <li class="nav-item dropdown custom-menudropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Ürünler
+            </a>
+            <ul class="dropdown-menu dropdown-custom">
+                <div class="custom-dmenu">
+                            @foreach (var item in CategoryService.Categories)
+                            {
+                    <li><font color="black"><a class="dropdown-item" href="@item.Url">@item.Name</a></font></li>
+                            }
+    </div>
+    </ul>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Markalar</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">İnsan Kaynakları</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">İletişim</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Yardım</a>
+    </li>
+    </ul>
+    <div class="d-flex align-items-center">
+        <Search />
+        <div class="d-flex align-items-center">
+            <button class="bg-transparent border-0 text-white lang">TR</button>
+            <div class="vr-lang mx-1"></div>
+            <button class="bg-transparent border-0 text-white lang">EN</button>
+        </div>
+    </div>
+    </div>
+    </div>
+</nav>
 
 @code {
     private bool collapseNavMenu = true;
