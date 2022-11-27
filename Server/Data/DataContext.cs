@@ -291,6 +291,10 @@
         public DbSet<ContactAddress> ContactAddresses { get; set; }
         public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<BankAccount> BankAccounts { get; set; }
+        public DbSet<About> Abouts { get; set; }
+        public DbSet<MissionVision> MissionVisions { get; set; }
+        public DbSet<Responsibility> Responsibilities { get; set; }
+        public DbSet<Faq> Faqs { get; set; }
 
     }
 }

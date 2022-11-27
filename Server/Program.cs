@@ -7,6 +7,16 @@ global using BlazorApp.Server.Services.AuthService;
 global using BlazorApp.Server.Services.PaymentService;
 global using BlazorApp.Server.Services.AddressService;
 global using BlazorApp.Server.Services.ProductTypeService;
+global using BlazorApp.Server.Services.AboutService;
+global using BlazorApp.Server.Services.BankAccountService;
+global using BlazorApp.Server.Services.CentreNumberService;
+global using BlazorApp.Server.Services.ContactAboutService;
+global using BlazorApp.Server.Services.ContactAddressService;
+global using BlazorApp.Server.Services.ContactFormService;
+global using BlazorApp.Server.Services.CustomerNumService;
+global using BlazorApp.Server.Services.FaqService;
+global using BlazorApp.Server.Services.MissionVisionService;
+global using BlazorApp.Server.Services.ResponsibilityService;
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +46,16 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
+builder.Services.AddScoped<IAboutService, AboutService>();
+builder.Services.AddScoped<IBankAccountService, BankAccountService>();
+builder.Services.AddScoped<ICentreNumberService, CentreNumberService>();
+builder.Services.AddScoped<IContactAboutService, ContactAboutService>();
+builder.Services.AddScoped<IContactAddressService, ContactAddressService>();
+builder.Services.AddScoped<IContactFormService, ContactFormService>();
+builder.Services.AddScoped<ICustomerNumService, CustomerNumService>();
+builder.Services.AddScoped<IFaqService, FaqService>();
+builder.Services.AddScoped<IMissionVisionService, MissionVisionService>();
+builder.Services.AddScoped<IResponsibilityService, ResponsibilityService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
