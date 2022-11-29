@@ -2,5 +2,6 @@
 {
     public interface IContactAddressService
     {
+        Task<ServiceResponse<List<ContactAddress>>> GetContactAddress();
     }
 }

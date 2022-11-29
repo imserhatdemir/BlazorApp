@@ -2,5 +2,6 @@
 {
     public interface ICustomerNumService
     {
+        Task<ServiceResponse<List<CustomerNum>>> GetNumber();
     }
 }

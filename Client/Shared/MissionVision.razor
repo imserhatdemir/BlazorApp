@@ -1,0 +1,34 @@
+﻿@inject IMissionVisionService MissionVisionService
+
+@foreach (var item in MissionVisionService.MissionVisions)
+{
+    <section class="mt-4">
+        <div class="custom-c-wrapper d-flex flex-column">
+            <div class="d-flex flex-column mb-4">
+                <div class="d-flex align-items-center">
+                    <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
+                    <span class="fs-4 c-2 fw-bold">@item.TitleMission</span>
+                </div>
+                <span class="text-dark fs-4 ms-52">@item.DetailMission</span>
+            </div>
+        </div>
+        <div class="custom-c-wrapper d-flex flex-column">
+            <div class="d-flex flex-column mb-4">
+                <div class="d-flex align-items-center">
+                    <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
+                    <span class="fs-4 c-2 fw-bold">@item.TitleVision</span>
+                </div>
+                <span class="text-dark fs-4 ms-52">@item.DetailVision</span>
+            </div>
+        </div>
+    </section>
+}
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await MissionVisionService.GetMissionVision();
+    }
+}

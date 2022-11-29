@@ -2,5 +2,6 @@
 {
     public interface IContactAboutService
     {
+        Task<ServiceResponse<List<ContactAbout>>> GetContactAbout();
     }
 }

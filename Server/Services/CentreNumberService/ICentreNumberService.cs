@@ -2,5 +2,6 @@
 {
     public interface ICentreNumberService
     {
+        Task<ServiceResponse<List<CentreNumber>>> GetCentreNumber();
     }
 }

@@ -1,0 +1,19 @@
+﻿@inject ICustomerNumService CustomerNumService
+
+<div class="d-flex flex-column mb-4">
+    <div class="d-flex align-items-center">
+        <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
+        <span class="fs-4 c-2 fw-bold">Müşteri Hizmetleri</span>
+    </div>
+    @foreach(var item in CustomerNumService.CustomerNums)
+    {
+    <span class="text-dark fs-4 ms-52">@item.Number</span>
+    }
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await CustomerNumService.GetNumber();
+    }
+}

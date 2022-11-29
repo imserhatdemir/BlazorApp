@@ -1,0 +1,32 @@
+﻿@inject IBankAccountService BankAccountService
+
+
+<section class="mt-5">
+    <div class="custom-c-wrapper d-flex flex-column">
+        <span class="fs-4 fw-bold c-2">Banka Hesap Bilgileri</span>
+        <div class="bank-accounts">
+            @foreach(var item in BankAccountService.BankAccounts)
+            {
+            <div class="d-flex align-items-center">
+                <div class="bank-logo">
+                    <img src="@item.ImageUrl" alt="" width="85px" height="85px">
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="c-2 fw-bold fs-4">IBAN Numarası: TR @item.Iban</span>
+                    <span class="c-2 fs-4">
+                       @item.Address
+                    </span>
+                </div>
+            </div>
+           }
+        </div>
+    </div>
+</section>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await BankAccountService.GetBankAccount();
+        
+    }
+}

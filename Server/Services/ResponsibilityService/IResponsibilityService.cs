@@ -2,5 +2,6 @@
 {
     public interface IResponsibilityService
     {
+        Task<ServiceResponse<List<Responsibility>>> GetResponsibility();
     }
 }
