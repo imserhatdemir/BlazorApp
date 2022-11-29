@@ -1,17 +1,15 @@
-﻿@page "/about"
-@inject IAboutService AboutService
-
-
+﻿@page "/faq"
+@inject IFaqService FaqService
 
 <section class="navigate-section">
     <div class="navigate">
         <div class="d-flex flex-column">
-            <div class="d-flex align-items-center flex-wrap">
+            <div class="d-flex align-items-center">
                 <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
                 <img width="40" src="assets/images/icons/right-arrow.png" alt="">
-                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Hakkında</a>
+                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Sıkça Sorulan Sorular</a>
             </div>
-            
+            <div class="fs-4 c-2 mt-2">Çemenardagül Elektronik ve Gıda İt. İh. Tic. San. Ltd. Şti.</div>
         </div>
         <div class="d-flex align-items-center">
             <span class="c-2 d-flex align-items-center me-2">
@@ -26,33 +24,32 @@
         </div>
     </div>
 </section>
-
-@foreach(var item in AboutService.Abouts)
-{
-    <section class="mt-4">
-        <div class="custom-c-wrapper d-flex flex-column">
-            <div class="d-flex flex-column mb-4">
-                <div class="d-flex align-items-center">
-                    <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
-                    <span class="fs-4 c-2 fw-bold" style="text-align:center;">@item.Title</span>
+<section class="mt-4">
+    @foreach(var item in FaqService.Faqs){
+        <section class="mt-4">
+            <div class="custom-c-wrapper d-flex flex-column">
+                <div class="d-flex flex-column mb-4">
+                    <div class="d-flex align-items-center">
+                        <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
+                        <span class="fs-4 c-2 fw-bold">@item.Title</span>
+                    </div>
+                    <span class="text-dark fs-4 ms-52">@item.Description</span>
                 </div>
             </div>
-                <img src="@item.ImageUrl" alt="Me" class="w3-image" style="display:block;margin:auto" width="800" height="533">
-                <hr/>
-                <span class="text-dark fs-4 ms-52">@item.Description</span>
-            
-            
-        </div>
-    </section>
-}
+        </section>
+    }
+    
+</section>
 
-<MissionVision/>
 
-<Responsibility/>
+
+
 
 @code {
+
     protected override async Task OnInitializedAsync()
     {
-        await AboutService.GetAbout();
+        await FaqService.GetFaq();
     }
+
 }

@@ -2,5 +2,6 @@
 {
     public interface IFaqService
     {
+        Task<ServiceResponse<List<Faq>>> GetFaq();
     }
 }

@@ -11,3 +11,4 @@ $(".add-favorites").on("click", (e) => {
         $(e.target).addClass("fa-solid");
     }
 });
+
