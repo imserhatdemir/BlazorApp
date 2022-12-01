@@ -3,7 +3,30 @@
 @inject ICategoryService CategoryService
 
 @if(ProductService.Products == null || ProductService.Products.Count == 0){
-    <span>Loading Products...</span>
+    <section class="navigate-section">
+        <div class="navigate">
+            <div class="d-flex flex-column">
+                <div class="d-flex align-items-center flex-wrap">
+                    <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
+                    <img width="40" src="assets/images/icons/right-arrow.png" alt="">
+                    <a href="#!" class="fs-4 fw-semibold c-2 mx-2 text-decoration-none">Ürünler</a>
+                </div>
+                <div class="fs-4 c-2 mt-2"></div>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="c-2 d-flex align-items-center me-2">
+                    <i class="fa-solid fa-share-nodes fs-4 me-2"></i>
+                    <font class="fs-4 fw-semibold">Paylaş:</font>
+                </span>
+                <span class="d-flex align-items-center">
+                    <a href="#!" class="me-2 c-2"><i class="fa-solid fa-envelope fs-4 pt-1"></i></a>
+                    <a href="#!" class="me-2"><img height="31" src="assets/images/icons/wp-ico.png" alt=""></a>
+                    <a href="#!"><img height="29" src="assets/images/icons/telegram-ico.png" alt=""></a>
+                </span>
+            </div>
+        </div>
+    </section>
+    <h2>Bu kategoride ürün bulunmamaktadır</h2>
 }
 else
 {
@@ -30,7 +53,7 @@ else
             </div>
         </div>
     </section>
-<ul class="list-unstyled">
+@*<ul class="list-unstyled">
         @foreach (var item in ProductService.Products)
         {
         <li class="media my-3">
@@ -50,7 +73,41 @@ else
             </div>
         </li>
     }
-</ul>
+</ul>*@
+
+    <section>
+        <h1 class="opp c-2 d-flex justify-content-center my-5">Fırsat Ürünler</h1>
+        <div class="products-wrapper">
+
+            <div class="products-inner">
+                @foreach (var prod in ProductService.Products)
+                {
+                        <div class="product-box">
+                            <div class="d-flex justify-content-between">
+                                <span class="opp-text c-2">Fırsat</span>
+                                <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt="" width="200px" height="250px"></a>
+                                <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                            </div>
+                            <span class="product-name c-2">
+                                @prod.Title
+                            </span>
+                            <div class="d-flex justify-content-between mx-3 mt-3 mb-2">
+                                @if (prod.Variants != null && prod.Variants.Count > 0)
+                                {
+                                    <span class="product-price c-2">
+                                    <font class="c-1">Fiyat:</font> @GetPriceText(prod)
+                                    </span>
+
+                                }
+                            </div>
+                       </div>
+                }
+            </div>
+
+        </div>
+    </section>
+
+
     for(var i=1; i <= ProductService.PageCount; i++)
     {
         <a class="btn 
@@ -84,9 +141,11 @@ else
         }
         else if(variants.Count == 1)
         {
-            return $"${variants[0].Price}";
+            return $"{variants[0].Price} TL";
         }
         decimal minPrice = variants.Min(v => v.Price);
-        return $"Starting at ${minPrice}";
+        return $"{minPrice}TL'den başlayan fiyatlarla";
     }
+
+
 }

@@ -4,6 +4,9 @@
     {
         event Action OnChange;
         List<About> Abouts { get; set; }
+        List<About> AdminAbouts { get; set; }
         Task GetAbout();
+        Task GetAdminAbout();
+        Task UpdateAbout(About about);
     }
 }

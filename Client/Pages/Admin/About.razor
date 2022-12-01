@@ -1,0 +1,63 @@
+﻿@page "/admin/about"
+@inject IAboutService AboutService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
+
+
+<h3>About</h3>
+
+<div class="header">
+    <div class="col">Name</div>
+    <div class="col">Url</div>
+    <div class="col">Visible</div>
+    <div class="col"></div>
+</div>
+
+
+@foreach (var category in AboutService.AdminAbouts)
+{
+    
+}
+
+
+
+
+@code {
+
+    About editAbout = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AboutService.GetAdminAbout();
+        AboutService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        AboutService.OnChange -= StateHasChanged;
+    }
+
+    private void EditAbout(About about)
+    {
+        about.Editing = true;
+        editAbout = about;
+    }
+
+    private async Task UpdateAbout()
+    {
+
+        await AboutService.UpdateAbout(editAbout);
+
+        editAbout = new About();
+    }
+
+    private async Task CancelEditing()
+    {
+        editAbout = new About();
+        await AboutService.GetAdminAbout();
+    }
+
+   
+
+}
