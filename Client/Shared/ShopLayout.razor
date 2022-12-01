@@ -20,31 +20,14 @@
                     </div>
                 </div>
             </div>
-            
-    </header>
-
-@*<div class="top-row px-2">
-            <UserButton/>
-            <CartCounter/>
-        </div>*@
-        <div class="nav-menu">
             <ShopNavMenu />
+    </header>
+        <div class="nav-menu">
+            
         </div>
-
+       
             @Body
+       
         <Footer />
     </main>
 </div>
-@*<script>
-    $(window).scroll(function () {
-    if ($(this).scrollTop() >= 350) {
-        $('#yukari').fadeIn(200);
-    } else {
-        $('#yukari').fadeOut(200);
-    }
-});
-
-$('#yukari').on('click', function () {
-    $("html, body").animate({ scrollTop: 0 }, 1000);
-});
-</script>*@

@@ -15,6 +15,7 @@ namespace BlazorApp.Client.Services.AboutService
 
         public List<About> Abouts { get; set; } = new List<About>();
 
+        public event Action OnChange;
 
         public async Task GetAbout()
         {

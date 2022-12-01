@@ -2,6 +2,7 @@
 {
     public interface IBankAccountService
     {
+        event Action OnChange;
         List<BankAccount> BankAccounts { get; set; }
         Task GetBankAccount();
     }

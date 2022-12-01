@@ -13,6 +13,8 @@ namespace BlazorApp.Client.Services.CentreNumberService
 
         public List<CentreNumber> CentreNumbers { get; set; } = new List<CentreNumber>();
 
+        public event Action OnChange;
+
         public async Task GetCentreNumber()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<CentreNumber>>>("api/CentreNumber");

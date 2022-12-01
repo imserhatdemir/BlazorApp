@@ -2,6 +2,7 @@
 {
     public interface IMissionVisionService
     {
+        event Action OnChange;
         List<MissionVision> MissionVisions { get; set; }
         Task GetMissionVision();
     }

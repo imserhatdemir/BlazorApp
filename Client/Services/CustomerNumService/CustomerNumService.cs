@@ -11,6 +11,8 @@
 
         public List<CustomerNum> CustomerNums { get; set; } = new List<CustomerNum>();
 
+        public event Action OnChange;
+
         public async Task GetNumber()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<CustomerNum>>>("api/CustomerNum");

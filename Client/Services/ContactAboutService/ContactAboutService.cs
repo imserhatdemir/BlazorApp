@@ -10,6 +10,8 @@
         }
         public List<ContactAbout> ContactAbouts { get; set; } = new List<ContactAbout>();
 
+        public event Action OnChange;
+
         public async Task GetContactAbout()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<ContactAbout>>>("api/ContactAbout");

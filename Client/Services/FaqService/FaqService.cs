@@ -11,6 +11,8 @@
 
         public List<Faq> Faqs { get; set; } = new List<Faq>();
 
+        public event Action OnChange;
+
         public async Task GetFaq()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Faq>>>("api/Faq");

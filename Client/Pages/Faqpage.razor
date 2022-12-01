@@ -1,5 +1,6 @@
 ﻿@page "/faq"
 @inject IFaqService FaqService
+@implements IDisposable
 
 <section class="navigate-section">
     <div class="navigate">
@@ -50,6 +51,12 @@
     protected override async Task OnInitializedAsync()
     {
         await FaqService.GetFaq();
+        FaqService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        FaqService.OnChange -= StateHasChanged;
     }
 
 }

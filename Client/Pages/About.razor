@@ -1,5 +1,6 @@
 ﻿@page "/about"
 @inject IAboutService AboutService
+@implements IDisposable
 
 
 
@@ -54,5 +55,10 @@
     protected override async Task OnInitializedAsync()
     {
         await AboutService.GetAbout();
+        AboutService.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        AboutService.OnChange -= StateHasChanged;
     }
 }

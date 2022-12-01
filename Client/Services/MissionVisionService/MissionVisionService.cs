@@ -12,6 +12,8 @@ namespace BlazorApp.Client.Services.MissionVisionService
         }
         public List<MissionVision> MissionVisions { get; set; } = new List<MissionVision>();
 
+        public event Action OnChange;
+
         public async Task GetMissionVision()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<MissionVision>>>("api/MissionVision");

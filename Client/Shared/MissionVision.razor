@@ -1,4 +1,5 @@
 ﻿@inject IMissionVisionService MissionVisionService
+@implements IDisposable
 
 @foreach (var item in MissionVisionService.MissionVisions)
 {
@@ -30,5 +31,11 @@
     protected override async Task OnInitializedAsync()
     {
         await MissionVisionService.GetMissionVision();
+        MissionVisionService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        MissionVisionService.OnChange -= StateHasChanged;
     }
 }

@@ -25,5 +25,6 @@ namespace BlazorApp.Shared
         public bool Editing { get; set; } = false;
         [NotMapped]
         public bool IsNew { get; set; } = false;
+
     }
 }

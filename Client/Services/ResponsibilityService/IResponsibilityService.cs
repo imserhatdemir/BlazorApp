@@ -2,6 +2,7 @@
 {
     public interface IResponsibilityService
     {
+        event Action OnChange;
         List<Responsibility> Responsibilities { get; set; }
         Task GetResponsibility();
     }

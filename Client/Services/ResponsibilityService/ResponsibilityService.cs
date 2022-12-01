@@ -10,6 +10,8 @@
         }
         public List<Responsibility> Responsibilities { get; set; } = new List<Responsibility>();
 
+        public event Action OnChange;
+
         public async Task GetResponsibility()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Responsibility>>>("api/Responsibility");

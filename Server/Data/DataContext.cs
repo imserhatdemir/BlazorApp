@@ -295,6 +295,8 @@
         public DbSet<MissionVision> MissionVisions { get; set; }
         public DbSet<Responsibility> Responsibilities { get; set; }
         public DbSet<Faq> Faqs { get; set; }
+        public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
     }
 }

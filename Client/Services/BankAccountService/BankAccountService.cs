@@ -10,6 +10,8 @@
         }
         public List<BankAccount> BankAccounts { get; set; } = new List<BankAccount>();
 
+        public event Action OnChange;
+
         public async Task GetBankAccount()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<BankAccount>>>("api/BankAccount");

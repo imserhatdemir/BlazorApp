@@ -1,4 +1,5 @@
 ﻿@inject ICustomerNumService CustomerNumService
+@implements IDisposable
 
 <div class="d-flex flex-column mb-4">
     <div class="d-flex align-items-center">
@@ -12,8 +13,16 @@
 </div>
 
 @code {
+
     protected override async Task OnInitializedAsync()
     {
         await CustomerNumService.GetNumber();
+        CustomerNumService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        CustomerNumService.OnChange -= StateHasChanged;
     }
 }

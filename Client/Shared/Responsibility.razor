@@ -1,4 +1,5 @@
 ﻿@inject IResponsibilityService ResponsibilityService
+@implements IDisposable
 
 @foreach (var item in ResponsibilityService.Responsibilities)
 {
@@ -22,5 +23,11 @@
     protected override async Task OnInitializedAsync()
     {
         await ResponsibilityService.GetResponsibility();
+        ResponsibilityService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ResponsibilityService.OnChange -= StateHasChanged;
     }
 }
