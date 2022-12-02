@@ -31,6 +31,13 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
+        [HttpPost("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<About>>>> AddAbout(About about)
+        {
+            var result = await _aboutService.AddAbout(about);
+            return Ok(result);
+        }
+
         [HttpPut("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<About>>>> UpdateAbout(About about)
         {

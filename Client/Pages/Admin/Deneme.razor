@@ -1,0 +1,110 @@
+﻿@page "/admin/about"
+@inject IAboutService AboutService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
+
+
+
+<section class="mt-4">
+        <div class="custom-c-wrapper d-flex flex-column">
+<h3>Hakkında</h3>
+
+<div class="header">
+    <div class="col">Başlık</div>
+    <div class="col">İçerik</div>
+    <div class="col">Görsel</div>
+    <div class="col"></div>
+</div>
+
+
+@foreach (var category in AboutService.AdminAbouts)
+{
+    @if (category.Editing)
+    {
+        <EditForm Model="editAbout" OnSubmit="UpdateAbout">
+            <div class="row">
+                <div class="col">
+                    <InputText @bind-Value="editAbout.Title" class="form-control"></InputText>
+                </div>
+                <div class="col">
+                    <InputTextArea @bind-Value="editAbout.Description" class="form-control"></InputTextArea>
+                </div>
+                <div class="col">
+                    <InputText @bind-Value="editAbout.ImageUrl" class="form-control"></InputText>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="oi oi-cloud-upload"></i>
+                    </button>
+                    <button class="btn btn-primary" @onclick="CancelEditing">
+                        <i class="oi oi-circle-x"></i>
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                @category.Title
+            </div>
+            <div class="col">
+                @category.Description
+            </div>
+            <div class="col">
+                <img src="@category.ImageUrl" width="100px" height="100px"/>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" @onclick="(()=>EditAbout(category))">
+                    <i class="oi oi-pencil"></i>
+                </button>
+            </div>
+        </div>
+    }
+}
+        <Oprerations />
+
+</div>
+</section>
+<br />
+<RespoAdmin />
+
+
+@code {
+    About editAbout = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AboutService.GetAdminAbout();
+        AboutService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        AboutService.OnChange -= StateHasChanged;
+    }
+
+    private async Task UpdateAbout()
+    {
+        if (editAbout.IsNew)
+            await AboutService.AddAbout(editAbout);
+        else
+            await AboutService.UpdateAbout(editAbout);
+
+        editAbout = new About();
+    }
+
+
+    private void EditAbout(About about)
+    {
+        about.Editing = true;
+        editAbout = about;
+    }
+
+    private async Task CancelEditing()
+    {
+        editAbout = new About();
+        await AboutService.GetAdminAbout();
+    }
+}

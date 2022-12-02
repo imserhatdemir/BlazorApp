@@ -1,5 +1,4 @@
 ﻿using BlazorApp.Shared;
-using static System.Net.WebRequestMethods;
 
 namespace BlazorApp.Client.Services.AboutService
 {
@@ -17,6 +16,22 @@ namespace BlazorApp.Client.Services.AboutService
         public List<About> AdminAbouts { get; set; } = new List<About>();
 
         public event Action OnChange;
+
+        public async Task AddAbout(About about)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/About/admin", about);
+            AdminAbouts = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<About>>>()).Data;
+            await GetAbout();
+            OnChange.Invoke();
+        }
+
+        public About CreateNewAbout()
+        {
+            var newCategory = new About { IsNew = true, Editing = true };
+            AdminAbouts.Add(newCategory);
+            OnChange.Invoke();
+            return newCategory;
+        }
 
         public async Task GetAbout()
         {

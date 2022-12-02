@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp.Server.Controllers
@@ -18,6 +19,27 @@ namespace BlazorApp.Server.Controllers
         public async Task<ActionResult<ServiceResponse<List<Responsibility>>>> GetResponsibility()
         {
             var result = await _responsibilityService.GetResponsibility();
+            return Ok(result);
+        }
+
+        [HttpGet("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<Responsibility>>>> GetAdminResp()
+        {
+            var result = await _responsibilityService.GetAdminResp();
+            return Ok(result);
+        }
+
+        [HttpPost("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<Responsibility>>>> AddResp(Responsibility responsibility)
+        {
+            var result = await _responsibilityService.AddResp(responsibility);
+            return Ok(result);
+        }
+
+        [HttpPut("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<Responsibility>>>> UpdateAbout(Responsibility responsibility)
+        {
+            var result = await _responsibilityService.UpdateResp(responsibility);
             return Ok(result);
         }
     }

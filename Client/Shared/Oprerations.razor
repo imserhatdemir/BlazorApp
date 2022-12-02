@@ -1,0 +1,124 @@
+﻿@inject IMissionVisionService MissionVisionService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
+        <h3>Misyon ve Vizyon</h3>
+
+        <div class="header">
+            <div class="col">Başlık Misyon</div>
+            <div class="col">İçerik Misyon</div>
+            <div class="col">Görsel Misyon</div>
+            <div class="col">Başlık Vizyon</div>
+            <div class="col">İçerik Vizyon</div>
+            <div class="col">Görsel Vizyon</div>
+            <div class="col"></div>
+        </div>
+
+
+        @foreach (var category in MissionVisionService.AdminMissionVisions)
+        {
+            @if (category.Editing)
+            {
+                <EditForm Model="editMisVis" OnSubmit="UpdateMissionVision">
+                    <div class="row">
+                        <div class="col">
+                            <InputText @bind-Value="editMisVis.TitleMission" class="form-control"></InputText>
+                        </div>
+                        <div class="col">
+                            <InputTextArea @bind-Value="editMisVis.DetailMission" class="form-control"></InputTextArea>
+                        </div>
+                <div class="col">
+                    <InputText @bind-Value="editMisVis.ImageUrlMission" class="form-control"></InputText>
+                </div>
+                        <div class="col">
+                            <InputText @bind-Value="editMisVis.TitleVision" class="form-control"></InputText>
+                        </div>
+                        <div class="col">
+                            <InputTextArea @bind-Value="editMisVis.DetailVision" class="form-control"></InputTextArea>
+                        </div>
+                        <div class="col">
+                            <InputText @bind-Value="editMisVis.ImageUrlVision" class="form-control"></InputText>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="oi oi-cloud-upload"></i>
+                            </button>
+                            <button class="btn btn-primary" @onclick="CancelEditing">
+                                <i class="oi oi-circle-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col">
+                        @category.TitleMission
+                    </div>
+                    <div class="col">
+                        @category.DetailMission
+                    </div>
+                    <div class="col">
+                        <img src="@category.ImageUrlMission" width="100px" height="100px" />
+                    </div>
+                    <div class="col">
+                        @category.TitleVision
+                    </div>
+                    <div class="col">
+                        @category.DetailVision
+                    </div>
+                    <div class="col">
+                        <img src="@category.ImageUrlVision" width="100px" height="100px" />
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" @onclick="(()=>EditMissionVision(category))">
+                            <i class="oi oi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+
+
+
+
+
+
+@code {
+
+    BlazorApp.Shared.MissionVision editMisVis = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await MissionVisionService.GetAdminMissionVision();
+        MissionVisionService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+
+        MissionVisionService.OnChange -= StateHasChanged;
+    }
+
+    private async Task UpdateMissionVision()
+    {
+        if (editMisVis.IsNew)
+            await MissionVisionService.AddMissionVision(editMisVis);
+        else
+            await MissionVisionService.UpdateMissionVision(editMisVis);
+
+        editMisVis = new BlazorApp.Shared.MissionVision();
+    }
+
+    private void EditMissionVision(BlazorApp.Shared.MissionVision missionVision)
+    {
+        missionVision.Editing = true;
+        editMisVis = missionVision;
+    }
+
+    private async Task CancelEditing()
+    {
+        editMisVis = new BlazorApp.Shared.MissionVision();
+        await MissionVisionService.GetAdminMissionVision();
+    }
+}

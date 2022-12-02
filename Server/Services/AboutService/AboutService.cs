@@ -29,7 +29,7 @@ namespace BlazorApp.Server.Services.AboutService
 
         public async Task<ServiceResponse<List<About>>> GetAdminAbout()
         {
-            var about = await _context.Abouts
+            var about = await _context.Abouts.Where(c => !c.Deleted)
                  .ToListAsync();
             return new ServiceResponse<List<About>>
             {
@@ -45,14 +45,22 @@ namespace BlazorApp.Server.Services.AboutService
                 return new ServiceResponse<List<About>>
                 {
                     Success = false,
-                    Message = "Category not found"
+                    Message = "About not found"
                 };
             }
-
             dbCategory.Title = about.Title;
             dbCategory.ImageUrl = about.ImageUrl;
             dbCategory.Description = about.Description;
+            dbCategory.Visible = about.Visible;
 
+            await _context.SaveChangesAsync();
+            return await GetAdminAbout();
+        }
+
+        public async Task<ServiceResponse<List<About>>> AddAbout(About about)
+        {
+            about.Editing = about.IsNew = false;
+            _context.Abouts.Add(about);
             await _context.SaveChangesAsync();
             return await GetAdminAbout();
         }

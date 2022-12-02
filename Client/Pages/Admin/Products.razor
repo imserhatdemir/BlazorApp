@@ -3,7 +3,8 @@
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles ="Admin")]
 
-
+<section class="mt-4">
+        <div class="custom-c-wrapper d-flex flex-column">
 @if(ProductService.AdminProducts == null)
 {
     <h3>Products</h3>
@@ -58,7 +59,8 @@ else
     </table>
     </section>
 }
-
+</div>
+</section>
 
 
 @code {

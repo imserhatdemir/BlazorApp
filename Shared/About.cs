@@ -13,6 +13,8 @@ namespace BlazorApp.Shared
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
+        public bool Visible { get; set; } = true;
+        public bool Deleted { get; set; } = false;
         [NotMapped]
         public bool Editing { get; set; } = false;
         [NotMapped]

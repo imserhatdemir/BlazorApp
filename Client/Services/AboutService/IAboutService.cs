@@ -8,5 +8,7 @@
         Task GetAbout();
         Task GetAdminAbout();
         Task UpdateAbout(About about);
+        Task AddAbout(About about);
+        About CreateNewAbout();
     }
 }
