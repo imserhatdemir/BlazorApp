@@ -86,7 +86,7 @@
 
 @code {
 
-    BlazorApp.Shared.MissionVision editMisVis = null;
+    MissionVision editMisVis = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -107,10 +107,10 @@
         else
             await MissionVisionService.UpdateMissionVision(editMisVis);
 
-        editMisVis = new BlazorApp.Shared.MissionVision();
+        editMisVis = new MissionVision();
     }
 
-    private void EditMissionVision(BlazorApp.Shared.MissionVision missionVision)
+    private void EditMissionVision(MissionVision missionVision)
     {
         missionVision.Editing = true;
         editMisVis = missionVision;
@@ -118,7 +118,7 @@
 
     private async Task CancelEditing()
     {
-        editMisVis = new BlazorApp.Shared.MissionVision();
+        editMisVis = new MissionVision();
         await MissionVisionService.GetAdminMissionVision();
     }
 }

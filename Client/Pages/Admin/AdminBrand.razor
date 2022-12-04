@@ -1,0 +1,130 @@
+﻿@page "/admin/admin-brands"
+@inject IBrandService BrandService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
+
+<section class="mt-4">
+        <div class="custom-c-wrapper">
+<h3>Brand</h3>
+        <button class="btn btn-primary" @onclick="CreateNewBrand">
+            <i class="oi oi-plus"></i> Add new brand
+        </button>
+<div class="header">
+    <div class="col">Name</div>
+    <div class="col">Image</div>
+    <div class="col">Visible</div>
+    <div class="col"></div>
+</div>
+
+
+@foreach (var category in BrandService.AdminBrands)
+{
+    @if (category.Editing)
+    {
+        <EditForm Model="editBrand" OnSubmit="UpdateBrand">
+            <div class="row">
+                <div class="col">
+                    <InputText @bind-Value="editBrand.Title" class="form-control"></InputText>
+                </div>
+                <div class="col">
+                    <InputText @bind-Value="editBrand.ImageUrl" class="form-control"></InputText>
+                </div>
+                <div class="col col-visible">
+                    <InputCheckbox @bind-Value="editBrand.Visible" style="transform:scale(1.5,1.5);"></InputCheckbox>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="oi oi-cloud-upload"></i>
+                    </button>
+                    <button class="btn btn-primary" @onclick="CancelEditing">
+                        <i class="oi oi-circle-x"></i>
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col">
+                @category.Title
+            </div>
+            <div class="col">
+                 <img src="@category.ImageUrl" width="100px" height="100px" />
+            </div>
+            <div class="col col-visible">
+                <span>@(category.Visible ? "✓" : "")</span>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" @onclick="(()=>EditBrand(category))">
+                    <i class="oi oi-pencil"></i>
+                </button>
+                <button class="btn btn-primary" @onclick="(()=>DeleteBrand(category.Id))">
+                    <i class="oi oi-trash"></i>
+                </button>
+            </div>
+        </div>
+    }
+}
+
+
+
+</div>
+</section>
+
+
+
+
+
+
+
+@code {
+    BlazorApp.Shared.Brand editBrand = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await BrandService.GetAdminBrands();
+        BrandService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        BrandService.OnChange -= StateHasChanged;
+    }
+
+    private void CreateNewBrand()
+    {
+        editBrand = BrandService.CreateNewBrand();
+    }
+
+    private void EditBrand(BlazorApp.Shared.Brand category)
+    {
+        category.Editing = true;
+
+        editBrand = category;
+    }
+
+    private async Task UpdateBrand()
+    {
+        if (editBrand.IsNew)
+            await BrandService.AddBrands(editBrand);
+        else
+            await BrandService.UpdateBrands(editBrand);
+
+        editBrand = new BlazorApp.Shared.Brand();
+    }
+
+    private async Task CancelEditing()
+    {
+        editBrand = new BlazorApp.Shared.Brand();
+        await BrandService.GetAdminBrands();
+    }
+
+    private async Task DeleteBrand(int id)
+    {
+        await BrandService.DeleteBrands(id);
+    }
+
+
+}

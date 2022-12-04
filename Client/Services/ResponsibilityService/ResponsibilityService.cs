@@ -29,7 +29,7 @@
             return newCategory;
         }
 
-        public async Task GetAdminResponsibility()
+        public async Task GetAdminResp()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Responsibility>>>("api/Responsibility/admin");
             if (response != null && response.Data != null)
@@ -47,7 +47,7 @@
         {
             var response = await _httpClient.PutAsJsonAsync("api/Responsibility/admin", responsibility);
             AdminResponsibilities = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Responsibility>>>()).Data;
-            await GetAdminResponsibility();
+            await GetAdminResp();
             OnChange.Invoke();
         }
     }
