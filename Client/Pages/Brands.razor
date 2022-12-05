@@ -1,0 +1,34 @@
+﻿@page "/our-brands"
+@inject IBrandService BrandService
+@implements IDisposable
+
+<section>
+    <h1 class="c-2 d-flex justify-content-center my-3">Hızlı Menü</h1>
+    <div class="mbox-wrapper">
+        @foreach (var item in BrandService.Brands)
+        {
+
+                <div class="mbox">
+                    <span class="icon mb-3">
+                    <img src="@item.ImageUrl" alt="" style="max-width:75%;height: auto;">
+                    </span>
+
+                    <span>@item.Title</span>
+                </div>
+
+        }
+    </div>
+</section>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await BrandService.GetBrands();
+        BrandService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        BrandService.OnChange -= StateHasChanged;
+    }
+}

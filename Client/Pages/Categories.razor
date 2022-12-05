@@ -1,0 +1,36 @@
+﻿@page "/all-category"
+@inject ICategoryService CategoryService
+@implements IDisposable
+<section>
+    <h1 class="c-2 d-flex justify-content-center my-3">Tüm Kategoriler</h1>
+    <div class="mbox-wrapper">
+        @foreach (var item in CategoryService.Categories)
+        {
+                <a href="@item.Url">
+                    <div class="mbox">
+                        <span class="icon mb-3">
+                            <img src="@item.ImageUrl" alt="">
+                        </span>
+
+                        <span class="text fw-semibold fs-5 c-2">@item.Name</span>
+
+                    </div>
+                </a>
+        }
+    </div>
+</section>
+
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await CategoryService.GetCategories();
+        CategoryService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        CategoryService.OnChange -= StateHasChanged;
+    }
+}

@@ -4,6 +4,7 @@
     <h1 class="c-2 d-flex justify-content-center my-3">Hızlı Menü</h1>
     <div class="mbox-wrapper">
         @foreach(var item in CategoryService.Categories){
+            @if(item.Featured){
             <a href="@item.Url">
         <div class="mbox">
             <span class="icon mb-3">
@@ -14,14 +15,15 @@
                 
         </div>
             </a>
+            }
         }
     </div>
-@*    <div class="w-100 d-flex justify-content-center position-absolute">
-        <a href="#!" class="all-category text-decoration-none">
+    <div class="w-100 d-flex justify-content-center position-absolute">
+        <a href="/all-category" class="all-category text-decoration-none">
             <img src="assets/images/icons/all-category.png" alt="">
             <span class="text-white ms-2 fs-1">Tüm Kategoriler</span>
         </a>
-    </div>*@
+    </div>
     <div class="allcate-wrapper"></div>
 </section>
 

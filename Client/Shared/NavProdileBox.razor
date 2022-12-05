@@ -1,0 +1,14 @@
+﻿@inject IAuthService AuthService
+<AuthorizeView>
+    <Authorized>
+        <div class="profile-box">@context.User.Identity.Name</div>
+    </Authorized>
+    <NotAuthorized>
+
+        <div class="profile-box"></div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

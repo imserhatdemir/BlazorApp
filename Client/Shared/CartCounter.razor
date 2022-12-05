@@ -2,9 +2,13 @@
 @inject ISyncLocalStorageService LocalStorage
 @implements IDisposable
 
-<a href="cart" class="btn btn-outline-info">
-    Sepet<i class="oi oi-cart">@GetCartItemsCount()</i>
-</a>
+<div class="dropdown dropstart">
+    <i class="fa-solid fa-cart-shopping c-2 t-shadow-sm" type="button"
+       data-bs-toggle="dropdown" aria-expanded="false"></i>
+    <ul class="dropdown-menu me-1">
+        <li><a class="dropdown-item" href="/cart">Sepetiniz : @GetCartItemsCount()</a></li>
+    </ul>
+</div>
 
 @code {
     private int GetCartItemsCount()
