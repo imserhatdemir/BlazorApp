@@ -297,6 +297,7 @@
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Shipment> Shipments { get; set; }
 
     }
 }

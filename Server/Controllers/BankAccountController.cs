@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp.Server.Controllers
@@ -21,5 +22,38 @@ namespace BlazorApp.Server.Controllers
             var result = await _bankAccountService.GetBankAccount();
             return Ok(result);
         }
+
+
+        [HttpGet("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<BankAccount>>>> GetAdminBank()
+        {
+            var result = await _bankAccountService.GetAdminBankAccount();
+            return Ok(result);
+        }
+
+        [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<BankAccount>>>> DeleteBank(int id)
+        {
+            var result = await _bankAccountService.DeleteBank(id);
+            return Ok(result);
+        }
+
+
+        [HttpPost("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<BankAccount>>>> AddCategory(BankAccount category)
+        {
+            var result = await _bankAccountService.AddBank(category);
+            return Ok(result);
+        }
+
+
+        [HttpPut("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<BankAccount>>>> UpdateCategory(BankAccount category)
+        {
+            var result = await _bankAccountService.UpdateBank(category);
+            return Ok(result);
+        }
+
+
     }
 }

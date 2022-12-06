@@ -76,6 +76,8 @@
             dbCategory.Name = category.Name;
             dbCategory.Url = category.Url;
             dbCategory.Visible = category.Visible;
+            dbCategory.Featured = category.Featured;
+            dbCategory.ImageUrl = category.ImageUrl;
 
             await _context.SaveChangesAsync();
             return await GetAdminCategories();
