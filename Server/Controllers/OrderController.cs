@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp.Server.Controllers
@@ -25,6 +26,21 @@ namespace BlazorApp.Server.Controllers
         public async Task<ActionResult<ServiceResponse<OrderDetailsResponse>>> GetOrderDetails(int orderId)
         {
             var result = await _orderService.GetOrdersDetails(orderId);
+            return Ok(result);
+        }
+
+
+        [HttpGet("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<List<OrderOverviewResponse>>>> GetAdminOrders()
+        {
+            var result = await _orderService.GetAdminOrders();
+            return Ok(result);
+        }
+
+        [HttpGet("{orderId}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<OrderDetailsResponse>>> GetAdminOrderDetails(int orderId)
+        {
+            var result = await _orderService.GetAdminOrdersDetails(orderId);
             return Ok(result);
         }
 

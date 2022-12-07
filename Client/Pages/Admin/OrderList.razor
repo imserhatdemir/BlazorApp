@@ -1,14 +1,12 @@
-﻿@page "/orders"
+﻿@page "/admin/order-list"
 @inject IOrderService OrderService
-
-<h3>Orders</h3>
-
+@attribute [Authorize(Roles = "Admin")]
 
 @if (orders == null)
 {
     <span>Siparişleriniz yükleniyor...</span>
 }
-else if ( orders.Count <= 0)
+else if (orders.Count <= 0)
 {
     <span>Siparişiniz bulunmamaktadır.</span>
 }
@@ -23,17 +21,17 @@ else
             <div class="details">
                 <h4>@order.Product</h4>
                 <span>@order.OrderDate</span>
-                <a href="orders/@order.Id">Show more...</a>
+                <a href="admin/order-list/@order.Id">Show more...</a>
             </div>
             <div class="order-price">$@order.TotalPrice</div>
         </div>
     }
 }
 
+
+
 @code {
     List<OrderOverviewResponse> orders = null;
 
-    protected override async Task OnInitializedAsync() => orders = await OrderService.GetOrders();
-
+    protected override async Task OnInitializedAsync() => orders = await OrderService.GetAdminOrders();
 }
-

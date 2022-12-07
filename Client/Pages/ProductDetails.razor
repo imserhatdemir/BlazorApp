@@ -7,42 +7,6 @@
 }
 else
 {
-   @* <div class="media">
-        <div class="media-img-wrapper mr-2">
-            <img class="media-img" src="@product.ImageURL" alt="@product.Title"/>
-        </div>
-        <div class="media-body">
-            <h2 class="mb-0">
-                @product.Title
-            </h2>
-            <p>@product.Description</p>
-            @if(product.Variants !=null && product.Variants.Count>1)
-            {
-                <div>
-                    <select class="form-select" @bind="currentTypeId">
-                        @foreach(var item in product.Variants){
-                            <option value="@item.ProductTypeId">@item.ProductType.Name</option>
-                        }
-                    </select>
-                </div>
-            }
-            @if(GetSelectedVariant() != null)
-            {
-                @if (GetSelectedVariant().OriginalPrice > GetSelectedVariant().Price)
-                {
-                    <h6 class="text-muted original-price">
-                        $@GetSelectedVariant().OriginalPrice
-                    </h6>
-                }
-                <h4 class="price">
-                    $@GetSelectedVariant().Price
-                </h4>
-            }
-            <button class="btn btn-primary" @onclick="AddToCart">
-                <i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add to Cart
-            </button>
-        </div>
-    </div>*@
 
     <section class="navigate-section">
         <div class="navigate">
