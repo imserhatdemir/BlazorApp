@@ -1,0 +1,39 @@
+﻿@page "/admin/kargo-takip-yonetimi"
+@attribute [Authorize(Roles = "Admin")]
+
+
+
+
+<section class="mt-4">
+        <div align="center">
+<table class="table table-striped w-auto">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Position</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="table-info">
+            <th scope="row">1</th>
+            <td>Kate</td>
+            <td>Moss</td>
+            <td>USA</td>
+            <td>New York City</td>
+            <td>Web Designer</td>
+            <td><a href="#" class="btn btn-success">Güncelle</a></td>
+        </tr>
+    </tbody>
+
+
+</table>
+</div>
+</section>
+@code {
+
+}

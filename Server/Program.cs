@@ -18,6 +18,7 @@ global using BlazorApp.Server.Services.FaqService;
 global using BlazorApp.Server.Services.MissionVisionService;
 global using BlazorApp.Server.Services.ResponsibilityService;
 global using BlazorApp.Server.Services.BrandService;
+global using BlazorApp.Server.Services.ShipmentService;
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -58,6 +59,7 @@ builder.Services.AddScoped<IFaqService, FaqService>();
 builder.Services.AddScoped<IMissionVisionService, MissionVisionService>();
 builder.Services.AddScoped<IResponsibilityService, ResponsibilityService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<IShipmentService, ShipmentService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
