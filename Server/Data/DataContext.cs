@@ -298,6 +298,7 @@
         public DbSet<SocialMedia> SocialMedias { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
     }
 }
