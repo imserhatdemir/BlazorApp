@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Shared;
+using Stripe;
 
 namespace BlazorApp.Server.Services.ContactFormService
 {
@@ -10,24 +11,26 @@ namespace BlazorApp.Server.Services.ContactFormService
         {
             _context = context;
         }
-        public async Task<ServiceResponse<ContactForm>> AddContact(ContactForm contact)
-        {
-            _context.ContactForms.Add(contact);
-            await _context.SaveChangesAsync(); 
-            return await GetContact();
-        }
 
-        public async Task<ServiceResponse<ContactForm>> DeleteContact(int id)
+        public async Task<ContactForm> CreateContact(ContactForm contact)
         {
-            var deleteContact = await _context.ContactForms.FirstOrDefaultAsync(a=>a.Id== id);
-            _context.ContactForms.Remove(deleteContact);
+             _context.ContactForms.Add(contact);
             await _context.SaveChangesAsync();
-            return await GetContact();
+            return contact;
         }
 
-        public Task<ServiceResponse<List<ContactForm>>> GetContact()
+        public async Task<ContactForm> DeleteContact(int id)
         {
-            throw new NotImplementedException();
+            var contact = _context.ContactForms.FirstOrDefault(c => c.Id == id);
+            _context.ContactForms.Remove(contact);
+            await _context.SaveChangesAsync();
+            return contact;
+        }
+
+        public Task<List<ContactForm>> GetAllContacts()
+        {
+            var data = _context.ContactForms.ToListAsync();
+            return data;
         }
     }
 }
