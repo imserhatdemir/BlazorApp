@@ -41,7 +41,7 @@ namespace BlazorApp.Server.Services.OrderService
             return response;
         }
 
-        public async Task<ServiceResponse<OrderDetailsResponse>> GetAdminOrdersDetails(int orderId)
+        public async Task<ServiceResponse<OrderDetailsResponse>> GetAdminOrdersDetails(int ordersId)
         {
             var response = new ServiceResponse<OrderDetailsResponse>();
             var order = await _context.Orders
@@ -49,7 +49,7 @@ namespace BlazorApp.Server.Services.OrderService
                 .ThenInclude(os => os.Product)
                 .Include(o => o.OrderItems)
                 .ThenInclude(os => os.ProductType)
-                .Where(o => o.Id == orderId)
+                .Where(o => o.Id == ordersId)
                 .OrderByDescending(o => o.OrderDate)
                 .FirstOrDefaultAsync();
 
@@ -112,45 +112,43 @@ namespace BlazorApp.Server.Services.OrderService
 
         public async Task<ServiceResponse<OrderDetailsResponse>> GetOrdersDetails(int orderId)
         {
-           var response =new ServiceResponse<OrderDetailsResponse>(); 
+            var response = new ServiceResponse<OrderDetailsResponse>();
             var order = await _context.Orders
-                .Include(o=>o.OrderItems)
-                .ThenInclude(os=>os.Product)
-                .Include(o =>o.OrderItems)
-                .ThenInclude(os=>os.ProductType)
-                .Where(o=>o.UserId==_authService.GetUserId() && o.Id==orderId)
-                .OrderByDescending(o=>o.OrderDate)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.ProductType)
+                .Where(o => o.UserId == _authService.GetUserId() && o.Id == orderId)
+                .OrderByDescending(o => o.OrderDate)
                 .FirstOrDefaultAsync();
-
 
             if (order == null)
             {
-                response.Success=false;
-                response.Message = "Order not found";
+                response.Success = false;
+                response.Message = "Order not found.";
                 return response;
             }
 
             var orderDetailsResponse = new OrderDetailsResponse
             {
                 OrderDate = order.OrderDate,
-                TotalPrice=order.TotalPrice,
-                Products=new List<OrderDetailsProductResponse>()
+                TotalPrice = order.TotalPrice,
+                Products = new List<OrderDetailsProductResponse>()
             };
 
             order.OrderItems.ForEach(item =>
             orderDetailsResponse.Products.Add(new OrderDetailsProductResponse
             {
-                ProductId=item.ProductId, 
-                ImageUrl=item.Product.ImageURL,
-                ProductType=item.ProductType.Name,
-                Quantity=item.Quantity,
-                Title=item.Product.Title,
-                TotalPrice=item.TotalPrice
-            }
-            ));
-
+                ProductId = item.ProductId,
+                ImageUrl = item.Product.ImageURL,
+                ProductType = item.ProductType.Name,
+                Quantity = item.Quantity,
+                Title = item.Product.Title,
+                TotalPrice = item.TotalPrice
+            }));
 
             response.Data = orderDetailsResponse;
+
             return response;
         }
 

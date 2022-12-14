@@ -28,7 +28,7 @@ namespace BlazorApp.Server.Controllers
             var result = await _orderService.GetOrdersDetails(orderId);
             return Ok(result);
         }
-
+        
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<OrderOverviewResponse>>>> GetAdminOrders()
@@ -37,10 +37,10 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{orderId}"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<OrderDetailsResponse>>> GetAdminOrderDetails(int orderId)
+        [HttpGet("{ordersId}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<OrderDetailsResponse>>> GetAdminOrderDetails(int ordersId)
         {
-            var result = await _orderService.GetAdminOrdersDetails(orderId);
+            var result = await _orderService.GetAdminOrdersDetails(ordersId);
             return Ok(result);
         }
 

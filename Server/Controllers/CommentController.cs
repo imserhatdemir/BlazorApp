@@ -7,5 +7,18 @@ namespace BlazorApp.Server.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
+        private readonly ICommentService _commentService;
+
+        public CommentController(ICommentService commentService)
+        {
+            _commentService = commentService;
+        }
+
+        [HttpGet("product/{productId}")]
+        public async Task<ActionResult<ServiceResponse<Comment>>> GetCommentByProduct(int productId)
+        {
+            var result = await _commentService.GetCommentByProduct(productId);
+            return Ok(result);
+        }
     }
 }

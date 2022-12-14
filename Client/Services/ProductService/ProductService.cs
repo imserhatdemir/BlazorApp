@@ -49,6 +49,16 @@ namespace BlazorApp.Client.Services.ProductService
             return result;
         }
 
+        public async Task GetProductsAsync()
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/Product/");
+            Products = result.Data;
+            CurrentPage = 1;
+            PageCount = 0;
+            if (Products.Count == 0)
+                Message = "No Products found";
+        }
+
         public async Task GetProducts(string? categoryUrl = null)
         {
             var result = categoryUrl == null ?
