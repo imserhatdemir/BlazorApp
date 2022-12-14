@@ -23,14 +23,12 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
-
         [HttpGet]
         public async Task<ActionResult<List<ContactForm>>> GetAllContacts()
         {
             var result = await _contactFormService.GetAllContacts();
             return Ok(result);
         }
-
 
         [HttpDelete]
         public async Task<ActionResult<ContactForm>> DeleteContact(int id)
