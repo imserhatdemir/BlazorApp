@@ -1,0 +1,50 @@
+﻿@inject IContactFormService ContactFormService
+@inject NavigationManager NavigationManager
+@inject SweetAlertService swal
+
+<section class="mb-4">
+    <div class="custom-c-wrapper d-flex flex-column">
+        <span class="fs-1 c-2">İletişim Formu</span>
+        <EditForm Model="contact" OnSubmit="Add" class="contact-form d-flex flex-column">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <label class="c-2 fs-5">Adınız, Soyadınız:</label>
+            <input type="text" @bind-value="contact.Name">
+            <label class="c-2 fs-5">E-Mail:</label>
+            <input type="mail" @bind-value="contact.Mail">
+            <label class="c-2 fs-5">Telefon:</label>
+            <input type="text" @bind-value="contact.Phone">
+            <label class="c-2 fs-5">Konu:</label>
+            <input type="text" @bind-value="contact.Title">
+            <label class="c-2 fs-5">Mesaj:</label>
+            <InputTextArea @bind-Value="contact.Message" class="form-control"></InputTextArea>
+                    <div class="d-flex justify-content-between mt-3">
+                <input class="btn-2" type="submit" value="Gönder">
+                    </div>
+            <ValidationSummary></ValidationSummary>
+        </EditForm>
+    </div>
+</section>
+
+
+
+
+
+@code {
+    ContactForm contact = new ContactForm();
+    async void Add()
+    {
+        await ContactFormService.CreateContact(contact);
+        NavigationManager.NavigateTo("contact");
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Mesajınızı aldık",
+                Text = "You will not be able to recover this imaginary file!",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Yes, delete it!",
+                CancelButtonText = "No, keep it"
+            });
+        var confirm = !string.IsNullOrEmpty(result.Value);
+       
+    }
+}

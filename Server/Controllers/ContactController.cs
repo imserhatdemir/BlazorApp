@@ -17,7 +17,7 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ContactForm>> Contact(ContactForm contact)
+        public async Task<ActionResult<ContactForm>> CreateContact(ContactForm contact)
         {
             var result = await _contactFormService.CreateContact(contact);
             return Ok(result);

@@ -21,6 +21,7 @@ global using BlazorApp.Client.Services.FaqService;
 global using BlazorApp.Client.Services.BrandService;
 global using BlazorApp.Client.Services.CommentService;
 global using BlazorApp.Client.Services.ContactFormService;
+global using CurrieTechnologies.Razor.SweetAlert2;
 using BlazorApp.Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
@@ -54,5 +55,6 @@ builder.Services.AddScoped<IContactFormService, ContactFormService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddSweetAlert2();
 
 await builder.Build().RunAsync();
