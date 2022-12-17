@@ -1,4 +1,5 @@
-﻿using BlazorApp.Shared;
+﻿using BlazorApp.Client.Pages.Admin;
+using BlazorApp.Shared;
 using Stripe;
 
 namespace BlazorApp.Server.Services.ContactFormService
@@ -12,25 +13,30 @@ namespace BlazorApp.Server.Services.ContactFormService
             _context = context;
         }
 
-        public async Task<ContactForm> CreateContact(ContactForm contact)
+
+        public async Task<ServiceResponse<ContactForm>> CreateContact(ContactForm contact)
         {
-             _context.ContactForms.Add(contact);
+            _context.ContactForms.Add(contact);
             await _context.SaveChangesAsync();
-            return contact;
+            return new ServiceResponse<ContactForm> { Data = contact };
         }
 
-        public async Task<ContactForm> DeleteContact(int id)
+        public async Task<ServiceResponse<ContactForm>> DeleteContact(int Id)
         {
-            var contact = _context.ContactForms.FirstOrDefault(c => c.Id == id);
+            var contact = _context.ContactForms.FirstOrDefault(c => c.Id == Id);
             _context.ContactForms.Remove(contact);
             await _context.SaveChangesAsync();
-            return contact;
+            return new ServiceResponse<ContactForm>();
         }
 
-        public Task<List<ContactForm>> GetAllContacts()
+        public async Task<ServiceResponse<List<ContactForm>>> GetContacts()
         {
-            var data = _context.ContactForms.ToListAsync();
-            return data;
+            var response = new ServiceResponse<List<ContactForm>>
+            {
+                Data = await _context.ContactForms
+                .ToListAsync()
+            };
+            return response;
         }
     }
 }

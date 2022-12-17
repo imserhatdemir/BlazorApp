@@ -38,11 +38,9 @@
         var result = await swal.FireAsync(new SweetAlertOptions
             {
                 Title = "Mesajınızı aldık",
-                Text = "You will not be able to recover this imaginary file!",
-                Icon = SweetAlertIcon.Warning,
+                Text = "Görüşleriniz bizim için önemli",
+                Icon = SweetAlertIcon.Success,
                 ShowCancelButton = true,
-                ConfirmButtonText = "Yes, delete it!",
-                CancelButtonText = "No, keep it"
             });
         var confirm = !string.IsNullOrEmpty(result.Value);
        

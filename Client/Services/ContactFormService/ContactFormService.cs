@@ -1,4 +1,5 @@
-﻿using BlazorApp.Shared;
+﻿using BlazorApp.Client.Pages.Admin;
+using BlazorApp.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp.Client.Services.ContactFormService
@@ -15,28 +16,29 @@ namespace BlazorApp.Client.Services.ContactFormService
         }
 
         public List<ContactForm> Contacts { get; set; } = new List<ContactForm>();
+        public string Message { get; set; } = "loading";
 
         public event Action OnChange;
 
-        public async Task CreateContact(ContactForm contact)
-        {
-            var result = await _http.PostAsJsonAsync("api/contact", contact);
-            var response = await result.Content.ReadFromJsonAsync<List<ContactForm>>();
-            Contacts = response;
-        }
-      
 
-        public async Task DeleteContact(int id)
+        public async Task GetContactAsync()
         {
-            var result = await _http.DeleteAsync($"api/contact/{id}");
-            var response = await result.Content.ReadFromJsonAsync<List<ContactForm>>();
-            Contacts = response;
+            var response = await _http.GetFromJsonAsync<ServiceResponse<List<ContactForm>>>("api/Contact");
+            if (response != null && response.Data != null)
+                Contacts = response.Data;
         }
 
-        public async Task GetContact()
+        public async Task<ContactForm> CreateContact(ContactForm product)
         {
-            var result = await _http.GetFromJsonAsync<List<ContactForm>>("api/Contact");
-            
+            var result = await _http.PostAsJsonAsync("api/contact", product);
+            var newProduct = (await result.Content.ReadFromJsonAsync<ServiceResponse<ContactForm>>()).Data;
+            return newProduct;
+        }
+
+        public async Task DeleteContact(int productId)
+        {
+            var result = await _http.DeleteAsync($"api/contact/{productId}");
+            await GetContactAsync();
         }
     }
 }

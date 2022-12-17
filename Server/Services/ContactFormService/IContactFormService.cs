@@ -2,8 +2,8 @@
 {
     public interface IContactFormService
     {
-        Task<ContactForm> CreateContact(ContactForm contact);
-        Task<List<ContactForm>> GetAllContacts();
-        Task<ContactForm> DeleteContact(int id);
-   }
+        Task<ServiceResponse<List<ContactForm>>> GetContacts();
+        Task<ServiceResponse<ContactForm>> CreateContact(ContactForm contact);
+        Task<ServiceResponse<ContactForm>> DeleteContact(int Id);
+    }
 }

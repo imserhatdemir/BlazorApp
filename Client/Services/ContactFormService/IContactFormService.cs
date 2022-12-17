@@ -4,8 +4,9 @@
     {
         event Action OnChange;
         List<ContactForm> Contacts { get; set; }
-        Task GetContact();
-        Task DeleteContact(int id);
-        Task CreateContact(ContactForm contact);
+        string Message { get; set; }
+        Task GetContactAsync();
+        Task<ContactForm> CreateContact(ContactForm contact);
+        Task DeleteContact(int contactId);
     }
 }

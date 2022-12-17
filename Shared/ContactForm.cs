@@ -17,5 +17,8 @@ namespace BlazorApp.Shared
         public string Mail { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
+        public DateTime ContactDate { get; set; } = DateTime.Now;
+        [NotMapped]
+        public bool IsNew { get; set; } = false;
     }
 }
