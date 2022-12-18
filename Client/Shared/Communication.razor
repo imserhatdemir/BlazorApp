@@ -34,15 +34,14 @@
     async void Add()
     {
         await ContactFormService.CreateContact(contact);
-        NavigationManager.NavigateTo("contact");
         var result = await swal.FireAsync(new SweetAlertOptions
             {
                 Title = "Mesajınızı aldık",
                 Text = "Görüşleriniz bizim için önemli",
-                Icon = SweetAlertIcon.Success,
-                ShowCancelButton = true,
+                Icon = SweetAlertIcon.Success
             });
         var confirm = !string.IsNullOrEmpty(result.Value);
+        NavigationManager.NavigateTo("/");
        
     }
 }
