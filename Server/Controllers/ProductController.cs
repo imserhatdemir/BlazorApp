@@ -24,7 +24,6 @@ namespace BlazorApp.Server.Controllers
 
        
 
-
         [HttpPost, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
         {
