@@ -23,9 +23,9 @@ namespace BlazorApp.Client.Services.ProductService
 
         public async Task<Product> CreateProduct(Product product)
         {
-            var result = await _http.PostAsJsonAsync("api/product", product);
-            var newProduct = (await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
-            return newProduct;
+            var result = await _http.PostAsJsonAsync("api/product",  product);
+            return (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Product>>()).Data; 
         }
 
         public async Task DeleteProduct(Product productId)
@@ -35,12 +35,13 @@ namespace BlazorApp.Client.Services.ProductService
 
         public async Task GetAdminProducts()
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/Product/admin");
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product/admin/");
             AdminProducts = result.Data;
             CurrentPage = 1;
             PageCount = 0;
             if (AdminProducts.Count == 0)
-                Message = "No Products found";
+                Message = "No products found.";
         }
 
         public async Task<ServiceResponse<Product>> GetProduct(int productId)

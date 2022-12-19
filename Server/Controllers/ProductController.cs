@@ -22,7 +22,7 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
-       
+
 
         [HttpPost, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
@@ -30,6 +30,8 @@ namespace BlazorApp.Server.Controllers
             var result = await _productService.CreateProduct(product);
             return Ok(result);
         }
+
+
         [HttpPut, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> UpdateProduct(Product product)
         {
@@ -46,7 +48,7 @@ namespace BlazorApp.Server.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsAsync()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
         {
             var result = await _productService.GetProductsAsync();
             return Ok(result);

@@ -13,7 +13,7 @@
 
         public async Task<ServiceResponse<Product>> CreateProduct(Product product)
         {
-            foreach(var variant in product.Variants)
+            foreach (var variant in product.Variants)
             {
                 variant.ProductType = null;
             }
@@ -44,11 +44,13 @@
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
-                .Where(p => !p.Deleted)
-                .Include(p => p.Variants.Where(v =>!v.Deleted))
-                .ThenInclude(v=>v.ProductType)
-                .ToListAsync()
+                    .Where(p => !p.Deleted)
+                    .Include(p => p.Variants.Where(v => !v.Deleted))
+                    .ThenInclude(v => v.ProductType)
+                    .Include(c => c.Images)
+                    .ToListAsync()
             };
+
             return response;
         }
 
@@ -59,6 +61,7 @@
                 Data = await _context.Products
                 .Where(p => p.Featured && p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                .Include(c => c.Images)
                 .ToListAsync()
             };
             return response;   
@@ -73,6 +76,7 @@
                 product = await _context.Products
                     .Include(p => p.Variants.Where(v => !v.Deleted))
                     .ThenInclude(v => v.ProductType)
+                    .Include(c=>c.Images)
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted);
 
             }
@@ -81,6 +85,7 @@
                product = await _context.Products
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                     .ThenInclude(v => v.ProductType)
+                    .Include(c => c.Images)
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted && p.Visible);
 
             }
@@ -107,16 +112,19 @@
             return response;
         }
 
-       
+
 
         public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
         {
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
-                .Where(p=>p.Visible && !p.Deleted)
-                .Include(p=>p.Variants.Where(v => v.Visible && !v.Deleted)).ToListAsync()
+                    .Where(p => p.Visible && !p.Deleted)
+                    .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                    .Include(c => c.Images)
+                    .ToListAsync()
             };
+
             return response;
         }
 
@@ -126,29 +134,31 @@
 
             List<string> result = new List<string>();
 
-            foreach(var item in products)
+            foreach (var product in products)
             {
-                if(item.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                if (product.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase))
                 {
-                    result.Add(item.Title); 
+                    result.Add(product.Title);
                 }
 
-                if (item.Description != null)
+                if (product.Description != null)
                 {
-                    var punctuation = item.Description.Where(char.IsPunctuation)
+                    var punctuation = product.Description.Where(char.IsPunctuation)
                         .Distinct().ToArray();
-                    var words = item.Description.Split()
+                    var words = product.Description.Split()
                         .Select(s => s.Trim(punctuation));
 
                     foreach (var word in words)
                     {
-                        if (word.Contains(searchText, StringComparison.OrdinalIgnoreCase) && !result.Contains(word))
+                        if (word.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                            && !result.Contains(word))
                         {
                             result.Add(word);
                         }
                     }
                 }
             }
+
             return new ServiceResponse<List<string>> { Data = result };
         }
 
@@ -157,45 +167,54 @@
             var pageResults = 2f;
             var pageCount = Math.Ceiling((await FindProductBySearchText(searchText)).Count / pageResults);
             var products = await _context.Products
-                            .Where(p => p.Title.ToLower().Contains(searchText.ToLower())
-                            || p.Description.ToLower().Contains(searchText.ToLower()) && p.Visible && !p.Deleted)
-                            .Include(p => p.Variants).Skip((page - 1) * (int)pageResults).Take((int)pageResults).ToListAsync();
+                                .Where(p => p.Title.ToLower().Contains(searchText.ToLower()) ||
+                                    p.Description.ToLower().Contains(searchText.ToLower()) &&
+                                    p.Visible && !p.Deleted)
+                                .Include(p => p.Variants)
+                                .Include(c => c.Images)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
 
             var response = new ServiceResponse<ProductSearchResult>
             {
                 Data = new ProductSearchResult
                 {
-                    Products=products,
-                    CurrentPage=page,
-                    Pages=(int)pageCount
+                    Products = products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount
                 }
             };
+
             return response;
         }
 
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
-            var dbProduct = await _context.Products.FindAsync(product.ID);
+            var dbProduct = await _context.Products
+                .FirstOrDefaultAsync(p => p.ID == product.ID);
             if (dbProduct == null)
             {
                 return new ServiceResponse<Product>
                 {
                     Success = false,
-                    Message = "Product not found"
+                    Message = "Product not found."
                 };
             }
-           
-            dbProduct.Title=product.Title;
+
+            dbProduct.Title = product.Title;
             dbProduct.Description = product.Description;
-            dbProduct.ImageURL=product.ImageURL;
-            dbProduct.CategoryId=product.CategoryId;
+            dbProduct.ImageURL = product.ImageURL;
+            dbProduct.CategoryId = product.CategoryId;
             dbProduct.Visible = product.Visible;
             dbProduct.Featured = product.Featured;
 
-            foreach(var variant in product.Variants)
+
+            foreach (var variant in product.Variants)
             {
                 var dbVariant = await _context.ProductVariants
-                    .SingleOrDefaultAsync(v => v.ProductId == variant.ProductId && v.ProductTypeId == variant.ProductTypeId);
+                    .SingleOrDefaultAsync(v => v.ProductId == variant.ProductId &&
+                        v.ProductTypeId == variant.ProductTypeId);
                 if (dbVariant == null)
                 {
                     variant.ProductType = null;
@@ -203,16 +222,17 @@
                 }
                 else
                 {
-                    dbVariant.ProductTypeId=variant.ProductTypeId;
+                    dbVariant.ProductTypeId = variant.ProductTypeId;
                     dbVariant.Price = variant.Price;
                     dbVariant.OriginalPrice = variant.OriginalPrice;
                     dbVariant.Visible = variant.Visible;
                     dbVariant.Deleted = variant.Deleted;
+
                 }
             }
 
             await _context.SaveChangesAsync();
-            return new ServiceResponse<Product> { Data = dbProduct };   
+            return new ServiceResponse<Product> { Data = product };
         }
 
         private async Task<List<Product>> FindProductBySearchText(string searchText)
