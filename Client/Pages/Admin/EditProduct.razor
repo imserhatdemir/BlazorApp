@@ -198,7 +198,7 @@ else
         if(product.IsNew)
         {
             var result = await ProductService.CreateProduct(product);
-            NavigationManager.NavigateTo("/admin/product");
+            NavigationManager.NavigateTo("admin/product");
         }
         else
         {

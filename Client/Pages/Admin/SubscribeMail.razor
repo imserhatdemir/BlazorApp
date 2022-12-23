@@ -1,0 +1,52 @@
+﻿@page "/admin/mail-bulteni"
+@inject ISendMailService SendMailService
+@implements IDisposable
+@attribute [Authorize(Roles ="Admin")]
+<h3>SubscribeMail</h3>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Mail</th>
+            <th scope="col">İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in SendMailService.SendMails)
+        {
+            <tr>
+            <th scope="row">@item.Id</th>
+                <td>@item.Mail</td>
+                <td>
+                <button class="btn btn-primary" @onclick="(()=>DeleteMail(item.Id))">
+                    <i class="oi oi-trash"></i>
+                </button></td>
+            </tr>  
+        }
+       
+    </tbody>
+</table>
+
+@code {
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await SendMailService.GetMail();
+        SendMailService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        SendMailService.OnChange -= StateHasChanged;
+    }
+
+    private async Task DeleteMail(int id)
+    {
+        await SendMailService.DeleteMail(id);
+    }
+
+}

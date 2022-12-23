@@ -15,5 +15,12 @@ namespace BlazorApp.Server.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Shipment>>> CreateShipment(Shipment ship)
+        {
+            var result = await _shipmentService.CreateShipment(ship);
+            return Ok(result);
+        }
+
     }
 }

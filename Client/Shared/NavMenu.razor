@@ -49,6 +49,7 @@
                 </a>
             <ul class="dropdown-menu dropdown-custom">
                 <div class="custom-dmenu">
+                        <li><font color="black"><a class="dropdown-item" href="/tum-urunler">Tüm Ürünler</a></font></li>
                             @foreach (var item in CategoryService.Categories)
                             {
                     <li><font color="black"><a class="dropdown-item" href="@item.Url">@item.Name</a></font></li>
@@ -60,7 +61,7 @@
             <a class="nav-link" href="/our-brands">Markalar</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">İnsan Kaynakları</a>
+            <a class="nav-link" href="/insan-kaynaklari">İnsan Kaynakları</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="contact">İletişim</a>
@@ -68,17 +69,9 @@
     <li class="nav-item">
         <a class="nav-link" href="faq">Yardım</a>
     </li>
-        <li class="nav-item">
-            <a class="nav-link" href="tum-urunler">tüm ürünler</a>
-        </li>
     </ul>
     <div class="d-flex align-items-center">
         <Search />
-        <div class="d-flex align-items-center">
-            <button class="bg-transparent border-0 text-white lang">TR</button>
-            <div class="vr-lang mx-1"></div>
-            <button class="bg-transparent border-0 text-white lang">EN</button>
-        </div>
     </div>
     </div>
     </div>

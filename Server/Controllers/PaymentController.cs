@@ -16,7 +16,7 @@ namespace BlazorApp.Server.Controllers
         }
 
 
-        [HttpPost("checkout"),Authorize]
+        [HttpPost("checkout"), Authorize]
         public async Task<ActionResult<string>> CreateCheckoutSession()
         {
             var session = await _paymentService.CreateCheckoutSession();
@@ -27,9 +27,10 @@ namespace BlazorApp.Server.Controllers
         public async Task<ActionResult<ServiceResponse<bool>>> FulfillOrder()
         {
             var response = await _paymentService.FulfillOrder(Request);
-            if (!response.Success)
+            if (response.Success)
+                return Ok(response);
+            else
                 return BadRequest(response.Message);
-            return Ok(response);
         }
     }
 }

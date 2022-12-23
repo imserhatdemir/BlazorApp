@@ -19,6 +19,12 @@ namespace BlazorApp.Shared
         public decimal Weight { get; set; }
         public DateTime ShippingDate { get; set; } = DateTime.Now;
         public DateTime ArrivalDate { get; set; }
+        public bool Status { get; set; } = false;
+        public bool Deleted { get; set; } = false;
+        [NotMapped]
+        public bool Editing { get; set; } = false;
+        [NotMapped]
+        public bool IsNew { get; set; } = false;
 
 
     }

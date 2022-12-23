@@ -18,7 +18,7 @@
 
 @foreach (var category in BankAccountService.AdminBankAccounts)
 {
-    @if (category.Editing)
+    if (category.Editing)
     {
         <EditForm Model="editingBank" OnSubmit="UpdateCategory">
             <div class="row">

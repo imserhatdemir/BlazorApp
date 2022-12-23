@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Shared
 {
-    public class Image
+    public class ShipmentSearch
     {
-        public int Id { get; set; }
-        public string? Data { get; set; }
+        public List<Shipment> Shipments { get; set; } = new List<Shipment>();
     }
 }

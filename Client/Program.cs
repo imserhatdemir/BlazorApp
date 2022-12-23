@@ -21,11 +21,13 @@ global using BlazorApp.Client.Services.FaqService;
 global using BlazorApp.Client.Services.BrandService;
 global using BlazorApp.Client.Services.CommentService;
 global using BlazorApp.Client.Services.ContactFormService;
+global using BlazorApp.Client.Services.HumanService;
+global using BlazorApp.Client.Services.SendMailService;
 global using CurrieTechnologies.Razor.SweetAlert2;
 using BlazorApp.Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
-
+using BlazorApp.Client.Services.SendMailService;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -52,6 +54,8 @@ builder.Services.AddScoped<IFaqService, FaqService>();
 builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IContactFormService, ContactFormService>();
+builder.Services.AddScoped<IHumanService, HumanService>();
+builder.Services.AddScoped<ISendMailService, SendMailService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();

@@ -1,0 +1,29 @@
+﻿@inject ISendMailService SendMailService
+@inject NavigationManager NavigationManager
+@inject SweetAlertService swal
+<div class="d-flex mb-3 subs">
+    <p class="m-0 c-2 fs-4 fw-semibold">
+        <i class="fa-solid fa-envelope me-1"></i>
+        E-Posta bültenimize kayıt olun:
+    </p>
+    <EditForm Model="send" OnSubmit="Add" class="d-flex ms-4 mail-form">
+        <input class="rounded-0 border border-dark" type="email" @bind-value="send.Mail" placeholder="E-posta adresinizi girin">
+        <input class="rounded-0 border-0 text-white bg-2 fs-5 fw-semibold" type="submit" value="Kaydol">
+    </EditForm>
+</div>
+
+@code {
+    SendMail send = new SendMail();
+    async void Add()
+    {
+        await SendMailService.CreateMail(send);
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Abone işlemi başarılı",
+                Icon = SweetAlertIcon.Success
+            });
+        var confirm = !string.IsNullOrEmpty(result.Value);
+        NavigationManager.NavigateTo("/");
+
+    }
+}

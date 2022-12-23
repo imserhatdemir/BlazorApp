@@ -70,9 +70,10 @@ namespace BlazorApp.Server.Services.PaymentService
             try
             {
                 var stripeEvent = EventUtility.ConstructEvent(
-                    json,
-                    httpRequest.Headers["Stripe-Signature"],
-                    secret
+                       json,
+                        httpRequest.Headers["Stripe-Signature"],
+                        secret,
+                        throwOnApiVersionMismatch: false
                     );
 
                 if (stripeEvent.Type == Events.CheckoutSessionCompleted)
@@ -81,13 +82,12 @@ namespace BlazorApp.Server.Services.PaymentService
                     var user = await _authService.GetUserByEmail(session.CustomerEmail);
                     await _orderService.PlaceOrder(user.Id);
                 }
-                return new ServiceResponse<bool> { Data = true };
 
+                return new ServiceResponse<bool> { Data = true };
             }
-            catch(StripeException e)
+            catch (StripeException e)
             {
                 return new ServiceResponse<bool> { Data = false, Success = false, Message = e.Message };
-
             }
         }
     }
