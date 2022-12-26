@@ -9,10 +9,12 @@ namespace BlazorApp.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly ICommentService _commentService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService , ICommentService commentService)
         {
             _productService = productService;
+            _commentService = commentService;
         }
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
@@ -89,6 +91,8 @@ namespace BlazorApp.Server.Controllers
             var result = await _productService.GetFeatureProducts();
             return Ok(result);
         }
+
+
 
     }
 }

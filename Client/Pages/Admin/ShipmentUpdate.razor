@@ -1,4 +1,7 @@
-﻿@page "/admin/shipment-update"
+﻿@page "/admin/shipments"
+@page "/admin/shipments/{int:id}"
+@inject IShipmentService ShipmentService
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = "Admin")]
 
 <div class="container">
@@ -50,5 +53,67 @@
 
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+
+    Shipment ship = new Shipment();
+    bool loading = true;
+    string btnText = "";
+    string msg = "Loading..";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ShipmentService.GetAdminShip();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == 0)
+        {
+            ship = new Shipment { IsNew = true };
+            btnText = "CreateProduct";
+        }
+        else
+        {
+            Shipment dbProduct = (await ShipmentService.GetShipment(Id)).Data;
+            if (dbProduct == null)
+            {
+                msg = $"product with id '{Id}' does not exist";
+                return;
+            }
+            ship = dbProduct;
+            ship.Editing = true;
+            btnText = "UpdateProduct";
+        }
+        loading = false;
+    }
+
+
+    async void AddOrUpdateProduct()
+    {
+        if (ship.IsNew)
+        {
+            var result = await ShipmentService.CreateShipment(ship);
+            NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
+        }
+        else
+        {
+            ship.IsNew = false;
+            ship = await ShipmentService.UpdateShip(ship);
+            NavigationManager.NavigateTo($"admin/shipments/{ship.Id}", true);
+        }
+    }
+
+    async void DeleteProduct()
+    {
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{product.Title}' adlı ürünü silmek istediğinize emin misiniz?");
+        if (confirmed)
+        {
+            await ShipmentService.DeleteShip(ship);
+            NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
+        }
+
+    }
 
 }

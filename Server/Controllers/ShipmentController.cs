@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp.Server.Controllers
@@ -15,7 +16,7 @@ namespace BlazorApp.Server.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("admin"), Authorize(Roles ="Admin")]
         public async Task<ActionResult<ServiceResponse<Shipment>>> CreateShipment(Shipment ship)
         {
             var result = await _shipmentService.CreateShipment(ship);

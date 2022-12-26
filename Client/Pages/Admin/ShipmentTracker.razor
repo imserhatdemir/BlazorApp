@@ -1,4 +1,6 @@
 ﻿@page "/admin/kargo-takip-yonetimi"
+@inject IShipmentService ShipmentService
+@inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = "Admin")]
 
 
@@ -6,6 +8,9 @@
 
 <section class="mt-4">
         <div align="center">
+        <button class="btn btn-primary float-end" @onclick="CreateShip">
+            <i class="oi oi-plus"></i>Add a new ship
+        </button>
 <table class="table table-striped w-auto">
     <thead>
         <tr>
@@ -26,7 +31,7 @@
             <td>USA</td>
             <td>New York City</td>
             <td>Web Designer</td>
-                    <td><a href="/admin/shipment-update" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/admin/shipmens/1" class="btn btn-success">Güncelle</a></td>
         </tr>
     </tbody>
 
@@ -35,5 +40,15 @@
 </div>
 </section>
 @code {
+
+    void EditShip(int id)
+    {
+        NavigationManager.NavigateTo($"admin/shipments/{id}");
+    }
+
+    void CreateShip()
+    {
+        NavigationManager.NavigateTo("/admin/shipments");
+    }
 
 }

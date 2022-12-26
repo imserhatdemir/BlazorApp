@@ -1,5 +1,7 @@
 ﻿@page "/Product/{id:int}"
+@page "/Comment/product/{id:int}"
 @inject IProductService ProductService
+@inject ICommentService CommentService
 @inject ICartService CartService
 
 @if(product == null){
@@ -163,6 +165,7 @@ else
         var result =await ProductService.GetProduct(Id);
         if(result.Success)
         {
+            
             message = result.Message;
         }
         else

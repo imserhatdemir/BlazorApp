@@ -15,15 +15,11 @@ namespace BlazorApp.Client.Services.CommentService
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public event Action CommentsChanged;
 
-        public async Task<ServiceResponse<Comment>> GetComment(int productId)
+        public async Task<ServiceResponse<Comment>> GetComment(int id)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Comment>>($"api/Comment/product/{productId}/");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Comment>>($"api/Comment/product/{id}");
             return result;
         }
 
-        public Task GetComments(int? productId = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
