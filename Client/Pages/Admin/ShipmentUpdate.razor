@@ -1,45 +1,71 @@
 ﻿@page "/admin/shipments"
-@page "/admin/shipments/{int:id}"
+@page "/admin/shipments/{id:int}"
 @inject IShipmentService ShipmentService
+@inject IOrderService OrderService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSruntime
+@inject SweetAlertService swal
 @attribute [Authorize(Roles = "Admin")]
+
+@if(loading)
+{
+    <span>@msg</span>
+}
+else
+{
+    @if(ship.Editing)
+    {
+        <h3>Edit "@ship.Id"</h3>
+    }
+    else if(ship.IsNew)
+    {
+        <h2>Create a new product</h2>
+    }
+
 
 <div class="container">
     <h2>Horizontal form</h2>
-    <form class="form-horizontal" action="/action_page.php">
+    <EditForm Model="ship" class="form-horizontal" OnValidSubmit="Add">
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Takip No</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Kargo takip no" name="cargono">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Sipariş</label>
-            <div class="col-sm-10">
-                <select class="form-select">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
+                <input type="text" class="form-control" placeholder="Kargo takip no" @bind-value="ship.TrackingNumber" name="cargono">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Çıkış Adresi</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" name="sender">
+                <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" @bind-value="ship.Sender" name="sender">
             </div>
         </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="email">Çıkış Adresi</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" @bind-value="ship.OrderItems" name="sender">
+                </div>
+            </div>
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Varış Adresi</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="Varış adresi gir" name="map">
+                <input type="text" class="form-control" id="email" placeholder="Varış adresi gir" @bind-value="ship.Recipient" name="map">
             </div>
         </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="date">Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="email" placeholder="Enter email" @bind-value="ship.ShippingDate" name="email">
+                </div>
+            </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" for="email">Email:</label>
+            <label class="control-label col-sm-2" for="email">Varış zamanı:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="email" placeholder="Enter email" name="email">
+                <input type="date" class="form-control" id="email" placeholder="Enter email" @bind-value="ship.ArrivalDate" name="email">
+            </div>
+        </div>
+         <div class="form-group">
+            <label class="control-label col-sm-2" for="email">Yük:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="email" placeholder="Enter email" @bind-value="ship.Weight" name="email">
             </div>
         </div>
         <br />
@@ -48,9 +74,15 @@
                 <button type="submit" class="btn btn-success">Submit</button>
             </div>
         </div>
-    </form>
+            @if (!ship.IsNew)
+            {
+                <button type="button" class="btn btn-danger float-start" @onclick="DeleteProduct">
+                    Delete Product
+                </button>
+            }
+   </EditForm>
 </div>
-
+}
 
 @code {
     [Parameter]
@@ -61,18 +93,11 @@
     string btnText = "";
     string msg = "Loading..";
 
-    protected override async Task OnInitializedAsync()
-    {
-        await ShipmentService.GetAdminShip();
-    }
-
-
     protected override async Task OnParametersSetAsync()
     {
         if (Id == 0)
         {
             ship = new Shipment { IsNew = true };
-            btnText = "CreateProduct";
         }
         else
         {
@@ -90,24 +115,47 @@
     }
 
 
-    async void AddOrUpdateProduct()
+
+    async void Add()
     {
         if (ship.IsNew)
         {
-            var result = await ShipmentService.CreateShipment(ship);
-            NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
+            await ShipmentService.CreateShipment(ship);
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Mesajınızı aldık",
+                    Text = "Görüşleriniz bizim için önemli",
+                    Icon = SweetAlertIcon.Success
+                });
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            NavigationManager.NavigateTo("/admin/kargo-takip-yonetimi");
         }
         else
         {
-            ship.IsNew = false;
-            ship = await ShipmentService.UpdateShip(ship);
-            NavigationManager.NavigateTo($"admin/shipments/{ship.Id}", true);
+            await ShipmentService.UpdateShip(ship);
+            var result = await swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "Güncelleme işlemi tamamlanıyor",
+                    Text = "Değişikliklerden emin misiniz?",
+                    Icon = SweetAlertIcon.Info
+                }
+            );
+            var confirm = !string.IsNullOrEmpty(result.Value);
+            NavigationManager.NavigateTo($"admin/kargo-takip-yonetimi", true);
         }
     }
 
+
+    private async Task CancelEditing()
+    {
+        ship = new Shipment();
+        await ShipmentService.GetAdminShip();
+    }
+
+
     async void DeleteProduct()
     {
-        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{product.Title}' adlı ürünü silmek istediğinize emin misiniz?");
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{ship.Id}' adlı ürünü silmek istediğinize emin misiniz?");
         if (confirmed)
         {
             await ShipmentService.DeleteShip(ship);

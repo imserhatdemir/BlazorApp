@@ -11,8 +11,7 @@ namespace BlazorApp.Shared
     {
         public int Id { get; set; }
         public string TrackingNumber { get; set; } = string.Empty;
-        public Order? Order { get; set; }
-        public int OrderId { get; set; }
+        public string OrderItems { get; set; } = string.Empty;
         public string Sender { get; set; } = string.Empty;
         public string Recipient { get; set; } = string.Empty;
         [Column(TypeName = "decimal(10,2)")]

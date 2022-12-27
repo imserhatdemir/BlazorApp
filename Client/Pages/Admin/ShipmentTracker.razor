@@ -1,6 +1,7 @@
 ﻿@page "/admin/kargo-takip-yonetimi"
 @inject IShipmentService ShipmentService
 @inject NavigationManager NavigationManager
+@implements IDisposable
 @attribute [Authorize(Roles = "Admin")]
 
 
@@ -8,7 +9,7 @@
 
 <section class="mt-4">
         <div align="center">
-        <button class="btn btn-primary float-end" @onclick="CreateShip">
+        <button class="btn btn-primary" @onclick="CreateShip">
             <i class="oi oi-plus"></i>Add a new ship
         </button>
 <table class="table table-striped w-auto">
@@ -24,15 +25,18 @@
         </tr>
     </thead>
     <tbody>
+        @foreach(var item in ShipmentService.Shipments)
+        {
         <tr class="table-info">
-            <th scope="row">1</th>
-            <td>Kate</td>
-            <td>Moss</td>
-            <td>USA</td>
-            <td>New York City</td>
-            <td>Web Designer</td>
-                    <td><a href="/admin/shipmens/1" class="btn btn-success">Güncelle</a></td>
+            <th scope="row">@item.Id</th>
+            <td>@item.TrackingNumber</td>
+            <td>@item.Sender</td>
+            <td>@item.Recipient</td>
+            <td>@item.ShippingDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.ArrivalDate.ToString("dd/MM/yyyy")</td>
+                        <td><a href="/admin/shipments/@item.Id" class="btn btn-success">Güncelle</a></td>
         </tr>
+        }
     </tbody>
 
 
@@ -41,9 +45,16 @@
 </section>
 @code {
 
-    void EditShip(int id)
+    protected override async Task OnInitializedAsync()
     {
-        NavigationManager.NavigateTo($"admin/shipments/{id}");
+        await ShipmentService.GetAdminShip();
+        ShipmentService.OnChanged += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        ShipmentService.OnChanged -= StateHasChanged;
     }
 
     void CreateShip()

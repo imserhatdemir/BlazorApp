@@ -9,7 +9,7 @@
         Task GetAdminShip();
         Task GetShipAsync();
         Task<Shipment> CreateShipment(Shipment ship);
-        Task<Shipment> UpdateShip(Shipment ship);
+        Task UpdateShip(Shipment ship);
         Task DeleteShip(Shipment shipId);
     }
 }

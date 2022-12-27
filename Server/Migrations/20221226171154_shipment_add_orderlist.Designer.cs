@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221226171154_shipment_add_orderlist")]
+    partial class shipment_add_orderlist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,6 +564,9 @@ namespace BlazorApp.Server.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("ShipmentId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -569,6 +574,8 @@ namespace BlazorApp.Server.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ShipmentId");
 
                     b.ToTable("Orders");
                 });
@@ -1074,10 +1081,6 @@ namespace BlazorApp.Server.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("OrderItems")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Recipient")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1188,6 +1191,13 @@ namespace BlazorApp.Server.Migrations
                         .HasForeignKey("ProductID");
                 });
 
+            modelBuilder.Entity("BlazorApp.Shared.Order", b =>
+                {
+                    b.HasOne("BlazorApp.Shared.Shipment", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ShipmentId");
+                });
+
             modelBuilder.Entity("BlazorApp.Shared.OrderItem", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Order", "Order")
@@ -1255,6 +1265,11 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Variants");
+                });
+
+            modelBuilder.Entity("BlazorApp.Shared.Shipment", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.User", b =>
