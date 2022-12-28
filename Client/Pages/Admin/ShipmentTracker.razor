@@ -35,6 +35,9 @@
             <td>@item.ShippingDate.ToString("dd/MM/yyyy")</td>
             <td>@item.ArrivalDate.ToString("dd/MM/yyyy")</td>
                         <td><a href="/admin/shipments/@item.Id" class="btn btn-success">Güncelle</a></td>
+                        <button type="button" class="btn btn-danger float-start" @onclick="()=>DeleteShip(item.Id)">
+                            Delete Product
+                        </button>
         </tr>
         }
     </tbody>
@@ -61,5 +64,19 @@
     {
         NavigationManager.NavigateTo("/admin/shipments");
     }
+    //async Task DeleteProduct(int id)
+    //{
+    //    bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{ship.Id}' adlı ürünü silmek istediğinize emin misiniz?");
+    //    if (confirmed)
+    //    {
+    //        await ShipmentService.DeleteShip(id);
+    //        NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
+    //    }
 
+    //}
+
+    private async Task DeleteShip(int id)
+    {
+        await ShipmentService.DeleteShip(id);
+    }
 }

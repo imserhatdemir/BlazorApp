@@ -7,6 +7,14 @@
 @inject SweetAlertService swal
 @attribute [Authorize(Roles = "Admin")]
 
+
+
+
+
+<section class="mt-4">
+        <div class="custom-c-wrapper d-flex flex-column">
+        <div class="container">
+            <h2>Horizontal form</h2>
 @if(loading)
 {
     <span>@msg</span>
@@ -23,8 +31,7 @@ else
     }
 
 
-<div class="container">
-    <h2>Horizontal form</h2>
+
     <EditForm Model="ship" class="form-horizontal" OnValidSubmit="Add">
         <div class="form-group">
             <label class="control-label col-sm-2" for="email">Takip No</label>
@@ -71,18 +78,18 @@ else
         <br />
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success">Submit</button>
+                <button type="submit" class="btn btn-success">@btnText</button>
             </div>
         </div>
-            @if (!ship.IsNew)
-            {
-                <button type="button" class="btn btn-danger float-start" @onclick="DeleteProduct">
-                    Delete Product
-                </button>
-            }
+              
+                    <br />
+          
    </EditForm>
-</div>
+
 }
+        </div>
+</div>
+</section>
 
 @code {
     [Parameter]
@@ -98,6 +105,7 @@ else
         if (Id == 0)
         {
             ship = new Shipment { IsNew = true };
+            btnText = "Ekle";
         }
         else
         {
@@ -109,11 +117,10 @@ else
             }
             ship = dbProduct;
             ship.Editing = true;
-            btnText = "UpdateProduct";
+            btnText = "Güncelle";
         }
         loading = false;
     }
-
 
 
     async void Add()
@@ -123,8 +130,8 @@ else
             await ShipmentService.CreateShipment(ship);
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
-                    Title = "Mesajınızı aldık",
-                    Text = "Görüşleriniz bizim için önemli",
+                    Title = "Kargo Oluşturuldu",
+                    Text = "Kargo sisteme girildi",
                     Icon = SweetAlertIcon.Success
                 });
             var confirm = !string.IsNullOrEmpty(result.Value);
@@ -132,16 +139,16 @@ else
         }
         else
         {
-            await ShipmentService.UpdateShip(ship);
+            ship.IsNew = false;
+            ship = await ShipmentService.UpdateShip(ship);
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
-                    Title = "Güncelleme işlemi tamamlanıyor",
-                    Text = "Değişikliklerden emin misiniz?",
-                    Icon = SweetAlertIcon.Info
-                }
-            );
+                    Title = "Güncelleme işlemi tamam",
+                    Text = "Güncellemeler işlendi",
+                    Icon = SweetAlertIcon.Success
+                });
             var confirm = !string.IsNullOrEmpty(result.Value);
-            NavigationManager.NavigateTo($"admin/kargo-takip-yonetimi", true);
+            NavigationManager.NavigateTo($"admin/kargo-takip-yonetimi");
         }
     }
 
@@ -153,15 +160,9 @@ else
     }
 
 
-    async void DeleteProduct()
-    {
-        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{ship.Id}' adlı ürünü silmek istediğinize emin misiniz?");
-        if (confirmed)
-        {
-            await ShipmentService.DeleteShip(ship);
-            NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
-        }
 
-    }
+
+
+
 
 }

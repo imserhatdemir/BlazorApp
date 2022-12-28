@@ -24,17 +24,32 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<Shipment>>> GetShipment()
+        public async Task<ActionResult<ServiceResponse<Shipment>>> GetAdminShipment()
         {
             var result = await _shipmentService.GetAdminShipment();
             return Ok(result);
         }
 
 
-        [HttpPut("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Shipment>>>> UpdateShipment(Shipment ship)
+        [HttpPut, Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Shipment>>> UpdateShipment(Shipment ship)
         {
             var result = await _shipmentService.UpdateShipment(ship);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<Shipment>>> GetShipment(int id)
+        {
+            var result = await _shipmentService.GetShipment(id);
+            return Ok(result);
+        }
+
+
+        [HttpDelete]
+        public async Task<ActionResult<ServiceResponse<List<Shipment>>>> DeleteShip(int id)
+        {
+            var result = await _shipmentService.DeleteShip(id);
             return Ok(result);
         }
 

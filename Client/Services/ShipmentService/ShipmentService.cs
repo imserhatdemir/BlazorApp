@@ -1,6 +1,7 @@
 ﻿using BlazorApp.Client.Pages;
 using BlazorApp.Client.Pages.Admin;
 using BlazorApp.Shared;
+using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 
 namespace BlazorApp.Client.Services.ShipmentService
@@ -8,11 +9,14 @@ namespace BlazorApp.Client.Services.ShipmentService
     public class ShipmentService : IShipmentService
     {
         private readonly HttpClient _http;
+        private readonly NavigationManager _navigationManager;
 
-        public ShipmentService(HttpClient http)
+        public ShipmentService(HttpClient http, NavigationManager navigationManager)
         {
             _http = http;
+            _navigationManager = navigationManager;
         }
+
         public List<BlazorApp.Shared.Shipment> Shipments { get; set; } = new List<BlazorApp.Shared.Shipment>();
         public string Message { get; set; } = "loading..";
 
@@ -25,9 +29,13 @@ namespace BlazorApp.Client.Services.ShipmentService
                 .ReadFromJsonAsync<ServiceResponse<BlazorApp.Shared.Shipment>>()).Data;
         }
 
-        public Task DeleteShip(BlazorApp.Shared.Shipment shipId)
+        public async Task DeleteShip(int id)
         {
-            throw new NotImplementedException();
+            var response = await _http.DeleteAsync($"api/Shipment/{id}");
+            Shipments = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<BlazorApp.Shared.Shipment>>>()).Data;
+            await GetAdminShip();
+            OnChanged.Invoke();
+
         }
 
         public async Task GetAdminShip()
@@ -42,17 +50,16 @@ namespace BlazorApp.Client.Services.ShipmentService
             throw new NotImplementedException();
         }
 
-        public Task<ServiceResponse<BlazorApp.Shared.Shipment>> GetShipment(int shipId)
+        public async Task<ServiceResponse<BlazorApp.Shared.Shipment>> GetShipment(int id)
         {
-            throw new NotImplementedException();
+            var result = await _http.GetFromJsonAsync<ServiceResponse<BlazorApp.Shared.Shipment>>($"api/Shipment/{id}/");
+            return result;
         }
 
-        public async Task UpdateShip(BlazorApp.Shared.Shipment ship)
+        public async Task<BlazorApp.Shared.Shipment> UpdateShip(BlazorApp.Shared.Shipment ship)
         {
-            var response = await _http.PutAsJsonAsync("api/shipment/admin", ship);
-            Shipments = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<BlazorApp.Shared.Shipment>>>()).Data;
-            await GetAdminShip();
-            OnChanged.Invoke();
+            var result = await _http.PutAsJsonAsync("api/shipment", ship);
+            return (await result.Content.ReadFromJsonAsync<ServiceResponse<BlazorApp.Shared.Shipment>>()).Data;
         }
     }
 }

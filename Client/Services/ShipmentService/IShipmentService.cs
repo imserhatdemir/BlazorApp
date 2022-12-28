@@ -5,11 +5,11 @@
         event Action OnChanged;
         List<Shipment> Shipments { get; set; }
         string Message { get; set; }
-        Task<ServiceResponse<Shipment>> GetShipment(int shipId);
+        Task<ServiceResponse<Shipment>> GetShipment(int id);
         Task GetAdminShip();
         Task GetShipAsync();
         Task<Shipment> CreateShipment(Shipment ship);
-        Task UpdateShip(Shipment ship);
-        Task DeleteShip(Shipment shipId);
+        Task<Shipment> UpdateShip(Shipment ship);
+        Task DeleteShip(int id);
     }
 }
