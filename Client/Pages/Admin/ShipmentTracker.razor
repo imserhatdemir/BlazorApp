@@ -35,9 +35,7 @@
             <td>@item.ShippingDate.ToString("dd/MM/yyyy")</td>
             <td>@item.ArrivalDate.ToString("dd/MM/yyyy")</td>
                         <td><a href="/admin/shipments/@item.Id" class="btn btn-success">Güncelle</a></td>
-                        <button type="button" class="btn btn-danger float-start" @onclick="()=>DeleteShip(item.Id)">
-                            Delete Product
-                        </button>
+
         </tr>
         }
     </tbody>
@@ -75,8 +73,4 @@
 
     //}
 
-    private async Task DeleteShip(int id)
-    {
-        await ShipmentService.DeleteShip(id);
-    }
 }

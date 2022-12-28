@@ -81,11 +81,15 @@ else
                 <button type="submit" class="btn btn-success">@btnText</button>
             </div>
         </div>
-              
-                    <br />
+                 
           
    </EditForm>
-
+                @if (!ship.IsNew)
+                {
+                    <button type="button" class="btn btn-danger float-start" @onclick="DeleteShip">
+                        Delete
+                    </button>
+                }
 }
         </div>
 </div>
@@ -159,6 +163,17 @@ else
         await ShipmentService.GetAdminShip();
     }
 
+
+    async void DeleteShip()
+    {
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{ship.Id}' adlı ürünü silmek istediğinize emin misiniz?");
+        if (confirmed)
+        {
+            await ShipmentService.DeleteShip(ship);
+            NavigationManager.NavigateTo("admin/kargo-takip-yonetimi");
+        }
+
+    }
 
 
 

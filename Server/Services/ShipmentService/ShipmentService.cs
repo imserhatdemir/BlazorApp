@@ -18,20 +18,22 @@
             return new ServiceResponse<Shipment> { Data = ship };
         }
 
-        public async Task<ServiceResponse<List<Shipment>>> DeleteShip(int id)
+ 
+
+        public async Task<ServiceResponse<bool>> DeleteShipment(int Id)
         {
-            Shipment category = await GetShipById(id);
-            if (category == null)
+            var dbProduct = await GetShipById(Id);
+            if (dbProduct == null)
             {
-                return new ServiceResponse<List<Shipment>>
+                return new ServiceResponse<bool>
                 {
                     Success = false,
-                    Message = "Category not found"
+                    Message = "Product not found"
                 };
             }
-            category.Deleted = true;
+            _context.Shipments.Remove(dbProduct);
             await _context.SaveChangesAsync();
-            return await GetAdminShipment();
+            return new ServiceResponse<bool> { Data = true };
         }
 
         public async Task<ServiceResponse<List<Shipment>>> GetAdminShipment()

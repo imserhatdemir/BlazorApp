@@ -10,6 +10,6 @@
         Task GetShipAsync();
         Task<Shipment> CreateShipment(Shipment ship);
         Task<Shipment> UpdateShip(Shipment ship);
-        Task DeleteShip(int id);
+        Task DeleteShip(Shipment id);
     }
 }

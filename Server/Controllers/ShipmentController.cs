@@ -46,10 +46,10 @@ namespace BlazorApp.Server.Controllers
         }
 
 
-        [HttpDelete]
-        public async Task<ActionResult<ServiceResponse<List<Shipment>>>> DeleteShip(int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteShipment(int id)
         {
-            var result = await _shipmentService.DeleteShip(id);
+            var result = await _shipmentService.DeleteShipment(id);
             return Ok(result);
         }
 
