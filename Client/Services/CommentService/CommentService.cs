@@ -17,7 +17,7 @@ namespace BlazorApp.Client.Services.CommentService
 
         public async Task<ServiceResponse<Comment>> GetComment(int id)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Comment>>($"api/Comment/product/{id}");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Comment>>($"api/Comment/{id}");
             return result;
         }
 

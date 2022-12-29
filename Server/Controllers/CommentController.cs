@@ -14,11 +14,13 @@ namespace BlazorApp.Server.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet("product/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<Comment>>> GetCommentByProduct(int id)
         {
             var result = await _commentService.GetCommentByProduct(id);
             return Ok(result);
         }
+
+      
     }
 }

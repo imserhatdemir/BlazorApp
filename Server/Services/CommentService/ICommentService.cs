@@ -3,5 +3,6 @@
     public interface ICommentService
     {
         Task<ServiceResponse<List<Comment>>> GetCommentByProduct(int id);
+
     }
 }

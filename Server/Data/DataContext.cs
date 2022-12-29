@@ -302,6 +302,7 @@
         public DbSet<Image> Images { get; set; }
         public DbSet<HumanResources> Humans { get; set; }
         public DbSet<SendMail> Sends { get; set; }
+        public DbSet<Slider> Sliders { get; set; }
 
     }
 }

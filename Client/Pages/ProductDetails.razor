@@ -144,6 +144,10 @@ else
         </div>
     </section>
     <br />
+
+ 
+   
+
     <CommentForm/>
 
 
@@ -152,6 +156,7 @@ else
 
 @code {
     private Product? product = null;
+    private Comment? comment = new Comment();
     private string message = string.Empty;
     private int currentTypeId = 1;
 
@@ -161,10 +166,11 @@ else
     protected override async Task OnParametersSetAsync()
     {
         message = "loading product....";
-        var result =await ProductService.GetProduct(Id);
+        var result = await ProductService.GetProduct(Id);
+
         if(result.Success)
         {
-            
+
             message = result.Message;
         }
         else
@@ -174,8 +180,8 @@ else
             {
                 currentTypeId = product.Variants[0].ProductTypeId;
             }
-        }
 
+        }
 
     }
     private ProductVariant GetSelectedVariant()

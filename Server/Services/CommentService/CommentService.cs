@@ -8,13 +8,16 @@
         {
             _context = context;
         }
+
+        
+
         public async Task<ServiceResponse<List<Comment>>> GetCommentByProduct(int id)
         {
             var response = new ServiceResponse<List<Comment>>
             {
-                Data = await _context.Comments.Where(p => p.Product.ID == id &&
+                Data = await _context.Comments.Where(p => p.ProductId == id &&
                 p.Visible && !p.Deleted).ToListAsync()
-            };
+            }; 
             return response;
         }
     }

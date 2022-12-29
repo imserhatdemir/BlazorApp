@@ -1,0 +1,53 @@
+﻿@page "/admin/slider-alani"
+@inject ISliderService SliderService
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Admin")]
+<section class="mt-4">
+        <div align="center">
+        <button class="btn btn-primary" @onclick="CreateSlider">
+            <i class="oi oi-plus"></i>Add a new ship
+        </button>
+<h3>SlideList</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (SliderService.Sliders == null)
+        {
+            <tr>
+                <a class="btn btn-danger">Slider Bulunamamaktadır</a>
+            </tr>
+        }
+        else
+        {
+        @foreach(var item in SliderService.Sliders)
+            {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Title</td>
+                            <td><img src="@item.Image" width="100px" height="100px" /></td>
+                <td><a href="/admin/slider-settings/@item.Id" class="btn btn-success">Güncelle</a></td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+</div>
+</section>
+
+
+@code {
+
+    protected override async Task OnInitializedAsync() => await SliderService.GetSlider();
+
+    void CreateSlider()
+    {
+        NavigationManager.NavigateTo("/admin/slider-settings");
+    }
+}
