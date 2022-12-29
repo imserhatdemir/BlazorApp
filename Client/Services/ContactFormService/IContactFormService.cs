@@ -7,6 +7,8 @@
         string Message { get; set; }
         Task GetContactAsync();
         Task<ContactForm> CreateContact(ContactForm contact);
-        Task DeleteContact(int contactId);
+        Task DeleteContact(ContactForm contactId);
+        Task<ServiceResponse<ContactForm>> GetContacts(int id);
+
     }
 }

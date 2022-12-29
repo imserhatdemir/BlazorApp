@@ -28,10 +28,8 @@
                 <td>@item.Title</td>
                 <td>@item.Message</td>
                 <td>@item.ContactDate</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="(()=>DeleteContact(item.Id))">
-                    <i class="oi oi-trash"></i>
-                </button></td>
+
+                <td><a href="/admin/iletisime-gecenler/@item.Id" class="btn btn-success">Güncelle</a></td>
             </tr>
 }
            
@@ -41,11 +39,14 @@
 
 
 @code {
+
+    ContactForm contact = new ContactForm();
+
     protected override async Task OnInitializedAsync()
     {
         await ContactService.GetContactAsync();
     }
-    private async Task DeleteContact(int id)
+    private async Task DeleteContact(ContactForm id)
     {
         await ContactService.DeleteContact(id);
     }

@@ -31,10 +31,18 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<bool>>> DeleteContact(int id)
         {
             var result = await _contactFormService.DeleteContact(id);
+            return Ok(result);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<ContactForm>>> GetContactasync(int id)
+        {
+            var result = await _contactFormService.GetContactasync(id);
             return Ok(result);
         }
 

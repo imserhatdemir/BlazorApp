@@ -75,9 +75,22 @@
             return response;
         }
 
-        public Task<ServiceResponse<ShipmentSearch>> SearchShipment(string searchText, int page)
+        public async Task<ServiceResponse<ShipmentSearch>> SearchShipment(string searchText)
         {
-            throw new NotImplementedException();
+            var products = await _context.Shipments
+                                .Where(p => p.TrackingNumber.ToLower().Contains(searchText.ToLower()) 
+                                   && !p.Deleted)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ShipmentSearch>
+            {
+                Data = new ShipmentSearch
+                {
+                    Shipments = products
+                }
+            };
+
+            return response;
         }
 
         public async Task<ServiceResponse<Shipment>> UpdateShipment(Shipment ship)
@@ -106,6 +119,12 @@
         private async Task<Shipment> GetShipById(int id)
         {
             return await _context.Shipments.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+
+        private async Task<List<Shipment>> FindShipByText(string searchText)
+        {
+            return await _context.Shipments.Where(p => p.TrackingNumber.ToLower().Contains(searchText.ToLower()) && !p.Deleted).ToListAsync();
         }
     }
 }

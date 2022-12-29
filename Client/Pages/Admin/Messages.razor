@@ -1,0 +1,67 @@
+﻿@page "/admin/iletisime-gecenler/{id:int}"
+@inject IContactFormService ContactForm
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSruntime
+@inject SweetAlertService swal
+@attribute [Authorize(Roles = "Admin")]
+
+@if (product == null)
+{
+        <span>Mesaj bulunamadı</span>
+}
+else
+{
+
+     <p>@product.ContactDate.ToString("dd-mm-yyyy")</p>
+     <p>@product.Name</p>
+     <p>@product.Mail</p>
+     <p>@product.Phone</p>
+     <p>@product.Title</p>
+     <p>@product.Message</p>
+    <button type="button" class="btn btn-danger float-start" @onclick="Delete">
+        Delete
+    </button>
+
+
+}
+
+
+@code {
+    private ContactForm? product = null;
+    ContactForm contact = new ContactForm();
+    private string message = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        message = "loading product....";
+        var result = await ContactForm.GetContacts(Id);
+        if (result.Success)
+        {
+
+            message = result.Message;
+        }
+        else
+        {
+            product = result.Data;
+           
+        }
+
+
+    }
+
+
+    async void Delete()
+    {
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{contact.Title}' adlı mesajı silmek istediğinize emin misiniz?");
+        if (confirmed)
+        {
+            await ContactForm.DeleteContact(contact);
+            NavigationManager.NavigateTo("admin/iletisime-gecenler");
+        }
+
+    }
+
+}

@@ -53,5 +53,12 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{searchText}")]
+        public async Task<ActionResult<ServiceResponse<ShipmentSearch>>> SearchShip(string searchText)
+        {
+            var result = await _shipmentService.SearchShipment(searchText);
+            return Ok(result);
+        }
+
     }
 }

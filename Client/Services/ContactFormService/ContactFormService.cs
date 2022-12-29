@@ -35,10 +35,15 @@ namespace BlazorApp.Client.Services.ContactFormService
             return newProduct;
         }
 
-        public async Task DeleteContact(int productId)
+        public async Task DeleteContact(ContactForm productId)
         {
-            var result = await _http.DeleteAsync($"api/contact/{productId}");
-            await GetContactAsync();
+            var result = await _http.DeleteAsync($"api/contact/{productId.Id}");
+        }
+
+        public async Task<ServiceResponse<ContactForm>> GetContacts(int id)
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<ContactForm>>($"api/Contact/{id}/");
+            return result;
         }
     }
 }

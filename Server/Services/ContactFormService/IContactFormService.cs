@@ -3,7 +3,8 @@
     public interface IContactFormService
     {
         Task<ServiceResponse<List<ContactForm>>> GetContacts();
+        Task<ServiceResponse<ContactForm>> GetContactasync(int id);
         Task<ServiceResponse<ContactForm>> CreateContact(ContactForm contact);
-        Task<ServiceResponse<ContactForm>> DeleteContact(int Id);
+        Task<ServiceResponse<bool>> DeleteContact(int Id);
     }
 }
