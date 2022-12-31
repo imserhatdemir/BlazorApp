@@ -198,13 +198,13 @@ else
         if(product.IsNew)
         {
             var result = await ProductService.CreateProduct(product);
-            NavigationManager.NavigateTo("admin/product");
+            NavigationManager.NavigateTo("admin/ana-sayfa-reklamlari");
         }
         else
         {
             product.IsNew=false;
             product = await ProductService.UpdateProduct(product);
-            NavigationManager.NavigateTo($"admin/product/{product.ID}", true);
+            NavigationManager.NavigateTo($"admin/ana-sayfa-reklamlari/{product.ID}", true);
         }
     }
 
@@ -214,7 +214,7 @@ else
         if(confirmed)
         {
             await ProductService.DeleteProduct(product);
-            NavigationManager.NavigateTo("admin/product");
+            NavigationManager.NavigateTo("admin/ana-sayfa-reklamlari");
         }
 
     }

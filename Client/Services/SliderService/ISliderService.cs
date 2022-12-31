@@ -8,8 +8,11 @@
         Task GetSlider();
         Task GetAdminSlider();
         Task DeleteSlider(int id);
-        Task UpdateSlider(Slider slider);
+        Task<Slider> UpdateSlider(Slider slider);
         Task AddSlider(Slider slider);
         Slider CreateNewSlider();
+        Task<ServiceResponse<Slider>> GetSliders(int id);
+        Task<Slider> AddNewSlider(Slider slide);
+
     }
 }

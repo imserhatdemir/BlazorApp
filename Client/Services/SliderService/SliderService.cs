@@ -15,6 +15,13 @@ namespace BlazorApp.Client.Services.SliderService
 
         public event Action OnChange;
 
+        public async Task<Slider> AddNewSlider(Slider slide)
+        {
+            var result = await _http.PostAsJsonAsync("api/slider", slide);
+            return (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Slider>>()).Data;
+        }
+
         public async Task AddSlider(Slider slider)
         {
             var response = await _http.PostAsJsonAsync("api/Slider/admin", slider);
@@ -53,12 +60,17 @@ namespace BlazorApp.Client.Services.SliderService
                 Sliders = response.Data;
         }
 
-        public async Task UpdateSlider(Slider slider)
+        public async Task<ServiceResponse<Slider>> GetSliders(int id)
         {
-            var response = await _http.PutAsJsonAsync("api/Slider/admin", slider);
-            AdminSliders = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Slider>>>()).Data;
-            await GetSlider();
-            OnChange.Invoke();
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Slider>>($"api/Slider/{id}/");
+            return result; 
+        }
+
+        public async Task<Slider> UpdateSlider(Slider slider)
+        {
+
+            var result = await _http.PutAsJsonAsync("api/slider", slider);
+            return (await result.Content.ReadFromJsonAsync<ServiceResponse<Slider>>()).Data;
         }
     }
 }

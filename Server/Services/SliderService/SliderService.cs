@@ -5,10 +5,12 @@ namespace BlazorApp.Server.Services.SliderService
     public class SliderService : ISliderService
     {
         private readonly DataContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SliderService(DataContext context)
+        public SliderService(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -84,6 +86,41 @@ namespace BlazorApp.Server.Services.SliderService
 
             await _context.SaveChangesAsync();
             return await GetAdminSlide();
+        }
+
+        public async Task<ServiceResponse<Slider>> GetSlider(int id)
+        {
+            var response = new ServiceResponse<Slider>();
+            Slider product = null;
+            if (_httpContextAccessor.HttpContext.User.IsInRole("Admin"))
+            {
+                product = await _context.Sliders
+                    .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
+
+            }
+            else
+            {
+                product = await _context.Sliders
+                     .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
+
+            }
+            if (product == null)
+            {
+                response.Success = false;
+                response.Message = "Sorry, but this product does not exist.";
+            }
+            else
+            {
+                response.Data = product;
+            }
+            return response;
+        }
+
+        public async Task<ServiceResponse<Slider>> AddSliderNew(Slider slider)
+        {
+            _context.Sliders.Add(slider);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<Slider> { Data = slider };
         }
     }
 }

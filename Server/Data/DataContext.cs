@@ -303,6 +303,7 @@
         public DbSet<HumanResources> Humans { get; set; }
         public DbSet<SendMail> Sends { get; set; }
         public DbSet<Slider> Sliders { get; set; }
+        public DbSet<Advert> Adverts { get; set; }
 
     }
 }

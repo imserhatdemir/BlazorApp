@@ -23,6 +23,22 @@ namespace BlazorApp.Server.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<Slider>>> CreateShipment(Slider ship)
+        {
+            var result = await _sliderService.AddSliderNew(ship);
+            return Ok(result);
+        }
+
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<Slider>>> GetSlider(int id)
+        {
+            var result = await _sliderService.GetSlider(id);
+            return Ok(result);
+        }
+
 
         [HttpGet("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Slider>>>> GetAdminSlide()
