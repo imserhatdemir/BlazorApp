@@ -14,6 +14,8 @@ namespace BlazorApp.Shared
         public string Description { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
+        public string DataSlide { get; set; } = string.Empty;
+        public bool Active { get; set; } = true;
         public bool Visible { get; set; } = true;
         public bool Deleted { get; set; } = false;
         [NotMapped]

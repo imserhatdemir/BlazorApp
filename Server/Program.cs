@@ -23,7 +23,6 @@ global using BlazorApp.Server.Services.CommentService;
 global using BlazorApp.Server.Services.HumanService;
 global using BlazorApp.Server.Services.SendMailService;
 global using BlazorApp.Server.Services.SliderService;
-global using BlazorApp.Server.Services.AdvertService;
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -68,7 +67,6 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IHumanService, HumanService>();
 builder.Services.AddScoped<ISendMailService, SendMailService>();
 builder.Services.AddScoped<ISliderService, SliderService>();
-builder.Services.AddScoped<IAdvertService, AdvertService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters

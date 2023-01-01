@@ -1,40 +1,47 @@
-﻿<section>
+﻿@inject ISliderService SliderService
+@implements IDisposable
+
+<section>
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
         <div class="carousel-indicators custom-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-            <span class="sl-line"></span>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-            <span class="sl-line"></span>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
+            @if (SliderService.Sliders == null)
+            {
+                
+            }
+            else
+            {
+                @foreach (var item in SliderService.Sliders)
+                {
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@item.DataSlide" class="@(item.Active ? "active" : "#")"
+                    aria-label="Slide @item.Id"></button>
+                    <span class="sl-line"></span>
+                }
+            }
+           
         </div>
         <div class="carousel-inner header-slider">
-            <div class="carousel-item active">
-                <img src="assets/images/motherboard-circuit-technology-remixed-media.png" class="d-block w-100"
+            @if (SliderService.Sliders == null)
+            {
+                
+            }
+            else
+            {
+                @foreach (var item in SliderService.Sliders)
+                {
+                    <div class="carousel-item @(item.Active ? "active" : "")">
+                        <img src="@item.Image" class="d-block w-100"
                      alt="">
-                <div class="carousel-caption custom-caption">
-                    <span>Açılışa Özel <i><b>İndirim</b></i><br>Fırsatlarımızı Kaçırma</span>
-                </div>
-                <a href="#!" class="carousel-caption custom-caption-2 text-decoration-none">
-                    <span class="d-flex align-items-center">Keşfet <i class="ms-2 fa-solid fa-play pt-1"></i></span>
-                </a>
-            </div>
-            <div class="carousel-item">
-                <img src="assets/images/motherboard-circuit-technology-remixed-media.png" class="d-block w-100"
-                     alt="">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/images/motherboard-circuit-technology-remixed-media.png" class="d-block w-100"
-                     alt="">
-            </div>
-            <div class="carousel-item">
-                <img src="assets/images/motherboard-circuit-technology-remixed-media.png" class="d-block w-100"
-                     alt="">
-            </div>
+                        <div class="carousel-caption custom-caption">
+                            <span><i><b>@item.Title</b></i><br>@item.Description</span>
+                        </div>
+                        <a href="@item.Url" class="carousel-caption custom-caption-2 text-decoration-none">
+                            <span class="d-flex align-items-center">Keşfet <i class="ms-2 fa-solid fa-play pt-1"></i></span>
+                        </a>
+                    </div>
+                }
+            }
+          
+            
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">
@@ -49,5 +56,15 @@
     </div>
 </section>
 @code {
+    protected override async Task OnInitializedAsync()
+    {
+        await SliderService.GetSlider();
+        SliderService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        SliderService.OnChange -= StateHasChanged;
+    }
 
 }
