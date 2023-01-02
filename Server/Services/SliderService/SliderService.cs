@@ -1,4 +1,5 @@
-﻿using BlazorApp.Shared;
+﻿using BlazorApp.Client.Pages;
+using BlazorApp.Shared;
 
 namespace BlazorApp.Server.Services.SliderService
 {
@@ -74,15 +75,15 @@ namespace BlazorApp.Server.Services.SliderService
                 return new ServiceResponse<List<Slider>>
                 {
                     Success = false,
-                    Message = "Category not found"
+                    Message = "About not found"
                 };
             }
-
             dbCategory.Title = slider.Title;
-            dbCategory.Url = slider.Url;
-            dbCategory.Visible = slider.Visible;
-            dbCategory.Description = slider.Description;
             dbCategory.Image = slider.Image;
+            dbCategory.Description = slider.Description;
+            dbCategory.Visible = slider.Visible;
+            dbCategory.DataSlide = slider.DataSlide;
+            dbCategory.Active = slider.Active;
 
             await _context.SaveChangesAsync();
             return await GetAdminSlide();

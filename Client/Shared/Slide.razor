@@ -14,7 +14,15 @@
                 {
                     <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@item.DataSlide" class="@(item.Active ? "active" : "#")"
                     aria-label="Slide @item.Id"></button>
-                    <span class="sl-line"></span>
+                    if (SliderService.Sliders.IndexOf(item) == SliderService.Sliders.Count - 1)
+                    {
+                        
+                    }
+                    else
+                    {
+                        <span class="sl-line"></span>
+                    }
+                    
                 }
             }
            

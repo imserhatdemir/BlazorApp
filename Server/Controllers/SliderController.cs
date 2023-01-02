@@ -64,7 +64,7 @@ namespace BlazorApp.Server.Controllers
         }
 
         [HttpPut("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Slider>>>> UpdateCategory(Slider slider)
+        public async Task<ActionResult<ServiceResponse<List<Slider>>>> UpdateAbout(Slider slider)
         {
             var result = await _sliderService.UpdateSlide(slider);
             return Ok(result);

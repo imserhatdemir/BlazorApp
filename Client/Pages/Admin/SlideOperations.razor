@@ -28,27 +28,39 @@
 
                 <EditForm Model="ship" class="form-horizontal" OnValidSubmit="Add">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="email">Takip No</label>
+                        <label class="control-label col-sm-2" for="email">1. Yazı</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="Kargo takip no" @bind-value="ship.Title" name="cargono">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="email">Çıkış Adresi</label>
+                        <label class="control-label col-sm-2" for="email">2. Yazı</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" @bind-value="ship.Description" name="sender">
+                            <input type="text" class="form-control"  placeholder="Çıkış Adresi Gir" @bind-value="ship.Description" name="sender">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="email">Çıkış Adresi</label>
+                        <label class="control-label col-sm-2" for="email">Görsel</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" @bind-value="ship.Image" name="sender">
+                            <input type="text" class="form-control"  placeholder="Çıkış Adresi Gir" @bind-value="ship.Image" name="sender">
                         </div>
                     </div>
                      <div class="form-group">
-                        <label class="control-label col-sm-2" for="email">Çıkış Adresi</label>
+                        <label class="control-label col-sm-2" for="email">URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="email" placeholder="Çıkış Adresi Gir" @bind-value="ship.Url" name="sender">
+                            <input type="text" class="form-control"  placeholder="Çıkış Adresi Gir" @bind-value="ship.Url" name="sender">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="email">Veri Sırası</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Çıkış Adresi Gir" @bind-value="ship.DataSlide" name="sender">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="control-label col-sm-2" for="email">İlk sırada</label>
+                        <div class="col-sm-10">
+                            <InputCheckbox @bind-Value="ship.Active" style="transform:scale(1.5,1.5);"></InputCheckbox>
                         </div>
                     </div>
                     <div class="form-group">
@@ -57,12 +69,7 @@
                         </div>
                     </div>
                 </EditForm>
-                @if (!ship.IsNew)
-                {
-                    <button type="button" class="btn btn-danger float-start" @onclick="DeleteShip">
-                        Delete
-                    </button>
-                }
+               
             }
         </div>
     </div>
@@ -119,7 +126,7 @@
         else
         {
             ship.IsNew = false;
-            ship = await SlideService.UpdateSlider(ship);
+            await SlideService.UpdateSlider(ship);
             var result = await swal.FireAsync(new SweetAlertOptions
                 {
                     Title = "Güncelleme işlemi tamam",
@@ -139,16 +146,6 @@
     }
 
 
-    async void DeleteShip()
-    {
-        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{ship.Id}' adlı ürünü silmek istediğinize emin misiniz?");
-        if (confirmed)
-        {
-            await SlideService.DeleteSlider(ship.Id);
-            NavigationManager.NavigateTo("/admin/slider-alani");
-        }
-
-    }
 
 
 

@@ -42,8 +42,7 @@ namespace BlazorApp.Client.Services.BankAccountService
 
         public async Task GetAdminBankAccount()
         {
-            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<BankAccount>>>("api/BankAccount/admin");
-            if (response != null && response.Data != null)
+            var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<BankAccount>>>("api/BankAccount/admin/");
                 AdminBankAccounts = response.Data;
         }
 

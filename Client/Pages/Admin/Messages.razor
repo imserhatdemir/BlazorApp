@@ -52,7 +52,7 @@ else
 
     async void Delete()
     {
-        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{contact.Title}' adlı mesajı silmek istediğinize emin misiniz?");
+        bool confirmed = await JSruntime.InvokeAsync<bool>("confirm", $"'{contact.Id}' adlı mesajı silmek istediğinize emin misiniz?");
         if (confirmed)
         {
             await ContactForm.DeleteContact(contact);

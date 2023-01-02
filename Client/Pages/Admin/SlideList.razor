@@ -1,6 +1,7 @@
 ﻿@page "/admin/slider-alani"
 @inject ISliderService SliderService
 @inject NavigationManager NavigationManager
+@inject SweetAlertService swal
 @attribute [Authorize(Roles = "Admin")]
 <section class="mt-4">
         <div align="center">
@@ -32,7 +33,12 @@
                 <th scope="row">@item.Id</th>
                 <td>@item.Title</td>
                             <td><img src="@item.Image" width="100px" height="100px" /></td>
-                <td><a href="/admin/slider-settings/@item.Id" class="btn btn-success">Güncelle</a></td>
+                            <td>
+                                <a href="/admin/slider-settings/@item.Id" class="btn btn-success">Güncelle</a>
+                                <button class="btn btn-primary" @onclick="(()=>DeleteMail(item.Id))">
+                                    <i class="oi oi-trash"></i>
+                                </button>
+                            </td>
             </tr>
             }
         }
@@ -49,5 +55,17 @@
     void CreateSlider()
     {
         NavigationManager.NavigateTo("/admin/slider-settings");
+    }
+
+    private async Task DeleteMail(int id)
+    {
+        await SliderService.DeleteSlider(id);
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Silme işlemi tamamlandı",
+                Icon = SweetAlertIcon.Success
+            });
+        var confirm = !string.IsNullOrEmpty(result.Value);
+        NavigationManager.NavigateTo($"/admin/slider-alani");
     }
 }

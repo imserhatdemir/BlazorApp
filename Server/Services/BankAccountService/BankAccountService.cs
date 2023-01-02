@@ -44,13 +44,14 @@ namespace BlazorApp.Server.Services.BankAccountService
 
         public async Task<ServiceResponse<List<BankAccount>>> GetAdminBankAccount()
         {
-            var categories = await _context.BankAccounts
-               .Where(c => !c.Deleted)
-               .ToListAsync();
-            return new ServiceResponse<List<BankAccount>>
+            var response = new ServiceResponse<List<BankAccount>>
             {
-                Data = categories
+                Data = await _context.BankAccounts
+                  .Where(p => !p.Deleted)
+                  .ToListAsync()
             };
+
+            return response;
         }
 
         public async Task<ServiceResponse<List<BankAccount>>> GetBankAccount()

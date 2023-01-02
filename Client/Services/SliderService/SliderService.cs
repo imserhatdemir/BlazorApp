@@ -1,4 +1,6 @@
-﻿using BlazorApp.Shared;
+﻿using BlazorApp.Client.Pages;
+using BlazorApp.Shared;
+using System.Net.Http;
 
 namespace BlazorApp.Client.Services.SliderService
 {
@@ -40,10 +42,8 @@ namespace BlazorApp.Client.Services.SliderService
 
         public async Task DeleteSlider(int id)
         {
-            var response = await _http.DeleteAsync($"api/Slider/admin/{id}");
-            AdminSliders = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Slider>>>()).Data;
-            await GetSlider();
-            OnChange.Invoke();
+            var result = await _http.DeleteAsync($"api/slider/admin/{id}");
+            
         }
 
         public async Task GetAdminSlider()
@@ -66,11 +66,12 @@ namespace BlazorApp.Client.Services.SliderService
             return result; 
         }
 
-        public async Task<Slider> UpdateSlider(Slider slider)
+        public async Task UpdateSlider(Slider slider)
         {
 
-            var result = await _http.PutAsJsonAsync("api/slider", slider);
-            return (await result.Content.ReadFromJsonAsync<ServiceResponse<Slider>>()).Data;
+            var response = await _http.PutAsJsonAsync("api/Slider/admin/", slider);
+            AdminSliders = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Slider>>>()).Data;
+            await GetAdminSlider();
         }
     }
 }
