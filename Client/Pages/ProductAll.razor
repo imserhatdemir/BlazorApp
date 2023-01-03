@@ -2,6 +2,7 @@
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
 @inject ICartService CartService
+@inject IFavService FavService
 
 
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
@@ -75,7 +76,7 @@ else
                             }
 
                             <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt="" ></a>
-                            <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                                             <button class="fa-regular fa-star c-1 t-shadow-sm add-favorites" @onclick="AddToFav"></button>
                         </div>
                         <span class="product-name c-2">
                             @prod.Title
@@ -87,9 +88,6 @@ else
                                     <font class="c-1">Fiyat:</font> @GetPriceText(prod)
                                 </span>
                             }
-                            @*<a @onclick="AddToCart">
-                                <img height="40" src="assets/images/icons/cart-ico.png" alt="">
-                            </a>*@
                         </div>
                         
                            
@@ -158,4 +156,14 @@ else
 
         await CartService.AddToCart(cartItem);
     }
+    private async Task AddToFav()
+    {
+        var cartItem = new FavItem
+            {
+                ProductId = product.ID
+            };
+        await FavService.AddToFav(cartItem);
+    }
+
+
 }

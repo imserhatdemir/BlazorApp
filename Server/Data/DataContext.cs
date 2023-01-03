@@ -11,6 +11,8 @@
         {
             modelBuilder.Entity<CartItem>().HasKey(ci => new { ci.UserId,ci.ProductId, ci.ProductTypeId });
 
+            modelBuilder.Entity<FavItem>().HasKey(ci => new { ci.UserId,ci.ProductId});
+
             modelBuilder.Entity<ProductVariant>().HasKey(p => new { p.ProductId, p.ProductTypeId });
 
             modelBuilder.Entity<OrderItem>().HasKey(oi => new {oi.OrderId, oi.ProductId, oi.ProductTypeId });
@@ -304,6 +306,8 @@
         public DbSet<SendMail> Sends { get; set; }
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Advert> Adverts { get; set; }
+        public DbSet<FavItem> FavItems { get; set; }
+
 
     }
 }

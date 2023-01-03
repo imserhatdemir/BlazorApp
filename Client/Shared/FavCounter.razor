@@ -1,0 +1,29 @@
+﻿@inject IFavService FavService
+@inject ISyncLocalStorageService LocalStorage
+@implements IDisposable
+
+
+<div class="dropdown dropstart">
+    <i class="fa-regular fa-star c-1 t-shadow-sm" type="button" data-bs-toggle="dropdown"
+       aria-expanded="false"></i>
+    <ul class="dropdown-menu me-1">
+        <li><a class="dropdown-item" href="#">Favori Listesi : @GetCartItemsCount()</a></li>
+    </ul>
+</div>
+
+@code {
+    private int GetCartItemsCount()
+    {
+        var count = LocalStorage.GetItem<int>("favItemsCount");
+        return count;
+    }
+
+    protected override void OnInitialized()
+    {
+        FavService.OnChange += StateHasChanged;
+    }
+    public void Dispose()
+    {
+        FavService.OnChange -= StateHasChanged;
+    }
+}
