@@ -10,7 +10,7 @@
             <div class="d-flex align-items-center flex-wrap">
                 <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
                 <img width="40" src="assets/images/icons/right-arrow.png" alt="">
-                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Sepet</a>
+                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Favorilediğim Ürünler</a>
             </div>
 
         </div>
@@ -27,6 +27,7 @@
         </div>
     </div>
 </section>
+<br />
 
 @if (cartProducts == null || cartProducts.Count == 0)
 {
@@ -34,36 +35,54 @@
 }
 else
 {
+        <div class="container">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
+                    @foreach(var item in cartProducts)
+                    {
+                        
+                    
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    <img src="@item.ImageUrl"
+                                     class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <p class="lead fw-normal mb-2">@item.Title</p>
+                                </div>
+                                    
+                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
 
-    <div>
-        @foreach (var item in cartProducts)
-        {
-            <div class="container">
-                <div class="image-wrapper">
-                    <img src="@item.ImageUrl" class="image" />
-                </div>
-                <div class="name">
-                    <h5><a href="/product/@item.ProductId">@item.Title</a></h5>
-                    <input type="number" value="@item.Quantity"
-                   @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, item))"
-                   class="form-control input-quantity"
-                   min="1" />
-                    <button class="btn-delete" @onclick="@(()
-                    =>RemoveProductFromCart(item.ProductId))">
-                        Delete
-                    </button>
-                </div>
-                <div class="cart-item-price">
-                    $@(item.Price * item.Quantity)
+                                        <input id="form1" min="1" name="quantity" value="@item.Quantity" @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, item))" type="number"
+                                       class="form-control form-control-sm" />
+
+                                </div>
+                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <h5 class="mb-0">@(item.Price * item.Quantity) TL</h5>
+                                </div>
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                        <a href="#!" class="text-danger" @onclick="@(()
+                    =>RemoveProductFromCart(item.ProductId))"><i class="fas fa-trash fa-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+                    <div class="card">
+                        <div class="card-body">
+                        <p>Toplam(@cartProducts.Count):@cartProducts.Sum(product=>product.Price * product.Quantity) TL</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        }
-        <div class="cart-item-price">
-            Total(@cartProducts.Count):$@cartProducts.Sum(product=>product.Price * product.Quantity)
         </div>
-
-    </div>
 }
+
+
 <br />
 <br />
 <br />
