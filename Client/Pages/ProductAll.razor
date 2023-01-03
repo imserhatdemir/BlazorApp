@@ -76,7 +76,7 @@ else
                             }
 
                             <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt="" ></a>
-                                             <button class="fa-regular fa-star c-1 t-shadow-sm add-favorites" @onclick="AddToFav"></button>
+                                             <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" ></i>
                         </div>
                         <span class="product-name c-2">
                             @prod.Title
@@ -155,14 +155,6 @@ else
             };
 
         await CartService.AddToCart(cartItem);
-    }
-    private async Task AddToFav()
-    {
-        var cartItem = new FavItem
-            {
-                ProductId = product.ID
-            };
-        await FavService.AddToFav(cartItem);
     }
 
 

@@ -1,0 +1,112 @@
+﻿@page "/favori-urunler"
+@inject IFavService FavService
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Shopping Cart</PageTitle>
+<section class="navigate-section">
+    <div class="navigate">
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center flex-wrap">
+                <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
+                <img width="40" src="assets/images/icons/right-arrow.png" alt="">
+                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Sepet</a>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="c-2 d-flex align-items-center me-2">
+                <i class="fa-solid fa-share-nodes fs-4 me-2"></i>
+                <font class="fs-4 fw-semibold">Paylaş:</font>
+            </span>
+            <span class="d-flex align-items-center">
+                <a href="#!" class="me-2 c-2"><i class="fa-solid fa-envelope fs-4 pt-1"></i></a>
+                <a href="#!" class="me-2"><img height="31" src="assets/images/icons/wp-ico.png" alt=""></a>
+                <a href="#!"><img height="29" src="assets/images/icons/telegram-ico.png" alt=""></a>
+            </span>
+        </div>
+    </div>
+</section>
+
+@if (cartProducts == null || cartProducts.Count == 0)
+{
+    <span>@message</span>
+}
+else
+{
+
+    <div>
+        @foreach (var item in cartProducts)
+        {
+            <div class="container">
+                <div class="image-wrapper">
+                    <img src="@item.ImageUrl" class="image" />
+                </div>
+                <div class="name">
+                    <h5><a href="/product/@item.ProductId">@item.Title</a></h5>
+                    <input type="number" value="@item.Quantity"
+                   @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, item))"
+                   class="form-control input-quantity"
+                   min="1" />
+                    <button class="btn-delete" @onclick="@(()
+                    =>RemoveProductFromCart(item.ProductId))">
+                        Delete
+                    </button>
+                </div>
+                <div class="cart-item-price">
+                    $@(item.Price * item.Quantity)
+                </div>
+            </div>
+        }
+        <div class="cart-item-price">
+            Total(@cartProducts.Count):$@cartProducts.Sum(product=>product.Price * product.Quantity)
+        </div>
+
+    </div>
+}
+<br />
+<br />
+<br />
+<br />
+
+@code {
+    List<FavProductResponse> cartProducts = null;
+    string message = "loading cart...";
+    bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await AuthService.IsUserAuthenticated();
+        await LoadCart();
+    }
+
+    public async Task RemoveProductFromCart(int productId)
+    {
+        await FavService.RemoveProductFromFav(productId);
+        await LoadCart();
+
+    }
+
+    private async Task LoadCart()
+    {
+        await FavService.GetFavItemsCount();
+        cartProducts = await FavService.GetFavProduct();
+
+        if (cartProducts == null || cartProducts.Count == 0)
+        {
+            message = "your cart is empty";
+        }
+
+    }
+
+    private async Task UpdateQuantity(ChangeEventArgs e, FavProductResponse cproduct)
+    {
+        cproduct.Quantity = int.Parse(e.Value.ToString());
+        if (cproduct.Quantity < 1)
+            cproduct.Quantity = 1;
+
+        await FavService.UpdateQuantity(cproduct);
+    }
+
+
+}

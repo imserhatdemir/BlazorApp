@@ -2,6 +2,7 @@
 @inject IProductService ProductService
 @inject ICommentService CommentService
 @inject ICartService CartService
+@inject IFavService FavService
 
 @if(product == null){
     <span>@ProductService.Message</span>
@@ -96,10 +97,10 @@ else
                         <img height="40" src="assets/images/icons/cart-ico.png" alt="">
                         Sepete Ekle
                     </button>
-                   @* <button class="btn-3 fs-2 d-flex align-items-center justify-content-center">
-                        <img height="40" src="assets/images/icons/fast-ico.png" alt="">
-                        Hızlı Satın Al
-                    </button>*@
+                    <button class="btn-3 fs-2 d-flex align-items-center justify-content-center" @onclick="AddToFav">
+                        <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites"></i>
+                        Favorilere Ekle
+                    </button>
                 </div>
                 </div>
 
@@ -200,5 +201,15 @@ else
         };
 
         await CartService.AddToCart(cartItem);
+    }
+    private async Task AddToFav()
+    {
+        var productVariant = GetSelectedVariant();
+        var cartItem = new FavItem
+            {
+                ProductId = productVariant.ProductId
+            };
+
+        await FavService.AddToFav(cartItem);
     }
 }
