@@ -25,22 +25,30 @@
         </div>
     </div>
 </section>
-<section class="mt-4">
-    @foreach(var item in FaqService.Faqs){
-        <section class="mt-4">
-            <div class="custom-c-wrapper d-flex flex-column">
-                <div class="d-flex flex-column mb-4">
-                    <div class="d-flex align-items-center">
-                        <img class="me-2" src="assets/images/icons/list-ico.png" alt="">
-                        <span class="fs-4 c-2 fw-bold">@item.Title</span>
-                    </div>
-                    <span class="text-dark fs-4 ms-52">@item.Description</span>
-                </div>
-            </div>
-        </section>
-    }
+<br />
+<section class="custom-c-wrapper d-flex flex-column">
+    <h3 class="text-center mb-4 pb-2 text-primary fw-bold">FAQ</h3>
+    <p class="text-center mb-5">
+        Find the answers for the most frequently asked questions below
+    </p>
+
+    <div class="row">
+        @foreach(var item in FaqService.Faqs)
+        {
+            
+        
+        <div class="col-md-6 col-lg-4 mb-4">
+            <h6 class="mb-3 text-primary">
+                <i class="far fa-paper-plane text-primary pe-2"></i> @item.Title
+            </h6>
+            <p>
+                @item.Description
+            </p>
+        </div>
+        }
+    </div>
+</section>  
     
-</section>
 
 
 
