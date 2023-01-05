@@ -71,9 +71,15 @@ else
                                 {
                                 <span class="opp-text c-2">Fırsat</span>
                                 }
-                                
+                            @if (!string.IsNullOrEmpty(prod.ImageURL))
+                            {
                                 <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt="" width="200px" height="250px"></a>
-                                <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                            }
+                            else if (prod.Images.Count > 0)
+                            {
+                                <a href="Product/@prod.ID"><img class="product-img" src="@prod.Images[0].Data" alt="" width="200px" height="250px"></a>
+                            }
+                            <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
                             </div>
                             <span class="product-name c-2">
                                 @prod.Title

@@ -19,7 +19,15 @@ else
                         <div class="product-box">
                         <div class="d-flex justify-content-between">
                         <span class="opp-text c-2">Fırsat</span>
-                        <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt=""></a>
+                                @if (!string.IsNullOrEmpty(prod.ImageURL))
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt=""></a>
+                                }
+                                else if (prod.Images.Count > 0)
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.Images[0].Data" alt=""></a>
+                                }
+                        
                         <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
                     </div>
                     <span class="product-name c-2">

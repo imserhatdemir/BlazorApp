@@ -31,7 +31,19 @@ else
     <section class="mt-5">
         <div class="custom-c-wrapper d-flex align-items-start justify-content-between flex-wrap rsp-1">
             <div class="p-img">
-                <img src="@product.ImageURL" alt="">
+                @if (!string.IsNullOrEmpty(product.ImageURL))
+                {
+                    <img src="@product.ImageURL" alt="">
+                }
+                else
+                {
+                    <MudCarousel Class="mud-width-full" ItemsSource="@product.Images" Style="height:200px;">
+                        <ItemTemplate>
+                            <MudImage Src="@context.Data"></MudImage>
+                        </ItemTemplate>
+                    </MudCarousel>
+                }
+                
             </div>
             <div class="p-desc">
                 <div class="desc-boxes">
