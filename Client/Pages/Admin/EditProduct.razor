@@ -45,6 +45,7 @@ else
                         foreach(var item in product.Images)
                         {
                             <img src="@item.Data" />
+                            <button type="button" class="btn btn-danger" @onclick="(()=>RemoveImage(item.Id))">Sil</button>
                         }
                     }
         </div>
@@ -198,13 +199,13 @@ else
         if(product.IsNew)
         {
             var result = await ProductService.CreateProduct(product);
-            NavigationManager.NavigateTo("admin/ana-sayfa-reklamlari");
+            NavigationManager.NavigateTo("admin/products");
         }
         else
         {
             product.IsNew=false;
             product = await ProductService.UpdateProduct(product);
-            NavigationManager.NavigateTo($"admin/ana-sayfa-reklamlari/{product.ID}", true);
+            NavigationManager.NavigateTo($"admin/product/{product.ID}", true);
         }
     }
 
@@ -214,7 +215,7 @@ else
         if(confirmed)
         {
             await ProductService.DeleteProduct(product);
-            NavigationManager.NavigateTo("admin/ana-sayfa-reklamlari");
+            NavigationManager.NavigateTo("admin/products");
         }
 
     }

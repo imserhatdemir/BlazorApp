@@ -192,6 +192,7 @@
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
             var dbProduct = await _context.Products
+                .Include(p=>p.Images )
                 .FirstOrDefaultAsync(p => p.ID == product.ID);
             if (dbProduct == null)
             {
@@ -209,6 +210,12 @@
             dbProduct.Visible = product.Visible;
             dbProduct.Featured = product.Featured;
 
+
+
+            var productImages = dbProduct.Images;
+            _context.Images.RemoveRange(productImages);
+
+            dbProduct.Images = product.Images;
 
             foreach (var variant in product.Variants)
             {
