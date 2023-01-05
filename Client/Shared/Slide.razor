@@ -6,7 +6,7 @@
         <div class="carousel-indicators custom-indicators">
             @if (SliderService.Sliders == null)
             {
-                
+
             }
             else
             {
@@ -16,40 +16,65 @@
                     aria-label="Slide @item.Id"></button>
                     if (SliderService.Sliders.IndexOf(item) == SliderService.Sliders.Count - 1)
                     {
-                        
+
                     }
                     else
                     {
                         <span class="sl-line"></span>
                     }
-                    
+
                 }
             }
-           
+
         </div>
         <div class="carousel-inner header-slider">
             @if (SliderService.Sliders == null)
             {
-                
+
             }
             else
             {
                 @foreach (var item in SliderService.Sliders)
                 {
-                    <div class="carousel-item @(item.Active ? "active" : "")">
-                        <img src="@item.Image" class="d-block w-100"
-                     alt="">
-                        <div class="carousel-caption custom-caption">
-                            <span><i><b>@item.Title</b></i><br>@item.Description</span>
+                    if (item.Description == string.Empty && item.Title == string.Empty)
+                    {
+                        <div class="carousel-item @(item.Active ? "active" : "")">
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" class="d-block w-100" alt="">
+                            }
+                            else if (item.Images.Count > 0)
+                            {
+                                <img src="@item.Images[0].Data" class="d-block w-100" alt="">
+                            }
                         </div>
-                        <a href="@item.Url" class="carousel-caption custom-caption-2 text-decoration-none">
-                            <span class="d-flex align-items-center">Keşfet <i class="ms-2 fa-solid fa-play pt-1"></i></span>
-                        </a>
-                    </div>
+                    }
+                    else
+                    {
+
+                        <div class="carousel-item @(item.Active ? "active" : "")">
+
+                            @if (!string.IsNullOrEmpty(item.Image))
+                            {
+                                <img src="@item.Image" class="d-block w-100"
+                     alt="">
+                            }
+                            else if (item.Images.Count > 0)
+                            {
+                                <img src="@item.Images[0].Data" class="d-block w-100" alt="">
+                            }
+                            <div class="carousel-caption custom-caption">
+                                <span><i><b>@item.Title</b></i><br>@item.Description</span>
+                            </div>
+                            <a href="@item.Url" class="carousel-caption custom-caption-2 text-decoration-none">
+                                <span class="d-flex align-items-center">Keşfet <i class="ms-2 fa-solid fa-play pt-1"></i></span>
+                            </a>
+                        </div>
+                    }
                 }
             }
-          
-            
+
+
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
                 data-bs-slide="prev">

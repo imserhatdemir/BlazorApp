@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230105200252_slider_images")]
+    partial class slider_images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,27 +279,6 @@ namespace BlazorApp.Server.Migrations
                             Url = "Movies",
                             Visible = true
                         });
-                });
-
-            modelBuilder.Entity("BlazorApp.Shared.CategoryImages", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("CategoryImages");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.CentreNumber", b =>
@@ -1317,13 +1298,6 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.CategoryImages", b =>
-                {
-                    b.HasOne("BlazorApp.Shared.Category", null)
-                        .WithMany("Images")
-                        .HasForeignKey("CategoryId");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.Comment", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Product", "Product")
@@ -1404,11 +1378,6 @@ namespace BlazorApp.Server.Migrations
                     b.HasOne("BlazorApp.Shared.Slider", null)
                         .WithMany("Images")
                         .HasForeignKey("SliderId");
-                });
-
-            modelBuilder.Entity("BlazorApp.Shared.Category", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Order", b =>

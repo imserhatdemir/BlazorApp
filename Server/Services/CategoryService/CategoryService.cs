@@ -42,7 +42,7 @@
         public async Task<ServiceResponse<List<Category>>> GetAdminCategories()
         {
             var categories = await _context.Categories
-                .Where(c => !c.Deleted)
+                .Where(c => !c.Deleted).Include(c => c.Images)
                 .ToListAsync();
             return new ServiceResponse<List<Category>>
             {
@@ -53,7 +53,7 @@
         public async Task<ServiceResponse<List<Category>>> GetCategories()
         {
             var categories = await _context.Categories
-                .Where(c=>!c.Deleted&&c.Visible)
+                .Where(c=>!c.Deleted&&c.Visible).Include(c => c.Images)
                 .ToListAsync();
             return new ServiceResponse<List<Category>>
             {
@@ -78,6 +78,12 @@
             dbCategory.Visible = category.Visible;
             dbCategory.Featured = category.Featured;
             dbCategory.ImageUrl = category.ImageUrl;
+
+
+            var productImages = dbCategory.Images;
+            _context.CategoryImages.RemoveRange(productImages);
+
+            dbCategory.Images = category.Images;
 
             await _context.SaveChangesAsync();
             return await GetAdminCategories();

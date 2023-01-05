@@ -307,6 +307,8 @@
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<Advert> Adverts { get; set; }
         public DbSet<FavItem> FavItems { get; set; }
+        public DbSet<SliderImages> SliderImages { get; set; }
+        public DbSet<CategoryImages> CategoryImages { get; set; }
 
 
     }

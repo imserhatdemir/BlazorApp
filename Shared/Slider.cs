@@ -13,6 +13,7 @@ namespace BlazorApp.Shared
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Image { get; set; } = string.Empty;
+        public List<SliderImages> Images { get; set; } = new List<SliderImages>();
         public string Url { get; set; } = string.Empty;
         public string DataSlide { get; set; } = string.Empty;
         public bool Active { get; set; } = true;
