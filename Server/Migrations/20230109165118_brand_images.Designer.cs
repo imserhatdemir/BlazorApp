@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230109165118_brand_images")]
+    partial class brand_images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,15 +204,10 @@ namespace BlazorApp.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("BrandId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
 
                     b.ToTable("BrandImages");
                 });
@@ -1338,13 +1335,6 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.BrandImage", b =>
-                {
-                    b.HasOne("BlazorApp.Shared.Brand", null)
-                        .WithMany("Images")
-                        .HasForeignKey("BrandId");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.CategoryImages", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Category", null)
@@ -1432,11 +1422,6 @@ namespace BlazorApp.Server.Migrations
                     b.HasOne("BlazorApp.Shared.Slider", null)
                         .WithMany("Images")
                         .HasForeignKey("SliderId");
-                });
-
-            modelBuilder.Entity("BlazorApp.Shared.Brand", b =>
-                {
-                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Category", b =>

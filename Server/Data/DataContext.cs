@@ -309,6 +309,7 @@
         public DbSet<FavItem> FavItems { get; set; }
         public DbSet<SliderImages> SliderImages { get; set; }
         public DbSet<CategoryImages> CategoryImages { get; set; }
+        public DbSet<BrandImage> BrandImages { get; set; }
 
 
     }

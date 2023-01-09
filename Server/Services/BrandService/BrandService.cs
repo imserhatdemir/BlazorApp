@@ -44,7 +44,7 @@ namespace BlazorApp.Server.Services.BrandService
 		public async Task<ServiceResponse<List<Brand>>> GetAdminBrands()
 		{
             var categories = await _context.Brands
-                .Where(c => !c.Deleted)
+                .Where(c => !c.Deleted).Include(p=>p.Images)
                 .ToListAsync();
             return new ServiceResponse<List<Brand>>
             {
@@ -54,9 +54,7 @@ namespace BlazorApp.Server.Services.BrandService
 
 		public async Task<ServiceResponse<List<Brand>>> GetBrands()
 		{
-            var brand = await _context.Brands
-               
-                .ToListAsync();
+            var brand = await _context.Brands.Where(c => !c.Deleted).Include(p => p.Images).ToListAsync();
             return new ServiceResponse<List<Brand>>
             {
                 Data = brand
@@ -78,6 +76,11 @@ namespace BlazorApp.Server.Services.BrandService
             dbCategory.Title = brand.Title;
             dbCategory.ImageUrl = brand.ImageUrl;
             dbCategory.Visible = brand.Visible;
+
+            var productImages = dbCategory.Images;
+            _context.BrandImages.RemoveRange(productImages);
+
+            dbCategory.Images = brand.Images;
 
             await _context.SaveChangesAsync();
             return await GetAdminBrands();

@@ -12,6 +12,7 @@ namespace BlazorApp.Shared
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
+        public List<BrandImage> Images { get; set; } = new List<BrandImage>();
         public bool Visible { get; set; } = true;
         public bool Deleted { get; set; } = false;
         [NotMapped]

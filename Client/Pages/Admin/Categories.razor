@@ -13,6 +13,7 @@
     <div class="col">Visible</div>
     <div class="col">Featured</div>
     <div class="col">Image</div>
+    <div class="col">Image</div>
     <div class="col">#</div>
 </div>
 
@@ -63,8 +64,6 @@
                     <label for="images">Images</label>
                     <InputFile id="images" OnChange="OnFileChange" multiple class="form-control"></InputFile>
                 </div>
-
-
                 <div class="col">
                     <button type="submit" class="btn btn-primary">
                         <i class="oi oi-cloud-upload"></i>
@@ -92,13 +91,13 @@
                 <span>@(category.Featured ? "✓" : "")</span>
             </div>
             <div class="col">
-                  @if (!string.IsNullOrEmpty(category.ImageUrl))
-                 {
-                    <img src="category.ImageUrl" width="100px" height="100px" />
+                @if (!string.IsNullOrEmpty(category.ImageUrl))
+                {
+                    <img src="@category.ImageUrl" />
                 }
                 else if (category.Images.Count > 0)
                 {
-                    <img src="category.Images[0].Data" />
+                    <img src="@category.Images[0].Data" />
                 }
                 
             </div>
@@ -181,16 +180,16 @@
             var buffer = new byte[resizedImage.Size];
             await resizedImage.OpenReadStream().ReadAsync(buffer);
             var imageData = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-            det.Images.Add(new CategoryImages { Data = imageData });
+            editingCategory.Images.Add(new CategoryImages { Data = imageData });
         }
     }
 
     void RemoveImage(int id)
     {
-        var image = det.Images.FirstOrDefault(i => i.Id == id);
+        var image = editingCategory.Images.FirstOrDefault(i => i.Id == id);
         if (image != null)
         {
-            det.Images.Remove(image);
+            editingCategory.Images.Remove(image);
         }
     }
 
