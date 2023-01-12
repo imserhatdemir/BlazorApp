@@ -38,7 +38,6 @@ else
                     <img width="40" src="assets/images/icons/right-arrow.png" alt="">
                     <a href="#!" class="fs-4 fw-semibold c-2 mx-2 text-decoration-none">Ürünler</a>
                 </div>
-                <div class="fs-4 c-2 mt-2">0R1-25W Alüminyum Direnç</div>
             </div>
             <div class="d-flex align-items-center">
                 <span class="c-2 d-flex align-items-center me-2">
@@ -61,25 +60,24 @@ else
             <div class="products-inner">
                 @foreach (var prod in ProductService.Products)
                 {
+                    @if (prod.Featured)
+                    {
                         <div class="product-box">
                             <div class="d-flex justify-content-between">
-                                @if(prod.Featured)
+                                <span class="opp-text c-2">Fırsat</span>
+                                @if (!string.IsNullOrEmpty(prod.ImageURL))
                                 {
-                                <span class="opp-text c-2">Yıldız</span>
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt=""></a>
+                                }
+                                else if (prod.Images.Count > 0)
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.Images[0].Data" alt="" width="200px" height="200px"></a>
                                 }
                                 else
                                 {
-                                <span class="opp-text c-2">Fırsat</span>
+                                    <a href="Product/@prod.ID"><img class="product-img" src="~/assets/images/logo.png" alt=""></a>
                                 }
-                            @if (!string.IsNullOrEmpty(prod.ImageURL))
-                            {
-                                <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt="" width="200px" height="250px"></a>
-                            }
-                            else if (prod.Images.Count > 0)
-                            {
-                                <a href="Product/@prod.ID"><img class="product-img" src="@prod.Images[0].Data" alt="" width="200px" height="250px"></a>
-                            }
-                            <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                                <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
                             </div>
                             <span class="product-name c-2">
                                 @prod.Title
@@ -88,16 +86,18 @@ else
                                 @if (prod.Variants != null && prod.Variants.Count > 0)
                                 {
                                     <span class="product-price c-2">
-                                    <font class="c-1">Fiyat:</font> @GetPriceText(prod)
+                                        <font class="c-1">Fiyat:</font> @prod.Variants[0].Price TL
                                     </span>
                                 }
                             </div>
-                       </div>
+                        </div>
+                    }
                 }
             </div>
 
         </div>
     </section>
+    <br />
 
 
     for(var i=1; i <= ProductService.PageCount; i++)
@@ -118,10 +118,9 @@ else
     {
         ProductService.ProductsChanged += StateHasChanged;
     }
-
     public void Dispose()
     {
-        ProductService.ProductsChanged += StateHasChanged;
+        ProductService.ProductsChanged -= StateHasChanged;
     }
 
     private string GetPriceText(Product item)

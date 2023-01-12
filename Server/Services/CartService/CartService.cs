@@ -29,7 +29,7 @@ namespace BlazorApp.Server.Services.CartService
             foreach(var item in cartItems)
             {
                 var product = await _context.Products
-                    .Where(p => p.ID == item.ProductId)
+                    .Where(p => p.ID == item.ProductId).Include(p=>p.Images)
                     .FirstOrDefaultAsync();
 
                 if (product == null)
@@ -51,6 +51,7 @@ namespace BlazorApp.Server.Services.CartService
                     ProductId= product.ID,
                     Title = product.Title,
                     ImageUrl=product.ImageURL,
+                    Images = product.Images,
                     Price=productVariant.Price,
                     ProductType= productVariant.ProductType.Name,
                     ProductTypeId= productVariant.ProductTypeId,
