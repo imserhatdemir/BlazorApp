@@ -17,6 +17,12 @@
             {
                 variant.ProductType = null;
             }
+
+
+            foreach (var wiz in product.Wizards)
+            {
+                wiz.ProductType = null;
+            }
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             return new ServiceResponse<Product> { Data = product };
@@ -48,6 +54,7 @@
                     .Include(p => p.Variants.Where(v => !v.Deleted))
                     .ThenInclude(v => v.ProductType)
                     .Include(c => c.Images)
+                    .Include(c => c.Wizards.Where(v => !v.Deleted))
                     .ToListAsync()
             };
 
@@ -62,6 +69,7 @@
                 .Where(p => p.Featured && p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .Include(c => c.Images)
+                .Include(c => c.Wizards.Where(v => !v.Deleted && v.Visible))
                 .ToListAsync()
             };
             return response;   
@@ -77,6 +85,7 @@
                     .Include(p => p.Variants.Where(v => !v.Deleted))
                     .ThenInclude(v => v.ProductType)
                     .Include(c=>c.Images)
+                    .Include(p => p.Wizards.Where(v => !v.Deleted))
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted);
 
             }
@@ -86,6 +95,7 @@
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                     .ThenInclude(v => v.ProductType)
                     .Include(c => c.Images)
+                    .Include(p => p.Wizards.Where(v => v.Visible && !v.Deleted))
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted && p.Visible);
 
             }
@@ -107,7 +117,9 @@
             {
                 Data = await _context.Products.Where(p => p.Category.Url.ToLower().Equals(categoryUrl.ToLower())&& 
                 p.Visible && !p.Deleted)
-                .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted)).ToListAsync()
+                .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                .Include(p => p.Wizards.Where(v => v.Visible && !v.Deleted))
+                .ToListAsync()
             };
             return response;
         }
@@ -121,6 +133,7 @@
                 Data = await _context.Products
                     .Where(p => p.Visible && !p.Deleted)
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                    .Include(p => p.Wizards.Where(v => v.Visible && !v.Deleted))
                     .Include(c => c.Images)
                     .ToListAsync()
             };
@@ -171,6 +184,7 @@
                                     p.Description.ToLower().Contains(searchText.ToLower()) &&
                                     p.Visible && !p.Deleted)
                                 .Include(p => p.Variants)
+                                .Include(p => p.Wizards)
                                 .Include(c => c.Images)
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
@@ -238,6 +252,27 @@
                 }
             }
 
+            foreach (var variant in product.Wizards)
+            {
+                var dbVariant = await _context.ProductWizards
+                    .SingleOrDefaultAsync(v => v.ProdId == variant.ProdId && v.ProductTypeId == variant.ProductTypeId);
+                if (dbVariant == null)
+                {
+                    variant.ProductType = null;
+                    _context.ProductWizards.Add(variant);
+                }
+                else
+                {
+                    dbVariant.ProductTypeId = variant.ProductTypeId;
+                    dbVariant.WizardName = variant.WizardName;
+                    dbVariant.Wizard = variant.Wizard;
+                    dbVariant.Visible = variant.Visible;
+                    dbVariant.Deleted = variant.Deleted;
+
+                }
+                
+            }
+
             await _context.SaveChangesAsync();
             return new ServiceResponse<Product> { Data = product };
         }
@@ -247,7 +282,7 @@
             return await _context.Products
                             .Where(p => p.Title.ToLower().Contains(searchText.ToLower())|| p.Description.ToLower().Contains(searchText.ToLower())
                             && p.Visible && !p.Deleted)
-                            .Include(p => p.Variants).ToListAsync();
+                            .Include(p => p.Variants).Include(p=>p.Wizards).ToListAsync();
         }
     }
 }

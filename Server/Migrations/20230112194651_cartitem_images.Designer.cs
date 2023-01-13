@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230112194651_cartitem_images")]
+    partial class cartitem_images
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -589,6 +591,15 @@ namespace BlazorApp.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CartItemProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartItemProductTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartItemUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Data")
                         .HasColumnType("nvarchar(max)");
 
@@ -598,6 +609,8 @@ namespace BlazorApp.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProductID");
+
+                    b.HasIndex("CartItemUserId", "CartItemProductId", "CartItemProductTypeId");
 
                     b.ToTable("Images");
                 });
@@ -1106,38 +1119,6 @@ namespace BlazorApp.Server.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.ProductWizard", b =>
-                {
-                    b.Property<int>("ProdId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProdId"), 1L, 1);
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Wizard")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WizardName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProdId");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("ProductWizards");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.Responsibility", b =>
                 {
                     b.Property<int>("Id")
@@ -1400,6 +1381,10 @@ namespace BlazorApp.Server.Migrations
                     b.HasOne("BlazorApp.Shared.Product", null)
                         .WithMany("Images")
                         .HasForeignKey("ProductID");
+
+                    b.HasOne("BlazorApp.Shared.CartItem", null)
+                        .WithMany("Images")
+                        .HasForeignKey("CartItemUserId", "CartItemProductId", "CartItemProductTypeId");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.OrderItem", b =>
@@ -1459,15 +1444,6 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.ProductWizard", b =>
-                {
-                    b.HasOne("BlazorApp.Shared.Product", "Product")
-                        .WithMany("Wizards")
-                        .HasForeignKey("ProductID");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.SliderImages", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Slider", null)
@@ -1476,6 +1452,11 @@ namespace BlazorApp.Server.Migrations
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Brand", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("BlazorApp.Shared.CartItem", b =>
                 {
                     b.Navigation("Images");
                 });
@@ -1495,8 +1476,6 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Variants");
-
-                    b.Navigation("Wizards");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Slider", b =>

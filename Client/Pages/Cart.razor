@@ -38,9 +38,9 @@ else
     <div>
         @foreach(var item in cartProducts){
             <div class="container">
-                <div class="image-wrapper">
-                    <img src="@item.Images[0].Data" class="image" />
-                </div>
+                @*<div class="image-wrapper">
+                    <img src="@item.ImageUrl" class="image" />
+                </div>*@
                 <div class="name">
                     <h5><a href="/product/@item.ProductId">@item.Title</a></h5>
                     <span>@item.ProductType</span><br/>

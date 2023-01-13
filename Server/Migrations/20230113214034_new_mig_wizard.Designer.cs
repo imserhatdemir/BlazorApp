@@ -4,6 +4,7 @@ using BlazorApp.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230113214034_new_mig_wizard")]
+    partial class new_mig_wizard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1462,7 +1464,7 @@ namespace BlazorApp.Server.Migrations
             modelBuilder.Entity("BlazorApp.Shared.ProductWizard", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Product", "Product")
-                        .WithMany("Wizards")
+                        .WithMany()
                         .HasForeignKey("ProductID");
 
                     b.Navigation("Product");
@@ -1495,8 +1497,6 @@ namespace BlazorApp.Server.Migrations
                     b.Navigation("Images");
 
                     b.Navigation("Variants");
-
-                    b.Navigation("Wizards");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Slider", b =>

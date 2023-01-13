@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Shared;
+using Stripe;
 using System.Security.Claims;
 
 namespace BlazorApp.Server.Services.CartService
@@ -29,8 +30,9 @@ namespace BlazorApp.Server.Services.CartService
             foreach(var item in cartItems)
             {
                 var product = await _context.Products
-                    .Where(p => p.ID == item.ProductId).Include(p=>p.Images)
+                    .Where(p => p.ID == item.ProductId)
                     .FirstOrDefaultAsync();
+
 
                 if (product == null)
                 {
@@ -50,8 +52,7 @@ namespace BlazorApp.Server.Services.CartService
                 {
                     ProductId= product.ID,
                     Title = product.Title,
-                    ImageUrl=product.ImageURL,
-                    Images = product.Images,
+                    ImageUrl = product.ImageURL,
                     Price=productVariant.Price,
                     ProductType= productVariant.ProductType.Name,
                     ProductTypeId= productVariant.ProductTypeId,

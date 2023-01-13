@@ -15,6 +15,8 @@
 
             modelBuilder.Entity<ProductVariant>().HasKey(p => new { p.ProductId, p.ProductTypeId });
 
+            modelBuilder.Entity<ProductWizard>().HasKey(p => new { p.ProdId, p.ProductTypeId});
+
             modelBuilder.Entity<OrderItem>().HasKey(oi => new {oi.OrderId, oi.ProductId, oi.ProductTypeId });
 
             modelBuilder.Entity<ProductType>().HasData(
@@ -310,6 +312,8 @@
         public DbSet<SliderImages> SliderImages { get; set; }
         public DbSet<CategoryImages> CategoryImages { get; set; }
         public DbSet<BrandImage> BrandImages { get; set; }
+        public DbSet<ProductWizard> ProductWizards { get; set; }
+
 
 
     }
