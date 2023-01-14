@@ -7,5 +7,7 @@
         Task<ServiceResponse<List<HumanResources>>> GetAdminHuman();
         Task<ServiceResponse<List<HumanResources>>> AddHuman(HumanResources human);
         Task<ServiceResponse<List<HumanResources>>> UpdateHuman(HumanResources human);
+        Task<ServiceResponse<HumanResources>> GetFaqById(int id);
+
     }
 }

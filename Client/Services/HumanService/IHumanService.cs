@@ -10,5 +10,7 @@
         Task UpdateHuman(HumanResources human);
         Task AddHuman(HumanResources human);
         HumanResources CreateNewHuman();
+        Task<ServiceResponse<HumanResources>> GetFaqById(int id);
+
     }
 }

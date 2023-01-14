@@ -64,6 +64,7 @@
                     <InputTextArea id="description" @bind-Value="product.Description" class="form-control"></InputTextArea>
                 </div>
                 <hr />
+              
                 <div class="header">
                     <div class="col">Product Type / Variant</div>
                     <div class="col">Price</div>
@@ -99,60 +100,10 @@
                     </div>
                 }
 
-
-
-
                 <button type="button" class="btn btn-primary" @onclick="AddVariant">
                     <i class="oi oi-plus"></i> Variant Ekle
                 </button>
                 <hr />
-
-                <div class="header">
-                    <div class="col">Product Type / Variant</div>
-                    <div class="col">Price</div>
-                    <div class="col">Original Price</div>
-                    <div class="col">Visible</div>
-                    <div class="col"></div>
-                </div>
-                @foreach (var item in product.Wizards)
-                {
-                    <div class="row">
-                        <div class="col">
-                            <InputSelect disabled="@item.Deleted" @bind-Value="item.ProductTypeId" class="form-control">
-                                @foreach (var type in ProductTypeService.ProductTypes)
-                                {
-                                    <option value="@type.Id.ToString()">@type.Name</option>
-                                }
-                            </InputSelect>
-                        </div>
-                        <div class="col">
-                            <InputNumber @bind-Value="item.Wizard" class="form-control" disabled="@item.Deleted"></InputNumber>
-                        </div>
-                        <div class="col">
-                            <InputNumber @bind-Value="item.WizardName" class="form-control" disabled="@item.Deleted"></InputNumber>
-                        </div>
-                        <div class="col col-visible">
-                            <InputCheckbox @bind-Value="item.Visible" style="transform:scale(1.5,1.5);" disabled="@item.Deleted"></InputCheckbox>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="btn btn-primary" disabled="@item.Deleted" @onclick="@(()=>RemoveWizard(item.ProductTypeId))">
-                                <i class="oi oi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                }
-
-
-
-
-                <button type="button" class="btn btn-primary" @onclick="AddWizard">
-                    <i class="oi oi-plus"></i> Variant Ekle
-                </button>
-                <hr />
-
-
-
-
                 <div class="mb-0">
                     <label for="category">Category</label>
                     <InputSelect id="category" @bind-Value="product.CategoryId" class="form-control">
@@ -162,6 +113,55 @@
                         }
                     </InputSelect>
                 </div>
+                <hr/>
+                <div class="mb-0">
+                    <label for="title">Özellik Başlığı 1</label>
+                    <InputText id="title" @bind-Value="product.WizardTitle" class="form-control"></InputText>
+                </div>
+                 <div class="mb-0">
+                    <label for="title">Değer 1</label>
+                    <InputText id="title" @bind-Value="product.WizardDesc" class="form-control"></InputText>
+                </div>
+                <hr/>
+                 <div class="mb-0">
+                    <label for="title">Özellik Başlığı 2</label>
+                    <InputText id="title" @bind-Value="product.WizardTitle1" class="form-control"></InputText>
+                </div>
+                 <div class="mb-0">
+                    <label for="title">Değer 2</label>
+                    <InputText id="title" @bind-Value="product.WizardDesc1" class="form-control"></InputText>
+                </div>
+                <hr/>
+                 <div class="mb-0">
+                    <label for="title">Özellik Başlığı 3</label>
+                    <InputText id="title" @bind-Value="product.WizardTitle2" class="form-control"></InputText>
+                </div>
+                 <div class="mb-0">
+                    <label for="title">Değer 3</label>
+                    <InputText id="title" @bind-Value="product.WizardDesc2" class="form-control"></InputText>
+                </div>
+                <hr/>
+                 <div class="mb-0">
+                    <label for="title">Özellik Başlığı 4</label>
+                    <InputText id="title" @bind-Value="product.WizardTitle3" class="form-control"></InputText>
+                </div>
+                 <div class="mb-0">
+                    <label for="title">Değer 4</label>
+                    <InputText id="title" @bind-Value="product.WizardDesc3" class="form-control"></InputText>
+                </div>
+                <hr/>
+                 <div class="mb-0">
+                    <label for="title">Özellik Başlığı 5</label>
+                    <InputText id="title" @bind-Value="product.WizardTitle4" class="form-control"></InputText>
+                </div>
+                <div class="mb-0">
+                    <label for="title">Değer 5</label>
+                    <InputText id="title" @bind-Value="product.WizardDesc4" class="form-control"></InputText>
+                </div>
+
+
+
+
                 <hr />
                 <div class="form-chech">
                     <InputCheckbox id="featured" @bind-Value="product.Featured" class="form-check-input"></InputCheckbox>
@@ -245,23 +245,6 @@
     }
 
 
-    void RemoveWizard(int productTypeId)
-    {
-        var variant = product.Wizards.Find(v => v.ProductTypeId == productTypeId);
-        if (variant == null)
-        {
-            return;
-        }
-        if (variant.IsNew)
-        {
-            product.Wizards.Remove(variant);
-        }
-        else
-        {
-            variant.Deleted = true;
-        }
-    }
-
 
 
 
@@ -271,12 +254,6 @@
 
     }
 
-
-    void AddWizard()
-    {
-        product.Wizards.Add(new ProductWizard { IsNew = true, ProdId = product.ID });
-
-    }
 
 
 

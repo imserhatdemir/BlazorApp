@@ -44,5 +44,13 @@ namespace BlazorApp.Server.Controllers
             var result = await _human.UpdateHuman(human);
             return Ok(result);
         }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<HumanResources>>> GetFaqById(int id)
+        {
+            var result = await _human.GetFaqById(id);
+            return Ok(result);
+        }
     }
 }

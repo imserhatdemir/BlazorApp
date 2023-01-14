@@ -14,16 +14,16 @@
         <div class="dropdown-menu dropdown-menu-right @UserMenuCssClass">
             <AuthorizeView>
                 <Authorized>
-                <a href="profile" class="dropdown-item">Profile</a>
-                <a href="orders" class="dropdown-item">Orders</a>
+                <a href="profile" class="dropdown-item">Profil</a>
+                <a href="orders" class="dropdown-item">Siparişlerim</a>
                 <hr />
                 <AdminMenu/>
-                <button class="dropdown-item" @onclick="LogOut">LogOut</button>
+                <button class="dropdown-item" @onclick="LogOut">Çıkış Yap</button>
                 <br />
                 </Authorized>
                 <NotAuthorized>
-                <a href="register" class="dropdown-item">Register</a>
-                <a href="login?returnUrl=@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)" class="dropdown-item">Login</a>
+                <a href="register" class="dropdown-item">Kayıt Ol</a>
+                <a href="login?returnUrl=@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)" class="dropdown-item">Giriş Yap</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>

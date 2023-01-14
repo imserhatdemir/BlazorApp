@@ -38,6 +38,12 @@ namespace BlazorApp.Client.Services.HumanService
                 AdminHumans = response.Data;
         }
 
+        public async Task<ServiceResponse<HumanResources>> GetFaqById(int id)
+        {
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<HumanResources>>($"api/Human/{id}/");
+            return result;
+        }
+
         public async Task GetHumans()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<HumanResources>>>("api/human");

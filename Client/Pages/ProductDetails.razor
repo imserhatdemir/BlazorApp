@@ -4,6 +4,7 @@
 @inject ICartService CartService
 @inject IFavService FavService
 
+<PageTitle>Hoşgeldiniz - Çemenardagül</PageTitle>
 @if(product == null){
     <span>@ProductService.Message</span>
 }
@@ -48,7 +49,8 @@ else
             <div class="p-desc">
                 <div class="desc-boxes">
                     <div class="custom-list">
-                        <div class="list-first">Ürünün Kategorisi:</div>
+                        <div class="list-first">Ürünün Varyantı:</div>
+
                         @if (product.Variants != null && product.Variants.Count > 1)
                         {
                             <div class="list-second text-decoration-underline">
@@ -60,29 +62,38 @@ else
                                 </select>
                             </div>
                         }
+                        else
+                        {
+                            <div class="list-second d-flex justify-content-between align-items-center">
+                                Tek Varynat
+                            </div>
+                        }
                     </div>
                     <div class="custom-list2">
-                        <div class="list-first">Ürün Değeri:</div>
+                        <div class="list-first">@product.WizardTitle:</div>
                         <div class="list-second d-flex justify-content-between align-items-center">
-                            0R1-25W
-                            <i class="fa-regular fa-copy"></i>
+                            @product.WizardDesc
                         </div>
                     </div>
                     <div class="custom-list2">
-                        <div class="list-first">Tolerans:</div>
-                        <div class="list-second">5%</div>
+                        <div class="list-first">@product.WizardTitle1:</div>
+                        <div class="list-second">@product.WizardDesc1</div>
                     </div>
                     <div class="custom-list2">
-                        <div class="list-first">Marka-Menşei:</div>
-                        <div class="list-second text-decoration-underline">Liket</div>
+                        <div class="list-first">@product.WizardTitle2:</div>
+                        <div class="list-second text-decoration-underline">@product.WizardDesc2</div>
                     </div>
                     <div class="custom-list2">
-                        <div class="list-first">Stok Adedi:</div>
+                        <div class="list-first">Ürün Varyant Adedi:</div>
                         <div class="list-second">@product.Variants.Count()</div>
                     </div>
                     <div class="custom-list2">
-                        <div class="list-first">Sipariş Kodu:</div>
-                        <div class="list-second">Z167TG</div>
+                        <div class="list-first">@product.WizardTitle3:</div>
+                        <div class="list-second">@product.WizardDesc3</div>
+                    </div>
+                    <div class="custom-list2">
+                        <div class="list-first">@product.WizardTitle4:</div>
+                        <div class="list-second">@product.WizardDesc4</div>
                     </div>
                     <div class="custom-list2">
                         <div class="list-first">Birim Fiyat:</div>
@@ -157,11 +168,6 @@ else
         </div>
     </section>
     <br />
-
- 
-   
-
-    <CommentForm/>
 
 
 }
