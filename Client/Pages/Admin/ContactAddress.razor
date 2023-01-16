@@ -1,5 +1,5 @@
-﻿@page "/admin/iletisim-hakkinda"
-@inject IContactAboutService KvkkService
+﻿@page "/admin/iletisim-adresler"
+@inject IContactAddressService KvkkService
 @attribute [Authorize(Roles = "Admin")]
 @implements IDisposable
 
@@ -10,25 +10,33 @@
             <i class="oi oi-plus"></i> Yeni Metin Ekle
         </button>
         <div class="header">
-            <div class="col">Adres</div>
+            <div class="col">Başlık</div>
+            <div class="col">İletişim No</div>
             <div class="col">Mail</div>
+            <div class="col">Adres</div>
             <div class="col">Lokasyon</div>
             <div class="col">Visible</div>
             <div class="col"></div>
         </div>
 
 
-        @foreach (var category in KvkkService.AdminContactAbouts)
+        @foreach (var category in KvkkService.AdminContactAddresses)
         {
             @if (category.Editing)
             {
                 <EditForm Model="editBrand" OnSubmit="UpdateBrand">
                     <div class="row">
                         <div class="col">
-                            <InputText @bind-Value="editBrand.Address" class="form-control"></InputText>
+                            <InputText @bind-Value="editBrand.Title" class="form-control"></InputText>
+                        </div>
+                        <div class="col">
+                            <InputText @bind-Value="editBrand.Number" class="form-control"></InputText>
                         </div>
                         <div class="col">
                             <InputText @bind-Value="editBrand.Mail" class="form-control"></InputText>
+                        </div>
+                        <div class="col">
+                            <InputText @bind-Value="editBrand.Address" class="form-control"></InputText>
                         </div>
                         <div class="col">
                             <InputText @bind-Value="editBrand.Location" class="form-control"></InputText>
@@ -51,10 +59,16 @@
             {
                 <div class="row">
                     <div class="col">
-                        @category.Address
+                        @category.Title
+                    </div>
+                    <div class="col">
+                        @category.Number
                     </div>
                     <div class="col">
                         @category.Mail
+                    </div>
+                    <div class="col">
+                        @category.Address
                     </div>
                     <div class="col">
                         @category.Location
@@ -65,6 +79,9 @@
                     <div class="col">
                         <button class="btn btn-primary" @onclick="(()=>EditBrand(category))">
                             <i class="oi oi-pencil"></i>
+                        </button>
+                        <button class="btn btn-primary" @onclick="(()=>DeleteBrand(category.Id))">
+                            <i class="oi oi-trash"></i>
                         </button>
                     </div>
                 </div>
@@ -83,11 +100,11 @@
 
 
 @code {
-    BlazorApp.Shared.ContactAbout editBrand = null;
+    BlazorApp.Shared.ContactAddress editBrand = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await KvkkService.GetAdminContactAbout();
+        await KvkkService.GetAdminContactAddress();
         KvkkService.OnChange += StateHasChanged;
     }
 
@@ -99,10 +116,10 @@
 
     private void CreateNewBrand()
     {
-        editBrand = KvkkService.CreateNewSlider();
+        editBrand = KvkkService.CreateAddress();
     }
 
-    private void EditBrand(BlazorApp.Shared.ContactAbout category)
+    private void EditBrand(BlazorApp.Shared.ContactAddress category)
     {
         category.Editing = true;
 
@@ -112,20 +129,24 @@
     private async Task UpdateBrand()
     {
         if (editBrand.IsNew)
-            await KvkkService.AddSlider(editBrand);
+            await KvkkService.AddAddress(editBrand);
         else
-            await KvkkService.UpdateSlider(editBrand);
+            await KvkkService.UpdateAddress(editBrand);
 
-        editBrand = new BlazorApp.Shared.ContactAbout();
+        editBrand = new BlazorApp.Shared.ContactAddress();
     }
 
     private async Task CancelEditing()
     {
-        editBrand = new BlazorApp.Shared.ContactAbout();
-        await KvkkService.GetAdminContactAbout();
+        editBrand = new BlazorApp.Shared.ContactAddress();
+        await KvkkService.GetAdminContactAddress();
     }
 
 
+    private async Task DeleteBrand(int id)
+    {
+        await KvkkService.DeleteAddress(id);
+    }
 
 
 

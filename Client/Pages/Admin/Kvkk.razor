@@ -1,37 +1,33 @@
-﻿@page "/admin/iletisim-hakkinda"
-@inject IContactAboutService KvkkService
+﻿@page "/admin/kvkk-metin"
+@inject IKvkkService KvkkService
 @attribute [Authorize(Roles = "Admin")]
 @implements IDisposable
 
 <section class="mt-4">
-    <div class="custom-c-wrapper">
-        <h3>İletişim Sayfası - Hakkında</h3>
+        <div class="custom-c-wrapper">
+<h3>K.V.K.K.</h3>
         <button class="btn btn-primary" @onclick="CreateNewBrand">
             <i class="oi oi-plus"></i> Yeni Metin Ekle
         </button>
-        <div class="header">
-            <div class="col">Adres</div>
-            <div class="col">Mail</div>
-            <div class="col">Lokasyon</div>
-            <div class="col">Visible</div>
-            <div class="col"></div>
-        </div>
+<div class="header">
+    <div class="col">Name</div>
+    <div class="col">Details</div>
+    <div class="col">Visible</div>
+    <div class="col"></div>
+</div>
 
 
-        @foreach (var category in KvkkService.AdminContactAbouts)
+        @foreach (var category in KvkkService.AdminKvkk)
         {
             @if (category.Editing)
             {
                 <EditForm Model="editBrand" OnSubmit="UpdateBrand">
                     <div class="row">
                         <div class="col">
-                            <InputText @bind-Value="editBrand.Address" class="form-control"></InputText>
+                            <InputText @bind-Value="editBrand.Name" class="form-control"></InputText>
                         </div>
                         <div class="col">
-                            <InputText @bind-Value="editBrand.Mail" class="form-control"></InputText>
-                        </div>
-                        <div class="col">
-                            <InputText @bind-Value="editBrand.Location" class="form-control"></InputText>
+                            <InputTextArea @bind-Value="editBrand.Details" class="form-control"></InputTextArea>
                         </div>
                         <div class="col col-visible">
                             <InputCheckbox @bind-Value="editBrand.Visible" style="transform:scale(1.5,1.5);"></InputCheckbox>
@@ -51,13 +47,7 @@
             {
                 <div class="row">
                     <div class="col">
-                        @category.Address
-                    </div>
-                    <div class="col">
-                        @category.Mail
-                    </div>
-                    <div class="col">
-                        @category.Location
+                        @category.Name
                     </div>
                     <div class="col col-visible">
                         <span>@(category.Visible ? "✓" : "")</span>
@@ -73,7 +63,7 @@
 
 
 
-    </div>
+</div>
 </section>
 
 
@@ -83,11 +73,11 @@
 
 
 @code {
-    BlazorApp.Shared.ContactAbout editBrand = null;
+    BlazorApp.Shared.Kvkk editBrand = null;
 
     protected override async Task OnInitializedAsync()
     {
-        await KvkkService.GetAdminContactAbout();
+        await KvkkService.GetAdminKvkk();
         KvkkService.OnChange += StateHasChanged;
     }
 
@@ -99,10 +89,10 @@
 
     private void CreateNewBrand()
     {
-        editBrand = KvkkService.CreateNewSlider();
+        editBrand = KvkkService.CreateKvkk();
     }
 
-    private void EditBrand(BlazorApp.Shared.ContactAbout category)
+    private void EditBrand(BlazorApp.Shared.Kvkk category)
     {
         category.Editing = true;
 
@@ -112,17 +102,17 @@
     private async Task UpdateBrand()
     {
         if (editBrand.IsNew)
-            await KvkkService.AddSlider(editBrand);
+            await KvkkService.AddKvkk(editBrand);
         else
-            await KvkkService.UpdateSlider(editBrand);
+            await KvkkService.UpdateKvkk(editBrand);
 
-        editBrand = new BlazorApp.Shared.ContactAbout();
+        editBrand = new BlazorApp.Shared.Kvkk();
     }
 
     private async Task CancelEditing()
     {
-        editBrand = new BlazorApp.Shared.ContactAbout();
-        await KvkkService.GetAdminContactAbout();
+        editBrand = new BlazorApp.Shared.Kvkk();
+        await KvkkService.GetAdminKvkk();
     }
 
 
