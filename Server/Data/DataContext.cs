@@ -9,13 +9,14 @@
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<CartItem>().HasKey(ci => new { ci.UserId,ci.ProductId, ci.ProductTypeId });
+            modelBuilder.Entity<CartItem>().HasKey(ci => new { ci.UserId, ci.ProductId, ci.ProductTypeId });
 
-            modelBuilder.Entity<FavItem>().HasKey(ci => new { ci.UserId,ci.ProductId});
+            modelBuilder.Entity<FavItem>().HasKey(ci => new { ci.UserId, ci.ProductId });
 
             modelBuilder.Entity<ProductVariant>().HasKey(p => new { p.ProductId, p.ProductTypeId });
 
-            modelBuilder.Entity<OrderItem>().HasKey(oi => new {oi.OrderId, oi.ProductId, oi.ProductTypeId });
+            modelBuilder.Entity<OrderItem>().HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
+        }
 
            
         public DbSet<Product> Products { get; set; }
