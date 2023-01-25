@@ -31,8 +31,9 @@ namespace BlazorApp.Server.Services.SliderService
 
         public async Task<ServiceResponse<List<Slider>>> DeleteSlide(int id)
         {
-            Slider category = await GetSliderById(id);
-            if (category == null)
+            var dbProduct = await _context.Sliders.FindAsync(id);
+
+            if (dbProduct == null)
             {
                 return new ServiceResponse<List<Slider>>
                 {
@@ -40,7 +41,7 @@ namespace BlazorApp.Server.Services.SliderService
                     Message = "Category not found"
                 };
             }
-            _context.Sliders.Remove(category);
+            dbProduct.Deleted = true;
             await _context.SaveChangesAsync();
 
             return await GetAdminSlide();

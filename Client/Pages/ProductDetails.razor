@@ -38,9 +38,9 @@ else
                 }
                 else
                 {
-                    <MudCarousel Class="mud-width-full" ItemsSource="@product.Images" Style="height:200px;">
+                    <MudCarousel Class="mud-width-full" ItemsSource="@product.Images" Style="height:300px;" >
                         <ItemTemplate>
-                            <MudImage Src="@context.Data"></MudImage>
+                            <MudImage Class="mx-auto" Src="@context.Data" Style="align-items:center; justify-content:center; display:flex;"></MudImage>
                         </ItemTemplate>
                     </MudCarousel>
                 }
