@@ -48,11 +48,12 @@ else
             </div>
             <div class="p-desc">
                 <div class="desc-boxes">
-                    <div class="custom-list">
-                        <div class="list-first">Ürünün Varyantı:</div>
+                    
 
                         @if (product.Variants != null && product.Variants.Count > 1)
                         {
+                        <div class="custom-list">
+                            <div class="list-first">Ürünün Varyantı:</div>
                             <div class="list-second text-decoration-underline">
                                 <select class="form-select" @bind="currentTypeId">
                                     @foreach (var item in product.Variants)
@@ -61,14 +62,17 @@ else
                                     }
                                 </select>
                             </div>
+                        </div>
                         }
                         else
                         {
+                        <div class="custom-list">
+                            <div class="list-first"></div>
                             <div class="list-second d-flex justify-content-between align-items-center">
-                                Tek Varynat
                             </div>
+                        </div>
                         }
-                    </div>
+                    
                     <div class="custom-list2">
                         <div class="list-first">@product.WizardTitle:</div>
                         <div class="list-second d-flex justify-content-between align-items-center">
@@ -82,10 +86,6 @@ else
                     <div class="custom-list2">
                         <div class="list-first">@product.WizardTitle2:</div>
                         <div class="list-second text-decoration-underline">@product.WizardDesc2</div>
-                    </div>
-                    <div class="custom-list2">
-                        <div class="list-first">Ürün Varyant Adedi:</div>
-                        <div class="list-second">@product.Variants.Count()</div>
                     </div>
                     <div class="custom-list2">
                         <div class="list-first">@product.WizardTitle3:</div>

@@ -11,7 +11,14 @@
                 <a href="@item.Url">
                     <div class="mbox">
                         <span class="icon mb-3">
+                        @if(item.Images.Count < 1)
+                        {
+                            <img src="#" alt="">
+                        }
+                        else
+                        {
                             <img src="@item.Images[0].Data" alt="">
+                        }
                         </span>
 
                         <span class="text fw-semibold fs-5 c-2">@item.Name</span>
