@@ -60,7 +60,9 @@ namespace BlazorApp.Server.Services.BankAccountService
                  .ToListAsync();
             return new ServiceResponse<List<BankAccount>>
             {
-                Data = about
+                Data = await _context.BankAccounts
+                  .Where(p => !p.Deleted)
+                  .ToListAsync()
             };
         }
 
