@@ -1,0 +1,117 @@
+﻿@page "/admin/musteri-temsilcisi"
+@inject ICustomerNumService KvkkService
+@attribute [Authorize(Roles = "Admin")]
+@implements IDisposable
+
+<section class="mt-4">
+    <div class="custom-c-wrapper">
+        <h3>Müşteri Temsilcisi No</h3>
+        <button class="btn btn-primary" @onclick="CreateNewBrand">
+            <i class="oi oi-plus"></i> Yeni No Ekle
+        </button>
+        <div class="header">
+            <div class="col">No</div>
+            <div class="col">Visible</div>
+            <div class="col"></div>
+        </div>
+
+
+        @foreach (var category in KvkkService.AdminCustomerNums)
+        {
+            @if (category.Editing)
+            {
+                <EditForm Model="editBrand" OnSubmit="UpdateBrand">
+                    <div class="row">
+                        <div class="col">
+                            <InputText @bind-Value="editBrand.Number" class="form-control"></InputText>
+                        </div>
+                        <div class="col col-visible">
+                            <InputCheckbox @bind-Value="editBrand.Visible" style="transform:scale(1.5,1.5);"></InputCheckbox>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="oi oi-cloud-upload"></i>
+                            </button>
+                            <button class="btn btn-primary" @onclick="CancelEditing">
+                                <i class="oi oi-circle-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </EditForm>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col">
+                        @category.Number
+                    </div>
+                    <div class="col col-visible">
+                        <span>@(category.Visible ? "✓" : "")</span>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" @onclick="(()=>EditBrand(category))">
+                            <i class="oi oi-pencil"></i>
+                        </button>
+                        <button class="btn btn-primary" @onclick="(()=>DeleteBrand(category.Id))">
+                            <i class="oi oi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+
+
+
+    </div>
+</section>
+
+@code {
+    BlazorApp.Shared.CustomerNum editBrand = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await KvkkService.GetAdminNumber();
+        KvkkService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        KvkkService.OnChange -= StateHasChanged;
+    }
+
+    private void CreateNewBrand()
+    {
+        editBrand = KvkkService.CreateNumber();
+    }
+
+    private void EditBrand(BlazorApp.Shared.CustomerNum category)
+    {
+        category.Editing = true;
+
+        editBrand = category;
+    }
+
+    private async Task UpdateBrand()
+    {
+        if (editBrand.IsNew)
+            await KvkkService.AddNumber(editBrand);
+        else
+            await KvkkService.UpdateNumber(editBrand);
+
+        editBrand = new BlazorApp.Shared.CustomerNum();
+    }
+
+    private async Task CancelEditing()
+    {
+        editBrand = new BlazorApp.Shared.CustomerNum();
+        await KvkkService.GetAdminNumber();
+    }
+
+
+    private async Task DeleteBrand(int id)
+    {
+        await KvkkService.DeleteNumber(id);
+    }
+
+}

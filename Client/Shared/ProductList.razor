@@ -92,6 +92,38 @@ else
                             </div>
                         </div>
                     }
+                    else
+                    {
+                        <div class="product-box">
+                            <div class="d-flex justify-content-between">
+                                <span class="opp-text c-2">Yıldız</span>
+                                @if (!string.IsNullOrEmpty(prod.ImageURL))
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.ImageURL" alt=""></a>
+                                }
+                                else if (prod.Images.Count > 0)
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="@prod.Images[0].Data" alt="" width="200px" height="200px"></a>
+                                }
+                                else
+                                {
+                                    <a href="Product/@prod.ID"><img class="product-img" src="~/assets/images/logo.png" alt=""></a>
+                                }
+                                <i class="fa-regular fa-star c-1 t-shadow-sm add-favorites" type="button"></i>
+                            </div>
+                            <span class="product-name c-2">
+                                @prod.Title
+                            </span>
+                            <div class="d-flex justify-content-between mx-3 mt-3 mb-2">
+                                @if (prod.Variants != null && prod.Variants.Count > 0)
+                                {
+                                    <span class="product-price c-2">
+                                        <font class="c-1">Fiyat:</font> @prod.Variants[0].Price TL
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    }
                 }
             </div>
 
