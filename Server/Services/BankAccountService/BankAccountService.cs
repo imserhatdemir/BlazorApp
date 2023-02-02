@@ -36,7 +36,7 @@ namespace BlazorApp.Server.Services.BankAccountService
                     Message = "Category not found"
                 };
             }
-            category.Deleted = true;
+            _context.BankAccounts.Remove(category);
             await _context.SaveChangesAsync();
 
             return await GetAdminBankAccount();
@@ -47,7 +47,6 @@ namespace BlazorApp.Server.Services.BankAccountService
             var response = new ServiceResponse<List<BankAccount>>
             {
                 Data = await _context.BankAccounts
-                  .Where(p => !p.Deleted)
                   .ToListAsync()
             };
 
