@@ -49,6 +49,7 @@
                     .Include(p => p.Variants.Where(v => !v.Deleted))
                     .ThenInclude(v => v.ProductType)
                     .Include(c => c.Images)
+                    .Include(a=>a.Pdfs)
                     .ToListAsync()
             };
 
@@ -63,6 +64,7 @@
                 .Where(p => p.Featured && p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .Include(c => c.Images)
+                .Include(a => a.Pdfs)
                 .ToListAsync()
             };
             return response;   
@@ -77,7 +79,7 @@
                 product = await _context.Products
                     .Include(p => p.Variants.Where(v => !v.Deleted))
                     .ThenInclude(v => v.ProductType)
-                    .Include(c=>c.Images)
+                    .Include(c=>c.Images).Include(a => a.Pdfs)
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted);
 
             }
@@ -86,7 +88,7 @@
                product = await _context.Products
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                     .ThenInclude(v => v.ProductType)
-                    .Include(c => c.Images)
+                    .Include(c => c.Images).Include(a => a.Pdfs)
                     .FirstOrDefaultAsync(p => p.ID == productId && !p.Deleted && p.Visible);
 
             }
@@ -109,7 +111,7 @@
                 Data = await _context.Products.Where(p => p.Category.Url.ToLower().Equals(categoryUrl.ToLower())&& 
                 p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
-                .Include(p => p.Images)
+                .Include(p => p.Images).Include(a => a.Pdfs)
                 .ToListAsync()
             };
             return response;
@@ -124,7 +126,7 @@
                 Data = await _context.Products
                     .Where(p => p.Visible && !p.Deleted)
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
-                    .Include(c => c.Images)
+                    .Include(c => c.Images).Include(a => a.Pdfs)
                     .ToListAsync()
             };
 
@@ -174,7 +176,7 @@
                                     p.Description.ToLower().Contains(searchText.ToLower()) &&
                                     p.Visible && !p.Deleted)
                                 .Include(p => p.Variants)
-                                .Include(c => c.Images)
+                                .Include(c => c.Images).Include(a => a.Pdfs)
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
@@ -228,6 +230,10 @@
             var productImages = dbProduct.Images;
             _context.Images.RemoveRange(productImages);
 
+            var productPdfs = dbProduct.Pdfs;
+            _context.Pdfs.RemoveRange(productPdfs);
+
+            dbProduct.Pdfs = product.Pdfs;
             dbProduct.Images = product.Images;
 
             foreach (var variant in product.Variants)
