@@ -53,8 +53,6 @@
         public DbSet<BrandImage> BrandImages { get; set; }
         public DbSet<Kvkk> Kvkks { get; set; }
         public DbSet<Pdf> Pdfs { get; set; }
-
-
-
+        public DbSet<MainCategory> MainCategories { get; set; }
     }
 }

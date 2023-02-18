@@ -1,5 +1,6 @@
 ﻿@page "/admin/categories"
 @inject ICategoryService CategoryService
+@inject IMainCategoryService MainService
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles ="Admin")]
 @implements IDisposable
@@ -126,6 +127,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+
         await CategoryService.GetAdminCategories();
         CategoryService.OnChange += StateHasChanged;
     }

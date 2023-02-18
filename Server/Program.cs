@@ -25,6 +25,7 @@ global using BlazorApp.Server.Services.SendMailService;
 global using BlazorApp.Server.Services.SliderService;
 global using BlazorApp.Server.Services.FavService;
 global using BlazorApp.Server.Services.KvkkService;
+global using BlazorApp.Server.Services.MainCategoryService;
 global using BlazorApp.Shared;
 global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -71,6 +72,7 @@ builder.Services.AddScoped<ISendMailService, SendMailService>();
 builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IFavService, FavService>();
 builder.Services.AddScoped<IKvkkService, KvkkService>();
+builder.Services.AddScoped<IMainCategoryService, MainCategoryService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
