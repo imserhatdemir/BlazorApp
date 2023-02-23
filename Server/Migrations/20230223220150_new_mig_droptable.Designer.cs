@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230218123556_main_category")]
-    partial class main_category
+    [Migration("20230223220150_new_mig_droptable")]
+    partial class new_mig_droptable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,9 +254,6 @@ namespace BlazorApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MainCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -269,8 +266,6 @@ namespace BlazorApp.Server.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MainCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -602,23 +597,6 @@ namespace BlazorApp.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kvkks");
-                });
-
-            modelBuilder.Entity("BlazorApp.Shared.MainCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MainCategories");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.MissionVision", b =>
@@ -1095,13 +1073,6 @@ namespace BlazorApp.Server.Migrations
                         .HasForeignKey("BrandId");
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.Category", b =>
-                {
-                    b.HasOne("BlazorApp.Shared.MainCategory", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("MainCategoryId");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.CategoryImages", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Category", null)
@@ -1206,11 +1177,6 @@ namespace BlazorApp.Server.Migrations
             modelBuilder.Entity("BlazorApp.Shared.Category", b =>
                 {
                     b.Navigation("Images");
-                });
-
-            modelBuilder.Entity("BlazorApp.Shared.MainCategory", b =>
-                {
-                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Order", b =>

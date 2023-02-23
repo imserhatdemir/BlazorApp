@@ -1,5 +1,4 @@
 ﻿@inject ICategoryService CategoryService
-@inject IMainCategoryService MainService
 
 
 @*<div class="top-row ps-3 navbar navbar-dark">
@@ -51,16 +50,12 @@
             <ul class="dropdown-menu dropdown-custom">
                 <div class="custom-dmenu">
                         <li><font color="black"><a class="dropdown-item" href="/tum-urunler">Tüm Ürünler</a></font></li>
-                            @foreach (var item in MainService.MainCategories)
+                            @foreach (var item in CategoryService.Categories)
                             {
-                    <li><font color="black">@item.Name</font></li>
-                    <ul>
-                                    @foreach(var det in item.Categories)
-                                    {
 
-                                    <li><font color="black"><a class="dropdown-item" href="@det.Url">@det.Name</a></font></li>
-                                    }
-                    </ul>
+                            <a href="@item.Url">
+                            <li><font color="black">@item.Name</font></li></a>
+                            <br />
                             }
                 </div>
             </ul>
@@ -99,6 +94,5 @@
     protected override async Task OnInitializedAsync()
     {
         await CategoryService.GetCategories();
-        await MainService.GetMainCategories();
     }
 }

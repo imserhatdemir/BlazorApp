@@ -78,7 +78,6 @@
             dbCategory.Visible = category.Visible;
             dbCategory.Featured = category.Featured;
             dbCategory.ImageUrl = category.ImageUrl;
-
             var productImages = dbCategory.Images;
             _context.CategoryImages.RemoveRange(productImages);
 

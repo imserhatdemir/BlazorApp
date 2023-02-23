@@ -1,6 +1,5 @@
 ﻿@page "/admin/categories"
 @inject ICategoryService CategoryService
-@inject IMainCategoryService MainService
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles ="Admin")]
 @implements IDisposable
@@ -11,6 +10,7 @@
 <div class="header">
     <div class="col">Name</div>
     <div class="col">Url</div>
+    <div class="col">Main</div>
     <div class="col">Visible</div>
     <div class="col">Featured</div>
     <div class="col">Image</div>
@@ -122,6 +122,7 @@
 
 
 @code {
+
     Category editingCategory = null;
     Category det = new Category();
 

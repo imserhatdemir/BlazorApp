@@ -16,9 +16,11 @@
             modelBuilder.Entity<ProductVariant>().HasKey(p => new { p.ProductId, p.ProductTypeId });
 
             modelBuilder.Entity<OrderItem>().HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
+
+
         }
 
-           
+
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }

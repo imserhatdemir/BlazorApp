@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230218123807_update_maincategory")]
-    partial class update_maincategory
+    [Migration("20230223225517_new_mig_maincatandcat")]
+    partial class new_mig_maincatandcat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,9 +254,6 @@ namespace BlazorApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MainCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -269,8 +266,6 @@ namespace BlazorApp.Server.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MainCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -612,6 +607,9 @@ namespace BlazorApp.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
@@ -622,10 +620,16 @@ namespace BlazorApp.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Visible")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("MainCategories");
                 });
@@ -1104,13 +1108,6 @@ namespace BlazorApp.Server.Migrations
                         .HasForeignKey("BrandId");
                 });
 
-            modelBuilder.Entity("BlazorApp.Shared.Category", b =>
-                {
-                    b.HasOne("BlazorApp.Shared.MainCategory", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("MainCategoryId");
-                });
-
             modelBuilder.Entity("BlazorApp.Shared.CategoryImages", b =>
                 {
                     b.HasOne("BlazorApp.Shared.Category", null)
@@ -1134,6 +1131,17 @@ namespace BlazorApp.Server.Migrations
                     b.HasOne("BlazorApp.Shared.Product", null)
                         .WithMany("Images")
                         .HasForeignKey("ProductID");
+                });
+
+            modelBuilder.Entity("BlazorApp.Shared.MainCategory", b =>
+                {
+                    b.HasOne("BlazorApp.Shared.Category", "Category")
+                        .WithMany("MainCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.OrderItem", b =>
@@ -1215,11 +1223,8 @@ namespace BlazorApp.Server.Migrations
             modelBuilder.Entity("BlazorApp.Shared.Category", b =>
                 {
                     b.Navigation("Images");
-                });
 
-            modelBuilder.Entity("BlazorApp.Shared.MainCategory", b =>
-                {
-                    b.Navigation("Categories");
+                    b.Navigation("MainCategories");
                 });
 
             modelBuilder.Entity("BlazorApp.Shared.Order", b =>

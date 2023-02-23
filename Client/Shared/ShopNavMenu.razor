@@ -1,5 +1,4 @@
 ﻿@inject ICategoryService CategoryService
-@inject IMainCategoryService MainService
 @implements IDisposable
 <nav class="navbar navbar-expand-lg bg-nav navbar-dark nav-custom">
     <div class="container-fluid">
@@ -26,25 +25,16 @@
                             <a class="dropdown-item" href="/tum-urunler">
                         <li><font color="black">Tüm Ürünler</font></li></a>
                         <br/>
-                            @foreach (var item in MainService.MainCategories)
+                            @foreach (var item in CategoryService.Categories)
                             {
-                            <li><font color="black">@item.Name</font></li>
-                            <br />
-                                    @foreach (var det in item.Categories)
-                                    {
-                                        @if(det.Deleted == false && det.Visible==true)
-                                        {
-                                <a class="dropdown-item" href="@det.Url">
-                                <font color="black">@det.Name
 
-                                    </font>
-                                </a>
-                                        }
-                                    }
-                                    <br/>
+                            <a href="@item.Url">
+                            <li><font color="black">@item.Name</font></li></a>
+                            <br/>
                             }
         </div>
         </ul>
+
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/insan-kaynaklari">İnsan Kaynakları</a>
@@ -79,14 +69,11 @@
     protected override async Task OnInitializedAsync()
     {
         await CategoryService.GetCategories();
-        await MainService.GetMainCategories();
         CategoryService.OnChange += StateHasChanged;
-        MainService.OnChange += StateHasChanged;
     }
 
     public void Dispose()
     {
         CategoryService.OnChange -= StateHasChanged;
-        MainService.OnChange -= StateHasChanged;
     }
 }
