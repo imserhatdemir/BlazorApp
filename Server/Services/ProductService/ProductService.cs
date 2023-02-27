@@ -108,7 +108,7 @@
         {
             var response = new ServiceResponse<List<Product>>
             {
-                Data = await _context.Products.Where(p => p.Category.Url.ToLower().Equals(categoryUrl.ToLower())&& 
+                Data = await _context.Products.Where(p => p.MainCategory.Url.ToLower().Equals(categoryUrl.ToLower())&& 
                 p.Visible && !p.Deleted)
                 .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                 .Include(p => p.Images).Include(a => a.Pdfs)
@@ -117,7 +117,18 @@
             return response;
         }
 
-
+        //public async Task<ServiceResponse<List<Product>>> GetProductBySubCategory(string suburl)
+        //{
+        //    var response = new ServiceResponse<List<Product>>
+        //    {
+        //        Data = await _context.Products.Where(p => p.MainCategory.Url.ToLower().Equals(suburl.ToLower()) &&
+        //        p.Visible && !p.Deleted)
+        //       .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+        //       .Include(p => p.Images).Include(a => a.Pdfs)
+        //       .ToListAsync()
+        //    };
+        //    return response;
+        //}
 
         public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
         {
@@ -212,6 +223,7 @@
             dbProduct.Description = product.Description;
             dbProduct.ImageURL = product.ImageURL;
             dbProduct.CategoryId = product.CategoryId;
+            dbProduct.MainCategoryId = product.MainCategoryId;
             dbProduct.Visible = product.Visible;
             dbProduct.Featured = product.Featured;
             dbProduct.WizardTitle = product.WizardTitle;

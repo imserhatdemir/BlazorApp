@@ -46,7 +46,7 @@ namespace BlazorApp.Client.Services.ProductService
 
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
-            var result = await _http.GetFromJsonAsync<ServiceResponse<Product>>($"api/Product/{productId}/");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Product>>($"api/Product/{productId}");
             return result;
         }
 
@@ -104,5 +104,22 @@ namespace BlazorApp.Client.Services.ProductService
             var result = await _http.PutAsJsonAsync($"api/product", product);
             return (await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
         }
+
+        //public async Task GetProductsBySub(string? subUrl = null)
+        //{
+        //    var result = subUrl == null ?
+        //         await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product/featured") :
+        //         await _http.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/{subUrl}");
+        //    if (result != null && result.Data != null)
+        //        Products = result.Data;
+
+        //    CurrentPage = 1;
+        //    PageCount = 0;
+
+        //    if (Products.Count == 0)
+        //        Message = "No products found";
+
+        //    ProductsChanged.Invoke();
+        //}
     }
 }

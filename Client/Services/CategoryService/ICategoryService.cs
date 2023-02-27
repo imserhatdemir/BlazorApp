@@ -10,9 +10,13 @@
         Task GetCategories();
         Task GetAdminCategories();
         Task DeleteCategories(int categoryId);
-        Task UpdateCategories(Category category);
+        Task<Category> UpdateCategories(Category category);
         Task AddCategories(Category category);
         Category CreateNewCategory();
-        
+        Task<ServiceResponse<Category>> GetCategory(int catId);
+        Task<Category> CreateCategory(Category category);
+
+
+
     }
 }

@@ -8,7 +8,7 @@
     <div class="mbox-wrapper">
         @foreach (var item in CategoryService.Categories)
         {
-                <a href="@item.Url">
+            <a href="/Category/@item.Id">
                     <div class="mbox">
                         <span class="icon mb-3">
                         @if(item.Images.Count < 1)

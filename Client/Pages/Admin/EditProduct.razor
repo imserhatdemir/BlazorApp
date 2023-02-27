@@ -3,6 +3,7 @@
 @inject IProductService ProductService
 @inject IProductTypeService ProductTypeService
 @inject ICategoryService CategoryService
+@inject IMainCategoryService MainCategoryService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSruntime
 
@@ -132,6 +133,15 @@
                         }
                     </InputSelect>
                 </div>
+                <div class="mb-0">
+                    <label for="category"> Alt Category</label>
+                    <InputSelect id="category" @bind-Value="product.MainCategoryId" class="form-control">
+                        @foreach (var category in MainCategoryService.AdminMainCategories)
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        }
+                    </InputSelect>
+                </div>
                 <hr/>
                 <div class="mb-0">
                     <label for="title">Özellik Başlığı 1</label>
@@ -220,6 +230,7 @@
     {
         await ProductTypeService.GetProductTypes();
         await CategoryService.GetAdminCategories();
+        await MainCategoryService.GetAdminMainCategories();
     }
 
 

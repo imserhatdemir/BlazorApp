@@ -47,15 +47,27 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPut("admin"), Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ServiceResponse<List<Category>>>> UpdateCategory(Category category)
+        [HttpPut, Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Category>>> UpdateCategory(Category product)
         {
-            var result = await _categoryService.UpdateCategory(category);
+            var result = await _categoryService.UpdateCategory(product);
+            return Ok(result);
+        }
+
+        [HttpGet("{catId}")]
+        public async Task<ActionResult<ServiceResponse<Category>>> GetProduct(int catId)
+        {
+            var result = await _categoryService.GetCategoryAsync(catId);
             return Ok(result);
         }
 
 
-
+        [HttpPost, Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Category>>> CreateProduct(Category category)
+        {
+            var result = await _categoryService.CreateCategory(category);
+            return Ok(result);
+        }
 
     }
 }

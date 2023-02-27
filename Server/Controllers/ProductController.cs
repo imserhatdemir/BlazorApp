@@ -70,6 +70,13 @@ namespace BlazorApp.Server.Controllers
             return Ok(result);
         }
 
+        //[HttpGet("{subUrl}")]
+        //public async Task<ActionResult<ServiceResponse<Product>>> GetProductsBySubCategory(string subUrl)
+        //{
+        //    var result = await _productService.GetProductBySubCategory(subUrl);
+        //    return Ok(result);
+        //}
+
         [HttpGet("search/{searchText}/{page}")]
         public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchText,int page)
         {

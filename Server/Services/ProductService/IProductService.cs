@@ -12,5 +12,7 @@
         Task<ServiceResponse<Product>> CreateProduct(Product product);
         Task<ServiceResponse<Product>> UpdateProduct(Product product);
         Task<ServiceResponse<bool>> DeleteProduct(int Id);
+        //Task<ServiceResponse<List<Product>>> GetProductBySubCategory(string suburl);
+
     }
 }

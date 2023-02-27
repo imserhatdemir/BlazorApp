@@ -17,6 +17,9 @@
 
             modelBuilder.Entity<OrderItem>().HasKey(oi => new { oi.OrderId, oi.ProductId, oi.ProductTypeId });
 
+            modelBuilder.Entity<CategoryConnect>().HasKey(p => new { p.CategoryId, p.MainCategoryId });
+
+
 
         }
 
@@ -56,5 +59,6 @@
         public DbSet<Kvkk> Kvkks { get; set; }
         public DbSet<Pdf> Pdfs { get; set; }
         public DbSet<MainCategory> MainCategories { get; set; }
+        public DbSet<CategoryConnect> CategoryConnects { get; set; }
     }
 }

@@ -28,9 +28,15 @@
                             @foreach (var item in CategoryService.Categories)
                             {
 
-                            <a href="@item.Url">
+                            <a href="/Category/@item.Id">
                             <li><font color="black">@item.Name</font></li></a>
-                            <br/>
+                           
+                                @foreach (var dat in item.CategoryConnect)
+                                {
+                                <a href="@dat.MainCategory.Url">
+                                <font color="black">@dat.MainCategory.Name</font></a>
+                                }
+                            <br />
                             }
         </div>
         </ul>

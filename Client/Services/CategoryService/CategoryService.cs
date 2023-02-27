@@ -1,4 +1,5 @@
-﻿using BlazorApp.Shared;
+﻿using BlazorApp.Client.Pages.Admin;
+using BlazorApp.Shared;
 
 namespace BlazorApp.Client.Services.CategoryService
 {
@@ -21,6 +22,13 @@ namespace BlazorApp.Client.Services.CategoryService
             AdminCategories = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Category>>>()).Data;
             await GetCategories();
             OnChange.Invoke();
+        }
+
+        public async Task<Category> CreateCategory(Category category)
+        {
+            var result = await _http.PostAsJsonAsync("api/category", category);
+            return (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Category>>()).Data;
         }
 
         public Category CreateNewCategory()
@@ -53,12 +61,16 @@ namespace BlazorApp.Client.Services.CategoryService
             Categories = response.Data;
         }
 
-        public async Task UpdateCategories(Category category)
+        public async Task<ServiceResponse<Category>> GetCategory(int catId)
         {
-            var response = await _http.PutAsJsonAsync("api/Category/admin",category);
-            AdminCategories = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Category>>>()).Data;
-            await GetCategories();
-            OnChange.Invoke();
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Category>>($"api/Category/{catId}/");
+            return result;
+        }
+
+        public async Task<Category> UpdateCategories(Category category)
+        {
+            var result = await _http.PutAsJsonAsync("api/Category", category);
+            return (await result.Content.ReadFromJsonAsync<ServiceResponse<Category>>()).Data;
         }
     }
 }

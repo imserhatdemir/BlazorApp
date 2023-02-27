@@ -1,0 +1,82 @@
+﻿@page "/admin/sub-category"
+@inject ICategoryService CategoryService
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = "Admin")]
+
+<section class="mt-4">
+    <div class="custom-c-wrapper d-flex flex-column">
+        @if (CategoryService.AdminCategories == null)
+        {
+            <h3>Category</h3>
+            <span>Loading Category</span>
+        }
+        else
+        {
+            <section class="mt-4">
+                <h3>Products</h3>
+                <button class="btn btn-primary float-end" @onclick="CreateProduct">
+                    <i class="oi oi-plus"></i>Add a new product
+                </button>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Category</th>
+                            <th>Sub-category</th>
+                            <th>Visible</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <Virtualize Items="CategoryService.AdminCategories" Context="category">
+                            <tr>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(category.ImageUrl))
+                                    {
+                                        <img src="@category.ImageUrl" />
+                                    }
+                                    else if (category.Images.Count > 0)
+                                    {
+                                        <img src="@category.Images[0].Data" />
+                                    }
+
+                                </td>
+
+                                <td>@category.Name</td>
+                                <td>
+                                    @foreach (var variant in category.CategoryConnect)
+                                    {
+                                        <span>@variant.MainCategory.Name</span>
+
+                                        <br />
+                                    }
+                                </td>
+                                <td>@(category.Visible ? "✔️" : "")</td>
+                                <td>
+                                    <button class="btn btn-primary" @onclick="(()=>EditProduct(category.Id))">
+                                        <i class="oi oi-pencil"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </Virtualize>
+                    </tbody>
+                </table>
+            </section>
+        }
+    </div>
+</section>
+
+
+@code {
+    protected override async Task OnInitializedAsync() => await CategoryService.GetAdminCategories();
+
+    void EditProduct(int productId)
+    {
+        NavigationManager.NavigateTo($"admin/editcat/{productId}");
+    }
+
+    void CreateProduct()
+    {
+        NavigationManager.NavigateTo("admin/editcat/");
+    }
+}

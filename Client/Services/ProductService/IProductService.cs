@@ -18,5 +18,7 @@
         Task<Product> CreateProduct(Product product);
         Task<Product> UpdateProduct(Product product);
         Task DeleteProduct(Product productId);
+        //Task GetProductsBySub(string? subUrl = null);
+
     }
 }

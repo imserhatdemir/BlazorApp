@@ -5,7 +5,7 @@
 
 <PageTitle>Çemenardagül</PageTitle>
 
-@if(SearchText==null && CategoryUrl==null)
+@if (SearchText == null && CategoryUrl == null)
 {
     <Slide/>
     <br/>
@@ -25,7 +25,9 @@ else
     [Parameter]
     public string? CategoryUrl { get; set; } = null;
     [Parameter]
-    public string? SearchText { get; set; } = null;
+    public string? SearchText { get; set; } = null; 
+    [Parameter]
+    public string? SubUrl { get; set; } = null;
     [Parameter]
     public int Page { get; set; } = 1;
 

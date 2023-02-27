@@ -1,0 +1,82 @@
+﻿@page "/Category/{id:int}"
+@inject ICategoryService CategoryService
+
+
+<section class="navigate-section">
+    <div class="navigate">
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center">
+                <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
+                <img width="40" src="assets/images/icons/right-arrow.png" alt="">
+                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Kategori</a>
+            </div>
+            <div class="fs-4 c-2 mt-2">Çemenardagül Elektronik ve Gıda İt. İh. Tic. San. Ltd. Şti.</div>
+        </div>
+    </div>
+</section>
+<section>
+    <h1 class="c-2 d-flex justify-content-center my-3">@product.Name</h1>
+    <div class="mbox-wrapper">
+           
+                <div class="mbox">
+                    <span class="icon mb-3">
+                    @if (product.Images.Count < 1)
+                        {
+                            <img src="#" alt="">
+                        }
+                        else
+                        {
+                        <img src="@product.Images[0].Data" alt="">
+                        }
+                    </span>
+
+                <span class="text fw-semibold fs-5 c-2">@product.Name</span>
+
+                </div>
+    </div>
+
+</section>
+<br />
+<section>
+        @foreach (var item in product.CategoryConnect)
+        {
+            <section>
+                <div class="mbox-wrapper">
+                    <a href="@item.MainCategory.Url">
+                    <div class="mbox">
+
+                        <span class="text fw-semibold fs-5 c-2">@item.MainCategory.Name</span>
+
+                    </div>
+                </a>
+                </div>
+
+            </section>
+        }
+</section>
+<br />
+<br />
+@code {
+    private Category? product = null;
+    private string message = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        message = "loading product....";
+        var result = await CategoryService.GetCategory(Id);
+
+        if (result.Success)
+        {
+
+            message = result.Message;
+        }
+        else
+        {
+            product = result.Data;
+        }
+
+    }
+}
