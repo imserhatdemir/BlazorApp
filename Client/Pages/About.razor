@@ -3,7 +3,10 @@
 @implements IDisposable
 
 <PageTitle>Çemenardagül</PageTitle>
-
+<HeadContent>
+    <meta name="description" content="Web sitemizin açıklaması burada yer alacak.">
+    <meta name="keywords" content="anahtar kelime 1, anahtar kelime 2, anahtar kelime 3">
+</HeadContent>
 <section class="navigate-section">
     <div class="navigate">
         <div class="d-flex flex-column">
@@ -52,6 +55,7 @@
 <Responsibility/>
 
 @code {
+    About about = new About();
     protected override async Task OnInitializedAsync()
     {
         await AboutService.GetAbout();

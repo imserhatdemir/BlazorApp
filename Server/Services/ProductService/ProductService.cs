@@ -42,6 +42,7 @@
 
         public async Task<ServiceResponse<List<Product>>> GetAdminProducts()
         {
+
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
@@ -55,6 +56,7 @@
 
             return response;
         }
+
 
         public async Task<ServiceResponse<List<Product>>> GetFeatureProducts()
         {
@@ -236,6 +238,7 @@
             dbProduct.WizardDesc3 = product.WizardDesc3;
             dbProduct.WizardTitle4 = product.WizardTitle4;
             dbProduct.WizardDesc4 = product.WizardDesc4;
+            dbProduct.KeyWords = product.KeyWords;
 
 
 

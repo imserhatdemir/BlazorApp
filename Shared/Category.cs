@@ -13,6 +13,8 @@ namespace BlazorApp.Shared
         public string Name { get; set; } = string.Empty;
         public string Url { get; set; } = string.Empty;
         public string ImageUrl { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Keywords { get; set; } = string.Empty;
         public List<CategoryImages> Images { get; set; } = new List<CategoryImages>();
         public List<CategoryConnect> CategoryConnect { get; set; } = new List<CategoryConnect>();
         public bool Visible { get; set; } = true;

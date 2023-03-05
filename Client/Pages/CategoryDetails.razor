@@ -1,6 +1,11 @@
 ﻿@page "/Category/{id:int}"
 @inject ICategoryService CategoryService
+ 
 
+<HeadContent>
+    <meta name="description" content="@product.Description">
+    <meta name="keywords" content="@product.Keywords">
+</HeadContent>
 
 <section class="navigate-section">
     <div class="navigate">

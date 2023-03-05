@@ -121,5 +121,6 @@ namespace BlazorApp.Client.Services.ProductService
 
         //    ProductsChanged.Invoke();
         //}
+
     }
 }

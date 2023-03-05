@@ -25,6 +25,7 @@ namespace BlazorApp.Shared
         public string WizardDesc3 { get; set; } = string.Empty;
         public string WizardTitle4 { get; set; } = string.Empty;
         public string WizardDesc4 { get; set; } = string.Empty;
+        public string KeyWords { get; set; } = string.Empty;
         public List<Image> Images { get; set; } = new List<Image>();
         public Category? Category { get; set; }
         public int CategoryId { get; set; }

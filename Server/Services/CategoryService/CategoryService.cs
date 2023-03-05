@@ -131,6 +131,8 @@ namespace BlazorApp.Server.Services.CategoryService
             dbProduct.Featured = category.Featured;
             dbProduct.Url = category.Url;
             dbProduct.ImageUrl = category.ImageUrl;
+            dbProduct.Keywords = category.Keywords;
+            dbProduct.Description = category.Description;
 
 
 

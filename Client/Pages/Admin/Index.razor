@@ -1,0 +1,97 @@
+﻿@page "/admin/det-prod"
+@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles ="Admin")]
+
+@using Radzen.Blazor
+@using System.Linq
+
+<section class="mt-4">
+    <div class="custom-c-wrapper d-flex flex-column">
+        @if(ProductService.AdminProducts == null)
+        {
+            <h3>Products</h3>
+            <span>Loading Products</span>
+        }
+        else
+        {
+            <h3>Products</h3>
+            <button class="btn btn-primary float-end" @onclick="CreateProduct">
+                <i class="oi oi-plus"></i>Add a new product
+            </button>
+
+            <RadzenGrid TValue="Product" Data="@ProductService.AdminProducts" PageSize="10" AllowPaging="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
+                <Columns>
+                    <RadzenGridColumn TItem="Product" Property="Id" Title="" Width="50px">
+                        <Template Context="product">
+                            @if (!string.IsNullOrEmpty(product.ImageURL))
+                            {
+                                <img src="@product.ImageURL" style="max-width: 50px; max-height:50px;"/>
+                            }
+                            else if(product.Images.Count>0)
+                            {
+                                <img src="@product.Images[0].Data" style="max-width: 50px; max-height:50px;"/>
+                            }
+                        </Template>
+                    </RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Property="Title" Title="Product"></RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Property="Variants" Title="Variant">
+                        <Template Context="product">
+                            @foreach(var variant in product.Variants)
+                            {
+                                <span>@variant.ProductType.Name</span><br/>
+                            }
+                        </Template>
+                    </RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Property="Variants" Title="Price">
+                        <Template Context="product">
+                            @foreach (var variant in product.Variants)
+                            {
+                                <span>@variant.Price</span>
+
+                                <br />
+                            }
+                        </Template>
+                    </RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Property="Visible" Title="Visible" Width="100px">
+                        <Template Context="product">
+                            @if(product.Visible)
+                            {
+                                <RadzenIcon Icon="check" />
+                            }
+                        </Template>
+                    </RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Property="Featured" Title="Featured" Width="100px">
+                        <Template Context="product">
+                            @if (product.Featured)
+                            {
+                                <RadzenIcon Icon="check" />
+                            }
+                        </Template>
+                    </RadzenGridColumn>
+                    <RadzenGridColumn TItem="Product" Title="" Width="100px">
+                        <Template Context="product">
+                            <RadzenButton Click="() => EditProduct(product.ID)">
+                                <RadzenIcon Icon="oi-pencil" />
+                            </RadzenButton>
+                        </Template>
+                    </RadzenGridColumn>
+                </Columns>
+            </RadzenGrid>
+        }
+    </div>
+</section>
+
+@code {
+    protected override async Task OnInitializedAsync() => await ProductService.GetAdminProducts();
+
+    void EditProduct(int productId)
+    {
+        NavigationManager.NavigateTo($"admin/product/{productId}");
+    }
+
+    void CreateProduct()
+    {
+        NavigationManager.NavigateTo("admin/product/");
+    }
+}

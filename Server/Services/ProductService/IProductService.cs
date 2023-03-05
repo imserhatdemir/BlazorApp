@@ -14,5 +14,6 @@
         Task<ServiceResponse<bool>> DeleteProduct(int Id);
         //Task<ServiceResponse<List<Product>>> GetProductBySubCategory(string suburl);
 
+
     }
 }

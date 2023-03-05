@@ -4,7 +4,10 @@
 @inject ICartService CartService
 @inject IFavService FavService
 <PageTitle>Çemenardagül</PageTitle>
-
+<HeadContent>
+    <meta name="description" content="Web sitemizin açıklaması burada yer alacak.">
+    <meta name="keywords" content="anahtar kelime 1, anahtar kelime 2, anahtar kelime 3">
+</HeadContent>
 
 @if (ProductService.Products == null || ProductService.Products.Count == 0)
 {

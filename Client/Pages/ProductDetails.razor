@@ -5,6 +5,10 @@
 @inject IFavService FavService
 
 <PageTitle>Hoşgeldiniz - Çemenardagül</PageTitle>
+<HeadContent>
+    <meta name="description" content="@product.Description">
+    <meta name="keywords" content="@product.KeyWords">
+</HeadContent>
 @if(product == null){
     <span>@ProductService.Message</span>
 }
