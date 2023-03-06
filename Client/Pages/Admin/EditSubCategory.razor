@@ -205,13 +205,13 @@
         if (product.IsNew)
         {
             var result = await CategoryService.CreateCategory(product);
-            NavigationManager.NavigateTo("admin/sub-category");
+            NavigationManager.NavigateTo("admin/sub-categories-list");
         }
         else
         {
             product.IsNew = false;
             product = await CategoryService.UpdateCategories(product);
-            NavigationManager.NavigateTo($"admin/editsub/{product.Id}", true);
+            NavigationManager.NavigateTo($"admin/editcat/{product.Id}", true);
         }
     }
 
@@ -221,7 +221,7 @@
         if (confirmed)
         {
             await CategoryService.DeleteCategories(product.Id);
-            NavigationManager.NavigateTo("admin/sub-category");
+            NavigationManager.NavigateTo("admin/sub-categories-list");
         }
 
     }

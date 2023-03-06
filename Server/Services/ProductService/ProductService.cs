@@ -5,10 +5,40 @@
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
+        public ProductService()
+        {
+        }
+
         public ProductService(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<ServiceResponse<ProductSearchResult>> AdminPageProducts(int page)
+        {
+            var pageResults = 9f;
+            var pageCount = Math.Ceiling((await FindProduct()).Count/ pageResults);
+            var products = await _context.Products
+                                .Where(p =>
+                                    p.Visible && !p.Deleted)
+                                .Include(p => p.Variants)
+                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ProductSearchResult>
+            {
+                Data = new ProductSearchResult
+                {
+                    Products = products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount
+                }
+            };
+            
+            return response;
         }
 
         public async Task<ServiceResponse<Product>> CreateProduct(Product product)
@@ -180,9 +210,35 @@
             return new ServiceResponse<List<string>> { Data = result };
         }
 
+        public async Task<ServiceResponse<ProductSearchResult>> PageProducts(string Url, int page)
+        {
+            var pageResults = 9f;
+            var pageCount = Math.Ceiling((await FindProductByUrl(Url)).Count / pageResults);
+            var products = await _context.Products
+                                .Where(p => p.MainCategory.Url.ToLower().Equals(Url.ToLower()) &&
+                                    p.Visible && !p.Deleted)
+                                .Include(p => p.Variants)
+                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ProductSearchResult>
+            {
+                Data = new ProductSearchResult
+                {
+                    Products = products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount
+                }
+            };
+
+            return response;
+        }
+
         public async Task<ServiceResponse<ProductSearchResult>> SearchProducts(string searchText, int page)
         {
-            var pageResults = 2f;
+            var pageResults = 9f;
             var pageCount = Math.Ceiling((await FindProductBySearchText(searchText)).Count / pageResults);
             var products = await _context.Products
                                 .Where(p => p.Title.ToLower().Contains(searchText.ToLower()) ||
@@ -284,6 +340,67 @@
                             .Where(p => p.Title.ToLower().Contains(searchText.ToLower())|| p.Description.ToLower().Contains(searchText.ToLower())
                             && p.Visible && !p.Deleted)
                             .Include(p => p.Variants).ToListAsync();
+        }
+
+        private async Task<List<Product>> FindProductByUrl(string searchText)
+        {
+            return await _context.Products
+                            .Where(p => p.MainCategory.Url.ToLower().Equals(searchText.ToLower())
+                            && p.Visible && !p.Deleted)
+                            .Include(p => p.Variants)
+                            .Include(p=>p.Images).ToListAsync();
+        }
+        private async Task<List<Product>> FindProduct()
+        {
+            return await _context.Products
+                           .Where(p => !p.Deleted)
+                    .Include(p => p.Variants.Where(v => !v.Deleted))
+                    .ThenInclude(v => v.ProductType)
+                    .Include(c => c.Images)
+                    .Include(a => a.Pdfs).ToListAsync();
+        }
+
+
+
+        private async Task<List<Product>> AllFindProduct()
+        {
+            return await _context.Products
+                           .Where(p =>p.Visible && !p.Deleted)
+                    .Include(p => p.Variants.Where(v => !v.Deleted))
+                    .ThenInclude(v => v.ProductType)
+                    .Include(c => c.Images)
+                    .Include(a => a.Pdfs).ToListAsync();
+        }
+
+
+
+
+
+
+        public async Task<ServiceResponse<ProductSearchResult>> AllPageProducts(int page)
+        {
+            var pageResults = 9f;
+            var pageCount = Math.Ceiling((await AllFindProduct()).Count / pageResults);
+            var products = await _context.Products
+                                .Where(p =>
+                                    p.Visible && !p.Deleted)
+                                .Include(p => p.Variants)
+                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Skip((page - 1) * (int)pageResults)
+                                .Take((int)pageResults)
+                                .ToListAsync();
+
+            var response = new ServiceResponse<ProductSearchResult>
+            {
+                Data = new ProductSearchResult
+                {
+                    Products = products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount
+                }
+            };
+
+            return response;
         }
     }
 }

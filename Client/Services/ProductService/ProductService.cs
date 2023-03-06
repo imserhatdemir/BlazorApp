@@ -105,6 +105,50 @@ namespace BlazorApp.Client.Services.ProductService
             return (await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
         }
 
+        public async Task PageProducts(string Url, int page)
+        {
+            LastSearchText = Url;
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<ProductSearchResult>>($"api/product/list/{Url}/{page}");
+            if (result != null && result.Data != null)
+            {
+                Products = result.Data.Products;
+                CurrentPage = result.Data.CurrentPage;
+                PageCount = result.Data.Pages;
+            }
+            if (Products.Count == 0) Message = "No product found.";
+            ProductsChanged?.Invoke();
+        }
+
+        public async Task AdminPageProducts(int page)
+        {
+           
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<ProductSearchResult>>($"api/product/admin/{page}");
+            if (result != null && result.Data != null)
+            {
+                Products = result.Data.Products;
+                CurrentPage = result.Data.CurrentPage;
+                PageCount = result.Data.Pages;
+            }
+            if (Products.Count == 0) Message = "No product found.";
+            ProductsChanged?.Invoke();
+        }
+
+        public async Task AllPageProducts(int page)
+        {
+            var result = await _http
+                .GetFromJsonAsync<ServiceResponse<ProductSearchResult>>($"api/product/all/{page}");
+            if (result != null && result.Data != null)
+            {
+                Products = result.Data.Products;
+                CurrentPage = result.Data.CurrentPage;
+                PageCount = result.Data.Pages;
+            }
+            if (Products.Count == 0) Message = "No product found.";
+            ProductsChanged?.Invoke();
+        }
+
         //public async Task GetProductsBySub(string? subUrl = null)
         //{
         //    var result = subUrl == null ?

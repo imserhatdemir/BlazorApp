@@ -100,6 +100,30 @@ namespace BlazorApp.Server.Controllers
         }
 
 
+        [HttpGet("list/{Url}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> PageProducts(string Url, int page)
+        {
+            var result = await _productService.PageProducts(Url, page);
+            return Ok(result);
+        }
+
+        [HttpGet("admin/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> PageProducts(int page)
+        {
+            var result = await _productService.AdminPageProducts(page);
+            return Ok(result);
+        }
+
+
+
+        [HttpGet("all/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> AllPageProducts(int page)
+        {
+            var result = await _productService.AllPageProducts(page);
+            return Ok(result);
+        }
+
+
 
 
     }

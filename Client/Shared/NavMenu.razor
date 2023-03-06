@@ -49,7 +49,7 @@
                 </a>
             <ul class="dropdown-menu dropdown-custom">
                 <div class="custom-dmenu">
-                        <li><font color="black"><a class="dropdown-item" href="/tum-urunler">Tüm Ürünler</a></font></li>
+                        <li><font color="black"><a class="dropdown-item" href="/all/1">Tüm Ürünler</a></font></li>
                             @foreach (var item in CategoryService.Categories)
                             {
 
@@ -58,8 +58,8 @@
                             <br />
                                 @foreach(var dat in item.CategoryConnect)
                                 {
-                                    
-                                <a href="@dat.MainCategory.Url">
+
+                                <a href="/list/@dat.MainCategory.Url/1">
                                 <li><font color="black">@dat.MainCategory.Name</font></li></a>
                                 }
 

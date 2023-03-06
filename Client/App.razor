@@ -1,4 +1,7 @@
-﻿<CascadingAuthenticationState>
+﻿@inject Microsoft.AspNetCore.Components.WebAssembly.Services.LazyAssemblyLoader AssemblyLoader
+
+
+<CascadingAuthenticationState>
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(ShopLayout)">
@@ -17,3 +20,6 @@
     </NotFound>
 </Router>
 </CascadingAuthenticationState>
+
+
+

@@ -13,7 +13,9 @@
         Task<ServiceResponse<Product>> UpdateProduct(Product product);
         Task<ServiceResponse<bool>> DeleteProduct(int Id);
         //Task<ServiceResponse<List<Product>>> GetProductBySubCategory(string suburl);
-
+        Task<ServiceResponse<ProductSearchResult>> PageProducts(string Url, int page);
+        Task<ServiceResponse<ProductSearchResult>> AdminPageProducts(int page);
+        Task<ServiceResponse<ProductSearchResult>> AllPageProducts(int page);
 
     }
 }
