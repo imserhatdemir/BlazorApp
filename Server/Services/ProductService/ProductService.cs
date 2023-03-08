@@ -20,10 +20,16 @@
             var pageResults = 9f;
             var pageCount = Math.Ceiling((await FindProduct()).Count/ pageResults);
             var products = await _context.Products
-                                .Where(p =>
-                                    p.Visible && !p.Deleted)
-                                .Include(p => p.Variants)
-                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Where(p =>!p.Deleted)
+                                .Select(p => new Product
+                                {
+                                    Title = p.Title,
+                                    ID = p.ID,
+                                    Images = p.Images,
+                                    Variants = p.Variants,
+                                    Visible = p.Visible,
+                                    Featured = p.Featured
+                                })
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
@@ -217,8 +223,13 @@
             var products = await _context.Products
                                 .Where(p => p.MainCategory.Url.ToLower().Equals(Url.ToLower()) &&
                                     p.Visible && !p.Deleted)
-                                .Include(p => p.Variants)
-                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Select(p => new Product
+                                {
+                                    Title = p.Title,
+                                    ID = p.ID,
+                                    Variants = p.Variants,
+                                    Images = p.Images
+                                })
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
@@ -244,8 +255,13 @@
                                 .Where(p => p.Title.ToLower().Contains(searchText.ToLower()) ||
                                     p.Description.ToLower().Contains(searchText.ToLower()) &&
                                     p.Visible && !p.Deleted)
-                                .Include(p => p.Variants)
-                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Select(p => new Product
+                                {
+                                    Title = p.Title,
+                                    ID = p.ID,
+                                    Variants = p.Variants,
+                                    Images = p.Images
+                                })
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
@@ -379,13 +395,40 @@
 
         public async Task<ServiceResponse<ProductSearchResult>> AllPageProducts(int page)
         {
+            //var pageResults = 9f;
+            //var pageCount = Math.Ceiling((await AllFindProduct()).Count / pageResults);
+            //var products = await _context.Products
+            //                    .Where(p =>
+            //                        p.Visible && !p.Deleted)
+            //                    .Include(p => p.Variants)
+            //                    .Include(c => c.Images).Include(a => a.Pdfs)
+            //                    .Skip((page - 1) * (int)pageResults)
+            //                    .Take((int)pageResults)
+            //                    .ToListAsync();
+
+            //var response = new ServiceResponse<ProductSearchResult>
+            //{
+            //    Data = new ProductSearchResult
+            //    {
+            //        Products = products,
+            //        CurrentPage = page,
+            //        Pages = (int)pageCount
+            //    }
+            //};
+
+            //return response;
             var pageResults = 9f;
             var pageCount = Math.Ceiling((await AllFindProduct()).Count / pageResults);
             var products = await _context.Products
                                 .Where(p =>
                                     p.Visible && !p.Deleted)
-                                .Include(p => p.Variants)
-                                .Include(c => c.Images).Include(a => a.Pdfs)
+                                .Select(p => new Product
+                                {
+                                    Title = p.Title,
+                                    ID = p.ID,
+                                    Variants = p.Variants,
+                                    Images = p.Images
+                                })
                                 .Skip((page - 1) * (int)pageResults)
                                 .Take((int)pageResults)
                                 .ToListAsync();
