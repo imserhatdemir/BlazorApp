@@ -24,19 +24,11 @@
                         <div class="custom-dmenu">
                             <a class="dropdown-item" href="/all/1">
                         <li><font color="black">Tüm Ürünler</font></li></a>
-                        <br/>
                             @foreach (var item in CategoryService.Categories)
                             {
 
                             <a href="/Category/@item.Id">
                             <li><font color="black">@item.Name</font></li></a>
-                           
-                                @foreach (var dat in item.CategoryConnect)
-                                {
-                                <a href="/list/@dat.MainCategory.Url/1">
-                                <font color="black">@dat.MainCategory.Name</font></a>
-                                }
-                            <br />
                             }
         </div>
         </ul>

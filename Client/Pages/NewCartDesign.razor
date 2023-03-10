@@ -1,0 +1,222 @@
+﻿@page "/cart-new"
+@inject ICartService CartService
+@inject IOrderService OrderService
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Çemenardagül</PageTitle>
+<section class="navigate-section">
+    <div class="navigate">
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center flex-wrap">
+                <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
+                <img width="40" src="assets/images/icons/right-arrow.png" alt="">
+                <a href="#!" class="fs-4 fw-bold c-2 ms-2 text-decoration-none">Sepet</a>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center">
+            <span class="c-2 d-flex align-items-center me-2">
+                <i class="fa-solid fa-share-nodes fs-4 me-2"></i>
+                <font class="fs-4 fw-semibold">Paylaş:</font>
+            </span>
+            <span class="d-flex align-items-center">
+                <a href="#!" class="me-2 c-2"><i class="fa-solid fa-envelope fs-4 pt-1"></i></a>
+                <a href="#!" class="me-2"><img height="31" src="assets/images/icons/wp-ico.png" alt=""></a>
+                <a href="#!"><img height="29" src="assets/images/icons/telegram-ico.png" alt=""></a>
+            </span>
+        </div>
+    </div>
+</section>
+
+@if(cartProducts==null || cartProducts.Count==0){
+    <span>@message</span>
+}
+else
+{
+<section class="h-50 h-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+
+            <div class="row">
+
+              <div class="col-lg-7">
+                <h5 class="mb-3"><a href="/" class="text-body"><i
+                      class="fas fa-long-arrow-alt-left me-2"></i>Alışverişe devam et</a></h5>
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <p class="mb-1">Sepetiniz</p>
+                    <p class="mb-0">Toplam @cartProducts.Count() ürününüz bulunmaktadır</p>
+                  </div>
+                 
+                </div>
+                @foreach (var item in cartProducts){
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <div>
+                          <img
+                            src="@item.Images[0].Data"
+                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                        </div>
+                        <div class="ms-3">
+                          <h5>@item.Title</h5>
+                          <p class="small mb-0">@item.ProductType</p>
+                        </div>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                        <input type="number" value="@item.Quantity"
+                    @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, item))"
+                    
+                    min="1"
+                    />
+                        <div style="width: 80px;">
+                        <h5 class="mb-0">  @(item.Price * item.Quantity) TL</h5>
+                        </div>
+                                                        <a href="#!" style="color: #cecece;" @onclick="@(()
+                    =>RemoveProductFromCart(item.ProductId,item.ProductTypeId))"><i class="fas fa-trash-alt"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                }
+
+
+              </div>
+              <div class="col-lg-5">
+
+                <div class="card bg-primary text-white rounded-3">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Card details</h5>
+                     
+                    </div>
+
+                    <p class="small mb-2">Card type</p>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-visa fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i
+                        class="fab fa-cc-amex fa-2x me-2"></i></a>
+                    <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+
+                    <form class="mt-4">
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
+                          placeholder="Kart üzerindeki isim soyisim" />
+                                                    <label class="form-label" for="typeName">Kart üzerindeki isim soyisim</label>
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                        <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
+                          placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
+                        <label class="form-label" for="typeText">Kart Numaraso</label>
+                      </div>
+
+                      <div class="row mb-4">
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="text" class="form-control form-control-lg"
+                              placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
+                            <label class="form-label" for="typeExp">Son Kullanım Tarihi</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-outline form-white">
+                            <input type="password" id="typeText" class="form-control form-control-lg"
+                              placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                            <label class="form-label" for="typeText">Cvv</label>
+                          </div>
+                        </div>
+                      </div>
+
+                    </form>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex justify-content-between mb-4">
+                      <p class="mb-2">Total(Incl. taxes)</p>
+                                                <p class="mb-2">@cartProducts.Sum(product=>product.Price * product.Quantity) TL</p>
+                    </div>
+
+                    <button type="button" class="btn btn-info btn-block btn-lg">
+                      <div class="d-flex justify-content-between">
+                        <span>Ödemeyi Tamamla <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                      </div>
+                    </button>
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+@*    <button @onclick="PlaceOrder" class="btn btn-success float-end mt-1">
+        Chechkout
+    </button>*@
+}
+<br />
+<br />
+<br />
+<br />
+
+@code {
+    List<CartProductResponse> cartProducts = null;
+    string message = "loading cart...";
+    bool isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isAuthenticated = await AuthService.IsUserAuthenticated();
+        await LoadCart();
+    }
+
+    public async Task RemoveProductFromCart(int productId,int productTypeId)
+    {
+        await CartService.RemoveProductFromCart(productId, productTypeId);
+        await LoadCart();
+
+    }
+
+    private async Task LoadCart()
+    {
+        await CartService.GetCartItemsCount();
+        cartProducts = await CartService.GetCartProduct();
+
+        if (cartProducts==null || cartProducts.Count==0)
+        {
+            message = "your cart is empty";
+        }
+
+    }
+
+    private async Task UpdateQuantity(ChangeEventArgs e, CartProductResponse cproduct){
+        cproduct.Quantity = int.Parse(e.Value.ToString());
+        if (cproduct.Quantity < 1)
+            cproduct.Quantity = 1;
+
+        await CartService.UpdateQuantity(cproduct);
+    }
+
+
+    private async Task PlaceOrder()
+    {
+        var url = await OrderService.PlaceOrder();
+        NavigationManager.NavigateTo(url);
+
+    }
+}

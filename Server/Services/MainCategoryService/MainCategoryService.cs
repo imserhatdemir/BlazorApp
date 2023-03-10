@@ -104,7 +104,6 @@
                     Message = "Product not found."
                 };
             }
-
             dbProduct.Name = category.Name;
             dbProduct.Visible = category.Visible;
             dbProduct.Featured = category.Featured;
@@ -114,6 +113,7 @@
 
             await _context.SaveChangesAsync();
             return new ServiceResponse<MainCategory> { Data = category };
+
         }
 
         private async Task<MainCategory> GetCategoryById(int id)

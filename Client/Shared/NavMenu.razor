@@ -52,17 +52,8 @@
                         <li><font color="black"><a class="dropdown-item" href="/all/1">Tüm Ürünler</a></font></li>
                             @foreach (var item in CategoryService.Categories)
                             {
-
                             <a href="/Category/@item.Id">
                             <li><font color="black">@item.Name</font></li></a>
-                            <br />
-                                @foreach(var dat in item.CategoryConnect)
-                                {
-
-                                <a href="/list/@dat.MainCategory.Url/1">
-                                <li><font color="black">@dat.MainCategory.Name</font></li></a>
-                                }
-
                             }
                 </div>
             </ul>

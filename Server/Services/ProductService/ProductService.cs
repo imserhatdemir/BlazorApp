@@ -79,17 +79,18 @@
         public async Task<ServiceResponse<List<Product>>> GetAdminProducts()
         {
 
-            var response = new ServiceResponse<List<Product>>
-            {
-                Data = await _context.Products
-                    .Where(p => !p.Deleted)
-                    .Include(p => p.Variants.Where(v => !v.Deleted))
-                    .ThenInclude(v => v.ProductType)
-                    .Include(c => c.Images)
-                    .Include(a=>a.Pdfs)
-                    .ToListAsync()
-            };
-
+            var response = new ServiceResponse<List<Product>>();
+            response.Data = await _context.Products
+                .Where(p => !p.Deleted)
+                .Select(p => new Product
+                {
+                    Title = p.Title,
+                    ID=p.ID,
+                    Variants = p.Variants,
+                    Visible = p.Visible,
+                    Featured = p.Featured
+                })
+                .ToListAsync();
             return response;
         }
 
