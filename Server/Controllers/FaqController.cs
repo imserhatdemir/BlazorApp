@@ -69,5 +69,14 @@ namespace BlazorApp.Server.Controllers
             var result = await _faqService.UpdateFaq(faq);
             return Ok(result);
         }
+
+
+        [HttpPost, Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Faq>>> CreateFaq(Faq product)
+        {
+            var result = await _faqService.CreateFaq(product);
+            return Ok(result);
+        }
+
     }
 }

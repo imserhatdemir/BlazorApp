@@ -9,5 +9,6 @@
         Task<ServiceResponse<List<Faq>>> UpdateFaq(Faq faq);
         Task<ServiceResponse<List<Faq>>> DeleteFaq(int id);
         Task<ServiceResponse<Faq>> GetFaqById(int id);
+        Task<ServiceResponse<Faq>> CreateFaq(Faq Faq);
     }
 }

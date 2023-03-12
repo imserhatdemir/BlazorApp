@@ -1,4 +1,5 @@
 ﻿using BlazorApp.Shared;
+using Stripe;
 
 namespace BlazorApp.Server.Services.FaqService
 {
@@ -27,9 +28,11 @@ namespace BlazorApp.Server.Services.FaqService
             return await GetAdminFaq();
         }
 
-        public Task<ServiceResponse<Faq>> AddNewFaq(Faq faq)
+        public async Task<ServiceResponse<Faq>> AddNewFaq(Faq faq)
         {
-            throw new NotImplementedException();
+            _context.Faqs.Add(faq);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<Faq> { Data = faq };
         }
 
         public async Task<ServiceResponse<List<Faq>>> DeleteFaq(int id)
@@ -115,6 +118,11 @@ namespace BlazorApp.Server.Services.FaqService
 
             await _context.SaveChangesAsync();
             return await GetAdminFaq();
+        }
+
+        public Task<ServiceResponse<Faq>> CreateFaq(Faq Faq)
+        {
+            throw new NotImplementedException();
         }
     }
 }

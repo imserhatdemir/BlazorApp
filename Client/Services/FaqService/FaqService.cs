@@ -33,6 +33,13 @@ namespace BlazorApp.Client.Services.FaqService
                 .ReadFromJsonAsync<ServiceResponse<Faq>>()).Data;
         }
 
+        public async Task<Faq> CreateFaq(Faq product)
+        {
+            var result = await _httpClient.PostAsJsonAsync("api/faq", product);
+            return (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Faq>>()).Data;
+        }
+
         public Faq CreateNewFaq()
         {
             var newCategory = new Faq { IsNew = true, Editing = true };
@@ -68,7 +75,7 @@ namespace BlazorApp.Client.Services.FaqService
 
         public async Task UpdateFaq(Faq faq)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/Faq/admin/", faq);
+            var response = await _httpClient.PutAsJsonAsync("api/Faq/admin", faq);
             AdminFaq = (await response.Content.ReadFromJsonAsync<ServiceResponse<List<Faq>>>()).Data;
             await GetAdminFaq();
         }

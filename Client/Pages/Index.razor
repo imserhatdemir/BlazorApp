@@ -3,11 +3,6 @@
 @page "/{categoryUrl}"
 @inject IProductService ProductService
 
-<PageTitle>Çemenardagül</PageTitle>
-<HeadContent>
-    <meta name="description" content="Turkiyenin elektronik magazası">
-    <meta name="keywords" content="Pic microchip,Vidalı kondansator,Transistor,Entegre,Mosfet,Aliminyum direnç 25w,Aliminyum direnç 50w,Klemens,Elektronik">
-</HeadContent>
 @if (SearchText == null && CategoryUrl == null)
 {
     <Slide/>
@@ -23,7 +18,6 @@
 else
 {
 <ProductList/>
-@*<NewCardList/>*@
 }
 @code{
     [Parameter]

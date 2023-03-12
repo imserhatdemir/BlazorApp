@@ -130,12 +130,15 @@ else
             </div>
     
         </div>
-        @for (var i = 1; i <= ProductService.PageCount; i++)
-        {
-            <a class="btn
-        @(i==ProductService.CurrentPage ? "btn-info":"btn-outline-info") page-selection"
-       href="/all/@i">@i</a>
-        }
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                @for (var i = 1; i <= ProductService.PageCount; i++)
+                {
+                    <li class="page-item"><a class="page-link" href="/all/@i">@i</a></li>
+                }
+            </ul>
+        </nav>
+
     </section>
     <br />
 

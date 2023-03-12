@@ -11,7 +11,7 @@
                 <div class="d-flex align-items-center flex-wrap">
                     <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
                     <img width="40" src="assets/images/icons/right-arrow.png" alt="">
-                    <a href="#!" class="fs-4 fw-semibold c-2 mx-2 text-decoration-none">Ürünler</a>
+                    <a href="#!" class="fs-4 fw-semibold c-2 mx-2 text-decoration-none"></a>
                 </div>
                 <div class="fs-4 c-2 mt-2"></div>
             </div>
@@ -39,7 +39,7 @@ else
         <div class="navigate">
             <div class="d-flex flex-column">
                 <div class="d-flex align-items-center flex-wrap">
-                    <a href="#!" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
+                    <a href="/" class="fs-4 fw-semibold c-2 me-2 text-decoration-none">Anasayfa</a>
                     <img width="40" src="assets/images/icons/right-arrow.png" alt="">
                     <a href="#!" class="fs-4 fw-semibold c-2 mx-2 text-decoration-none">Ürünler</a>
                 </div>
@@ -51,8 +51,7 @@ else
                 </span>
                 <span class="d-flex align-items-center">
                     <a href="#!" class="me-2 c-2"><i class="fa-solid fa-envelope fs-4 pt-1"></i></a>
-                    <a href="#!" class="me-2"><img height="31" src="assets/images/icons/wp-ico.png" alt=""></a>
-                    <a href="#!"><img height="29" src="assets/images/icons/telegram-ico.png" alt=""></a>
+                    <a href="https://web.whatsapp.com/send?phone=905395155687&text=https%3A%2F%2Fwww.cemenardagul.com" class="me-2"><img height="31" src="assets/images/icons/wp-ico.png" alt=""></a>
                 </span>
             </div>
         </div>
@@ -133,12 +132,24 @@ else
             </div>
 
         </div>
-        @for (var i = 1; i <= ProductService.PageCount; i++)
+      @*  @for (var i = 1; i <= ProductService.PageCount; i++)
     {
         <a class="btn
         @(i==ProductService.CurrentPage ? "btn-info":"btn-outline-info") page-selection"
    href="/list/@ProductService.LastSearchText/@i">@i</a>
-    }
+    }*@
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                @for(var i=1; i<=ProductService.PageCount; i++){
+                    <li class="page-item"><a class="page-link" href="/list/@ProductService.LastSearchText/@i">@i</a></li>
+                }
+            </ul>
+        </nav>
+
+
+
+
     </section>
     <br />
 
@@ -152,6 +163,9 @@ else
 
 
 @code {
+    private MainCategory? cat = null;
+
+
     Product product = null;
     [Parameter]
     public string? CategoryUrl { get; set; } = null;

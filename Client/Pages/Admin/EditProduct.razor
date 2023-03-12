@@ -320,7 +320,7 @@
 
     async Task OnFileChange(InputFileChangeEventArgs e)
     {
-        var format = "image/png";
+        var format = "image/webp"; // WebP formatını kullanıyoruz
         foreach (var image in e.GetMultipleFiles(int.MaxValue))
         {
             var resizedImage = await image.RequestImageFileAsync(format, 200, 200);

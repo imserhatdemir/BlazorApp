@@ -13,5 +13,6 @@
         Faq CreateNewFaq();
         Task<ServiceResponse<Faq>> GetFaqById(int id);
         Task<Faq> AddNewFaq(Faq faq);
+        Task<Faq> CreateFaq(Faq product);
     }
 }

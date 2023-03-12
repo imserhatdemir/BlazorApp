@@ -89,28 +89,15 @@
     {
         if (ship.IsNew)
         {
-            await FaqService.AddNewFaq(ship);
-            var result = await swal.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Kargo Oluşturuldu",
-                    Text = "Kargo sisteme girildi",
-                    Icon = SweetAlertIcon.Success
-                });
-            var confirm = !string.IsNullOrEmpty(result.Value);
-            NavigationManager.NavigateTo("/admin/slider-alani");
+            await FaqService.AddFaq(ship);
+            NavigationManager.NavigateTo("/admin/s-s-s-list");
         }
         else
         {
             ship.IsNew = false;
             await FaqService.UpdateFaq(ship);
-            var result = await swal.FireAsync(new SweetAlertOptions
-                {
-                    Title = "Güncelleme işlemi tamam",
-                    Text = "Güncellemeler işlendi",
-                    Icon = SweetAlertIcon.Success
-                });
-            var confirm = !string.IsNullOrEmpty(result.Value);
-            NavigationManager.NavigateTo($"/admin/slider-alani");
+           
+            NavigationManager.NavigateTo($"/admin/s-s-s-list");
         }
     }
 
