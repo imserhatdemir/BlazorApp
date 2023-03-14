@@ -3,6 +3,7 @@
 @inject ICommentService CommentService
 @inject ICartService CartService
 @inject IFavService FavService
+@inject SweetAlertService swal
 
 <PageTitle>Hoşgeldiniz - Çemenardagül</PageTitle>
 <HeadContent>
@@ -240,6 +241,12 @@ else
         };
 
         await CartService.AddToCart(cartItem);
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Ürününüz Sepete Eklendi",
+                Icon = SweetAlertIcon.Success
+            });
+        var confirm = !string.IsNullOrEmpty(result.Value);
     }
     private async Task AddToFav()
     {
@@ -250,5 +257,11 @@ else
             };
 
         await FavService.AddToFav(cartItem);
+        var result = await swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Ürününüz Favorilere Eklendi",
+                Icon = SweetAlertIcon.Success
+            });
+        var confirm = !string.IsNullOrEmpty(result.Value);
     }
 }

@@ -33,7 +33,7 @@ namespace BlazorApp.Server.Services.PaymentService
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
                         Name = prod.Title,
-                        Images = new List<string> { prod.ImageUrl }
+                        Images = new List<string> { prod.Images[0].Data }
                     }
                 },
                 Quantity = prod.Quantity
