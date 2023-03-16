@@ -31,6 +31,7 @@ global using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -90,10 +91,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 builder.Services.AddHttpContextAccessor();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NewPolicy", builder =>
+      builder.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader());
+});
+
+
 var app = builder.Build();
 
 app.UseSwaggerUI();
 
+
+app.UseCors("NewPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

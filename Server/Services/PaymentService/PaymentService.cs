@@ -46,7 +46,7 @@ namespace BlazorApp.Server.Services.PaymentService
                 CustomerEmail = _authService.GetUserEmail(),
                 ShippingAddressCollection = new SessionShippingAddressCollectionOptions
                 {
-                    AllowedCountries=new List<string> { "TR"}
+                    AllowedCountries=new List<string> {"TR"}
                 },
                 PaymentMethodTypes = new List<string>
                 {

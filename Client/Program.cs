@@ -28,12 +28,14 @@ global using BlazorApp.Client.Services.SliderService;
 global using BlazorApp.Client.Services.FavService;
 global using BlazorApp.Client.Services.KvkkService;
 global using BlazorApp.Client.Services.MainCategoryService;
+global using BlazorApp.Client.Services.AlbarakaPosService;
 global using CurrieTechnologies.Razor.SweetAlert2;
 using BlazorApp.Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Blazored.LocalStorage;
 using MudBlazor.Services;
 using Radzen;
+
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -68,6 +70,7 @@ builder.Services.AddScoped<ISliderService, SliderService>();
 builder.Services.AddScoped<IFavService, FavService>();
 builder.Services.AddScoped<IKvkkService, KvkkService>();
 builder.Services.AddScoped<IMainCategoryService, MainCategoryService>();
+builder.Services.AddScoped<IAlbarakaPosService, AlbarakaPosService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
